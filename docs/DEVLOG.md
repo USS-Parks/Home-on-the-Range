@@ -42,3 +42,21 @@ HOTR-01 gate: PASS for the read-only foundation decision. Two reuse candidates w
 Native finding for HOTR-02: the existing libsqlite3-sys 0.38.1 cache bundles SQLCipher 4.14.0; a later current SQLCipher source is required for the native gate. Public metadata reports libsqlite3-sys 0.38.2 and SQLCipher v4.18.0. Versions are evidence, not permission to reuse unverified binaries. Native build/tests remain next.
 
 Files: recorded approval and compatibility/preservation/Lamprey addenda, foundation ADR, current-authority pointers, and ledgers. Before publication, verify Markdown links, diff whitespace, staged-file hygiene, and repository hooks. The prompt's commit/remote SHA is recorded in the following closeout entry without circular SHA rewriting.
+
+### HOTR-01 publication closeout
+
+Commit `b6a2ae04332d6dac5700aba4659697730e575e37` was pushed to private origin/main; remote SHA matched exactly. Repository commit/push hooks passed. No temporary worktree was created.
+
+## 2026-09-05 — HOTR-02 — Native Windows encrypted storage
+
+Gate: PASS locally. The minimal release executable uses rusqlite 0.40.2 with externally linked SQLCipher 4.18.0 (SQLite 3.53.4) and statically linked OpenSSL 4.0.2. Native dependencies are pinned and described in NATIVE-BUILD.md; locked native compilation completed in 10m46s on the reference host. Build, dependency, and temporary outputs remain project-confined.
+
+Final evidence directory: `work/hotr-evidence/HOTR-02-gate-20260905T203216769Z/`. Release build, warnings-denied release Clippy across product targets, locked release tests, metadata-only CLI, and independent canary scan passed. The real SQLCipher test verifies FTS and WAL, correct-key reopening, database/cipher integrity, wrong-key/keyless/ordinary Python SQLite rejection, tampered-file rejection, non-file/memory-alias rejection, synchronous FULL, and compile-time memory-only temporary tables. Live DB/WAL/SHM and retained closed files were scanned for generated UTF-8/UTF-16 canaries and synthetic key bytes. The post-run scan checked 20 stored/temp/log files across two retained passing synthetic runs.
+
+Failures retained and repaired: the first root compilation lacked a native library before rusqlite's build, fixed with an explicit native prerequisite; the first metadata-only command queried a provider without a keyed database, fixed with actual linked-library version APIs and a process-level regression check. The first link also reported missing intermediate OpenSSL PDBs; release builds now explicitly use `/DEBUG:NONE`, consistent with their no-debug-information profile. The final release linker log contains no warning. Complete gate logs are retained; the early build-order diagnostic is recorded separately.
+
+Executable SHA-256: `8a20c1d29daed3441d5b25c2044ac4bbb0c59a93e5a742f440cc816a6ba94e93`, size 4,247,040 bytes. Native/source hashes and commands are in `docs/evidence/HOTR-02-native.json`. Native helper formatting changes did not change the pinned C input or compiler options; product sources were rebuilt and tested after the final code change.
+
+Files: Rust package/lockfiles, native build/link configuration, storage boundary, version CLI, encryption and independent canary tests, build runbook, and evidence/ledgers. No real vault, listener, startup entry, external app configuration, or provider connection was created. Retained generated state is approximately 1,175 MiB in one canonical checkout; no duplicate worktree or dependency tree was created. It contains build prerequisites, compiler outputs, preserved baselines, and synthetic evidence and has not been cleaned up.
+
+Next: HOTR-03, the bounded reproducible gate harness. Full STS remains active. This prompt's exact commit/remote SHA is recorded in the next closeout entry.

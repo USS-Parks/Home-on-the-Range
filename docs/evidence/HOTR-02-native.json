@@ -1,0 +1,42 @@
+{
+  "prompt": "HOTR-02",
+  "result": "PASS",
+  "evidence": "work/hotr-evidence/HOTR-02-gate-20260905T203216769Z",
+  "base_commit": "b6a2ae04332d6dac5700aba4659697730e575e37",
+  "source_dirty_during_gate": true,
+  "source_sha256": {
+    "Cargo.toml": "0d0cc54564225b3e0428b5e43ec226fed01b45df933e7188700714c5f3d73ef6",
+    "Cargo.lock": "3d9fce15e107cc35335a30ea860c7679a6a127cf9dceb34288ef836fe86de414",
+    "build.rs": "8eb17bf45c9b98ec15cb1a19889c42882b3fe4196ade6459bfd5073f360b72a1",
+    ".cargo/config.toml": "27508d0d46a1ac079d57a0a765b608a43d95f7b12df62331b26c63be987341e1",
+    ".cargo/prepare-native.ps1": "ab3de675afb46fc59d577d514ce4195d1bbbe45a44f9e91d23cf90887a9bde5a",
+    ".cargo/scan-native-canaries.py": "401ddf65dc9d23599916755dab5a9e45c5b70c63a024ad68214062c133a3ebd1",
+    "src/lib.rs": "1cb781dc208a71473fcb8f4738771681a4324b593fbb4280a2bf6e4b174540ff",
+    "src/main.rs": "b670b429ac265717050bab45ebd975a96654e1a091c4ced0fd8195a0accb3904",
+    "tests/encryption.rs": "30e34bf4e2edd4c007bf7b210116c639a5cad752c9dcb4881e462945f3d02d45",
+    "xtask/native-builder/Cargo.toml": "aa88450cffdc47d430df5037dbd76f8e6b996ac2bdb57deb3c2910e95181d526",
+    "xtask/native-builder/Cargo.lock": "11e14128caf3dec373927ad5bcb771867856a89d5a6a6752514e22abf4c97bda",
+    "xtask/native-builder/build.rs": "c6796b1671edf06c696968ed256dbe85c9f5e6c18fc0cae9d698bfb10919c9fd",
+    "xtask/native-builder/src/main.rs": "da1d383a162e3a5a00c73b6e9f26bca9cecc4a9f00051fe0c2d4f72cddd5c6ee"
+  },
+  "binary_sha256": "8a20c1d29daed3441d5b25c2044ac4bbb0c59a93e5a742f440cc816a6ba94e93",
+  "sqlcipher": "4.18.0 community",
+  "sqlite": "3.53.4",
+  "openssl": "4.0.2",
+  "amalgamation_sha256": "45c136615ae3ee8c366dbdde3d78f77c4a15b04ddf55d387b987e45d777b8a42",
+  "sqlcipher_library_sha256": "4700b9557b33c5a9162c5af42a00af1faad150146de31ee7f520a0954a031609",
+  "openssl_library_sha256": "20ab3f3c0dc0f9bace06565dcce6fe965a2b4f47d7dfcc25560d14088d77b893",
+  "commands": [
+    "cargo build --release --locked",
+    "cargo clippy --release --locked --all-targets -- -D warnings",
+    "cargo test --release --locked -- --test-threads=1",
+    "hotr native-info",
+    "python -I -B .cargo/scan-native-canaries.py"
+  ],
+  "passing_encryption_runs": 2,
+  "post_run_files_scanned": 20,
+  "hosted_ci": "NOT RUN",
+  "application_integrations": "NOT RUN",
+  "real_vault_data": "NONE",
+  "final_nonfunctional_changes": "Removed trailing blank lines from three build/scanner files after the passed behavioral gate; source hashes reflect final files."
+}

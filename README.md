@@ -2,7 +2,7 @@
 
 A proposed Windows-first context vault shared by local AI applications through a local service, MCP, and an HTTP API.
 
-**Status: full STS approved; foundation review complete and native encryption proof next. No application has been built or installed yet.**
+**Status: full STS executing. HOTR-01 and HOTR-02 passed: native Windows encrypted storage is built and tested. HOTR-03 verification harness is next. The shared service and application integrations are not yet implemented.**
 
 The first usable milestone is an encrypted vault with versioned context, scoped application credentials, exact/keyword retrieval, two demonstrated client integrations, and tested encrypted backup recovery. Later milestones add local semantic retrieval, management, fault testing, and packaging.
 
@@ -10,6 +10,7 @@ The first usable milestone is an encrypted vault with versioned context, scoped 
 - [Development log](docs/DEVLOG.md)
 - [Verification ledger](docs/VERIFICATION.md)
 - [Working agreements](AGENTS.md)
+- [Native Windows build and encryption proof](docs/NATIVE-BUILD.md)
 
 Repository: https://github.com/USS-Parks/Home-on-the-Range
 

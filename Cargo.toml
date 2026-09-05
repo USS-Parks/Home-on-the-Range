@@ -1,0 +1,26 @@
+[package]
+name = "home-on-the-range"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "Local encrypted context shared through scoped application access"
+
+[lib]
+name = "hotr"
+
+[[bin]]
+name = "hotr"
+path = "src/main.rs"
+
+[dependencies]
+rusqlite = { version = "=0.40.2", features = ["sqlcipher", "backup"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+zeroize = "1"
+
+[profile.release]
+strip = "debuginfo"
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"

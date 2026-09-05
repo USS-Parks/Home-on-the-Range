@@ -1,0 +1,10 @@
+[build]
+jobs = 4
+target-dir = "work/hotr-build/target"
+
+[env]
+SQLCIPHER_LIB_DIR = { value = "work/hotr-build/native", relative = true }
+SQLCIPHER_INCLUDE_DIR = { value = "work/hotr-build/native", relative = true }
+SQLCIPHER_STATIC = "1"
+OPENSSL_SRC_PERL = { value = "work/hotr-tool-cache/native-perl-5.42.3.1/perl/bin/perl.exe", relative = true }
+OPENSSL_NO_VENDOR = "0"

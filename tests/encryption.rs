@@ -82,7 +82,7 @@ fn native_windows_encryption_gate() {
         .unwrap();
     let key = Zeroizing::new(format!(
         "synthetic-key-{:x}",
-        Sha256::digest(run.as_os_str().to_string_lossy().as_bytes())
+        Sha256::digest(run.file_name().unwrap().to_string_lossy().as_bytes())
     ));
     let canary = Zeroizing::new(format!("hotrcanary{:x}", Sha256::digest(key.as_bytes())));
     let patterns = vec![
@@ -238,6 +238,7 @@ else:
     let file_hash = format!("{:x}", Sha256::digest(fs::read(&vault).unwrap()));
     let report = serde_json::json!({
         "prompt": "HOTR-02", "result": "PASS", "versions": versions,
+        "canary_seed_scheme": "run-basename-v2",
         "fts_reopened_count": count, "journal_mode": journal, "synchronous": sync,
         "live_files_scanned": live_files_scanned, "closed_files_scanned": closed_files_scanned,
         "wrong_key_rejected": true, "ordinary_sqlite_rejected": true,

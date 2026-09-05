@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HOTR verification manifest v1",
+  "type": "object",
+  "required": ["schema_version", "prompt", "result", "source", "runner_sha256", "commands", "seed", "memory_limit_bytes", "disk_limit_bytes", "minimum_free_bytes", "cpu_rate_per_10000"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "prompt": { "type": "string", "pattern": "^HOTR-[0-9]+(-fault)?$" },
+    "result": { "enum": ["PASS", "FAIL"] },
+    "failure": { "type": ["string", "null"] },
+    "runner_sha256": { "$ref": "#/$defs/hash" },
+    "product_sha256": { "anyOf": [{ "$ref": "#/$defs/hash" }, { "type": "null" }] },
+    "seed": { "type": "integer", "minimum": 0 },
+    "memory_limit_bytes": { "const": 8589934592 },
+    "disk_limit_bytes": { "const": 21474836480 },
+    "minimum_free_bytes": { "const": 26843545600 },
+    "cpu_rate_per_10000": { "type": "integer", "minimum": 1, "maximum": 10000 },
+    "source": {
+      "type": "object",
+      "required": ["commit", "dirty", "normalized_source_sha256", "native_sha256"],
+      "properties": {
+        "commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "dirty": { "type": "boolean" },
+        "normalized_source_sha256": { "type": "object", "additionalProperties": { "$ref": "#/$defs/hash" } },
+        "native_sha256": { "type": "object", "additionalProperties": { "$ref": "#/$defs/hash" } }
+      }
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label", "pid", "exit_code", "failure", "elapsed_ms", "log_bytes", "stored_log_bytes"],
+        "properties": {
+          "label": { "type": "string" },
+          "pid": { "type": "integer", "minimum": 1 },
+          "exit_code": { "type": ["integer", "null"] },
+          "failure": { "type": ["string", "null"] },
+          "elapsed_ms": { "type": "integer", "minimum": 0 },
+          "log_bytes": { "type": "integer", "minimum": 0, "maximum": 8388608 },
+          "stored_log_bytes": { "type": "integer", "minimum": 0, "maximum": 8388608 }
+        }
+      }
+    }
+  },
+  "$defs": { "hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" } }
+}

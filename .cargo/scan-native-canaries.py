@@ -11,9 +11,11 @@ completed = 0
 for run in runs:
     assert run.resolve().is_relative_to(root.resolve()), "test path escaped project"
     assert (run / "SYNTHETIC-ONLY").read_text().startswith("HOTR-02;"), "unowned run"
-    key = "synthetic-key-" + hashlib.sha256(str(run).encode()).hexdigest()
-    canary = "hotrcanary" + hashlib.sha256(key.encode()).hexdigest()
-    patterns.extend([key.encode(), canary.encode(), canary.encode("utf-16-le")])
+    # Support retained v1 runs plus v2's platform-independent run identifier.
+    for seed in [str(run), run.name, "\\\\?\\" + str(run)]:
+        key = "synthetic-key-" + hashlib.sha256(seed.encode()).hexdigest()
+        canary = "hotrcanary" + hashlib.sha256(key.encode()).hexdigest()
+        patterns.extend([key.encode(), canary.encode(), canary.encode("utf-16-le")])
     report = run / "result.json"
     if report.exists() and json.loads(report.read_text())["result"] == "PASS":
         completed += 1

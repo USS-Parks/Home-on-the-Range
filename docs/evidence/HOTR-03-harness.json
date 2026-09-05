@@ -1,0 +1,247 @@
+{
+  "command_log_limit_bytes": 8388608,
+  "commands": [
+    {
+      "arguments": [
+        "fixture",
+        "assertion"
+      ],
+      "elapsed_ms": 18,
+      "executable": "hotr-xtask.exe",
+      "exit_code": 17,
+      "failure": null,
+      "label": "reject-assertion",
+      "log_bytes": 40,
+      "pid": 72288,
+      "stored_log_bytes": 57
+    },
+    {
+      "arguments": [
+        "fixture",
+        "timeout"
+      ],
+      "elapsed_ms": 1015,
+      "executable": "hotr-xtask.exe",
+      "exit_code": null,
+      "failure": "timeout",
+      "label": "reject-timeout",
+      "log_bytes": 0,
+      "pid": 72200,
+      "stored_log_bytes": 18
+    },
+    {
+      "arguments": [
+        "fixture",
+        "spam"
+      ],
+      "elapsed_ms": 73,
+      "executable": "hotr-xtask.exe",
+      "exit_code": null,
+      "failure": "log limit",
+      "label": "reject-log-flood",
+      "log_bytes": 8388600,
+      "pid": 81228,
+      "stored_log_bytes": 8388607
+    },
+    {
+      "arguments": [
+        "fixture",
+        "secret"
+      ],
+      "elapsed_ms": 18,
+      "executable": "hotr-xtask.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "redaction",
+      "log_bytes": 51,
+      "pid": 65396,
+      "stored_log_bytes": 48
+    },
+    {
+      "arguments": [
+        "fmt",
+        "--check"
+      ],
+      "elapsed_ms": 205,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "format",
+      "log_bytes": 0,
+      "pid": 33000,
+      "stored_log_bytes": 18
+    },
+    {
+      "arguments": [
+        "build",
+        "--release",
+        "--locked"
+      ],
+      "elapsed_ms": 10328,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "build",
+      "log_bytes": 760,
+      "pid": 74084,
+      "stored_log_bytes": 777
+    },
+    {
+      "arguments": [
+        "clippy",
+        "--release",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_ms": 3464,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "clippy",
+      "log_bytes": 428,
+      "pid": 69244,
+      "stored_log_bytes": 445
+    },
+    {
+      "arguments": [
+        "test",
+        "--release",
+        "--locked",
+        "--",
+        "--test-threads=1"
+      ],
+      "elapsed_ms": 6010,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "tests",
+      "log_bytes": 963,
+      "pid": 18392,
+      "stored_log_bytes": 979
+    },
+    {
+      "arguments": [
+        "fmt",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--check"
+      ],
+      "elapsed_ms": 201,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "harness-format",
+      "log_bytes": 0,
+      "pid": 76116,
+      "stored_log_bytes": 18
+    },
+    {
+      "arguments": [
+        "clippy",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--release",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_ms": 943,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "harness-clippy",
+      "log_bytes": 150,
+      "pid": 71560,
+      "stored_log_bytes": 167
+    },
+    {
+      "arguments": [
+        "test",
+        "--lib",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--release",
+        "--locked",
+        "--",
+        "--test-threads=1"
+      ],
+      "elapsed_ms": 2832,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "harness-tests",
+      "log_bytes": 792,
+      "pid": 75716,
+      "stored_log_bytes": 808
+    },
+    {
+      "arguments": [
+        "-I",
+        "-B",
+        ".cargo/scan-native-canaries.py"
+      ],
+      "elapsed_ms": 1061,
+      "executable": "python",
+      "exit_code": 0,
+      "failure": null,
+      "label": "canary-scan",
+      "log_bytes": 120,
+      "pid": 76604,
+      "stored_log_bytes": 136
+    }
+  ],
+  "cpu_rate_per_10000": 2500,
+  "cpu_workers": 4,
+  "disk_limit_bytes": 21474836480,
+  "failure": null,
+  "hosted_ci": "NOT RUN",
+  "memory_limit_bytes": 8589934592,
+  "minimum_free_bytes": 26843545600,
+  "platform": {
+    "arch": "x86_64",
+    "os": "windows"
+  },
+  "product_sha256": "f8eefb44b568b6303a107baf62d132bfcaf0cf3a83cb22d25ba4382e0ad7ede2",
+  "prompt": "HOTR-03",
+  "result": "PASS",
+  "runner_sha256": "c50362d9ef9c4e98e2993c4c801094c60eb83101d1e3b9340a965e5f83f2e30e",
+  "schema_version": 1,
+  "seed": 47821,
+  "source": {
+    "commit": "dcc54f2c0becc8b0542cdec3dd1c95535a5298a7",
+    "dirty": true,
+    "native_sha256": {
+      "libcrypto.lib": "20ab3f3c0dc0f9bace06565dcce6fe965a2b4f47d7dfcc25560d14088d77b893",
+      "sqlcipher.lib": "4700b9557b33c5a9162c5af42a00af1faad150146de31ee7f520a0954a031609",
+      "sqlite3.c": "45c136615ae3ee8c366dbdde3d78f77c4a15b04ddf55d387b987e45d777b8a42"
+    },
+    "normalized_source_sha256": {
+      ".cargo/config.toml": "434a52b014edd006e7b6fa18301d903499fba0862aee92495b8dd95ca23eb365",
+      ".cargo/prepare-native.ps1": "ab3de675afb46fc59d577d514ce4195d1bbbe45a44f9e91d23cf90887a9bde5a",
+      ".cargo/scan-native-canaries.py": "4cf12d4ce268a904e3c3b73482f0cf3d25e634b5b395642ce0887bf38def81c4",
+      ".github/workflows/windows-native.yml": "74f80d6c69cc2d4df781a419adccec41864437e1f675bda0bf7c5b27030150d1",
+      "Cargo.lock": "3d9fce15e107cc35335a30ea860c7679a6a127cf9dceb34288ef836fe86de414",
+      "Cargo.toml": "0d0cc54564225b3e0428b5e43ec226fed01b45df933e7188700714c5f3d73ef6",
+      "build.rs": "8eb17bf45c9b98ec15cb1a19889c42882b3fe4196ade6459bfd5073f360b72a1",
+      "src/lib.rs": "1cb781dc208a71473fcb8f4738771681a4324b593fbb4280a2bf6e4b174540ff",
+      "src/main.rs": "b670b429ac265717050bab45ebd975a96654e1a091c4ced0fd8195a0accb3904",
+      "tests/encryption.rs": "d98035a8ecde9fadd18d02c5cbe99e779ab755aa2eb73359616b93f3eef70fc8",
+      "xtask/Cargo.lock": "fbd9aa7678363510fe593cb108cabdad3d12f078de7302a8a4023d78d928e928",
+      "xtask/Cargo.toml": "3c56553b6e2443c28c659f1f1b18df36eb583475202ebebe0b5706fc49f9f357",
+      "xtask/native-builder/Cargo.lock": "11e14128caf3dec373927ad5bcb771867856a89d5a6a6752514e22abf4c97bda",
+      "xtask/native-builder/Cargo.toml": "aa88450cffdc47d430df5037dbd76f8e6b996ac2bdb57deb3c2910e95181d526",
+      "xtask/native-builder/build.rs": "c6796b1671edf06c696968ed256dbe85c9f5e6c18fc0cae9d698bfb10919c9fd",
+      "xtask/native-builder/src/main.rs": "da1d383a162e3a5a00c73b6e9f26bca9cecc4a9f00051fe0c2d4f72cddd5c6ee",
+      "xtask/src/lib.rs": "d113d2a81bd41c46dc367c97dcbe6562ef0f774fec7fda97b65bcce200c4bf17",
+      "xtask/src/limits.rs": "05e13bcd50b103ac0daf28982aa4633395f9296aa7abe582ceb1e14f66458eb8",
+      "xtask/src/main.rs": "cdd7e5455553502c128b1d0e443e5453973a138038ab51316a1c928978699c6a",
+      "xtask/tests/contracts.rs": "abe81a6e82e90477165df2b16c2aef22fc378311fe05667b6121311791157fa4"
+    }
+  },
+  "source_hash_policy": "SHA-256 of UTF-8 source normalized to LF and exact native/binary bytes; unchanged source required during gate"
+}

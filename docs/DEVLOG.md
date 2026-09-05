@@ -60,3 +60,25 @@ Executable SHA-256: `8a20c1d29daed3441d5b25c2044ac4bbb0c59a93e5a742f440cc816a6ba
 Files: Rust package/lockfiles, native build/link configuration, storage boundary, version CLI, encryption and independent canary tests, build runbook, and evidence/ledgers. No real vault, listener, startup entry, external app configuration, or provider connection was created. Retained generated state is approximately 1,175 MiB in one canonical checkout; no duplicate worktree or dependency tree was created. It contains build prerequisites, compiler outputs, preserved baselines, and synthetic evidence and has not been cleaned up.
 
 Next: HOTR-03, the bounded reproducible gate harness. Full STS remains active. This prompt's exact commit/remote SHA is recorded in the next closeout entry.
+
+### HOTR-02 publication closeout
+
+Commit `dcc54f2c0becc8b0542cdec3dd1c95535a5298a7` was pushed to private origin/main; the remote SHA matched. Commit/push hooks passed. Staged whitespace checking first found three extra trailing blank lines; they were corrected and source hashes refreshed before publication. No behavioral gate was waived.
+
+## 2026-09-05 — HOTR-03 — Bounded verification harness
+
+Gate: PASS locally. Final run: `work/hotr-evidence/HOTR-03-76420-1788641524308666500/`; published sanitized manifest: `docs/evidence/HOTR-03-harness.json`. JSON Schema validation and all 20 staged source hashes matched the manifest using the existing SDK Python environment read-only. Native libraries are hashed independently. The runner requires unchanged source through the gate and records failure outcomes alongside passing required commands.
+
+Live evidence: an intentional assertion returned exit 17; an owned sleeping process was terminated at its deadline; an output flood was stopped at the log cap; explicit mismatched-PID termination was refused. Windows accepted and reported the runner's own Job Object memory/process limits; the applied CPU rate was 2500/10000 on this 16-thread host. The job encloses the runner and its ordinary descendants from process creation. Per-command and final source checks passed. Five harness contracts passed, including independently anchored deterministic generation, path rejection, credential redaction, disk thresholds, and omitted-command rejection. Product encryption tests and the post-run native canary scan also passed.
+
+Retained repairs: initial Windows binding namespace correction; a failed full run that attempted to replace its running harness executable, fixed by running the same contract suite as library tests; and a manual review correction reserving the saved log framing within the exact 8 MiB cap. An intermediate run passed its earlier checks before that final log-boundary strengthening. Final largest stored log: 8,388,607 bytes. Earlier manifests/logs remain retained and are superseded by this final evidence.
+
+The native canary protocol now derives new synthetic values from the run basename so Windows canonical-path spelling cannot change the independent scan. The scanner also checks retained older derivations. No real credentials or user memories are involved.
+
+Runner SHA-256: `c50362d9ef9c4e98e2993c4c801094c60eb83101d1e3b9340a965e5f83f2e30e`. Product SHA-256 for this run: `f8eefb44b568b6303a107baf62d132bfcaf0cf3a83cb22d25ba4382e0ad7ede2`. Source identity is based on normalized LF source hashes plus exact native/binary bytes; recompilation can change binary hashes without changing the native dependency versions.
+
+The frozen PSPR workload targets, monitored disk limits, kernel resource limits, and evidence schema are documented. A minimal Windows workflow uses pinned action commits, locked native inputs, and retained synthetic evidence. Hosted status is NOT RUN locally and must be checked for the exact published commit. This gate does not prove client integration, a second-user owner boundary, recovery campaigns, or deployment.
+
+One canonical checkout remains; no temporary worktrees, source clones, or extra dependency trees were created. Project-owned prerequisites, build artifacts, baseline copies, failed diagnostics, and synthetic evidence are retained. No real vault, external application profile, OS account, startup entry, or provider connection was changed.
+
+Next: HOTR-04 owner lifecycle and local administration. Full STS continues. Commit/remote SHA and the exact hosted run are recorded after publication.

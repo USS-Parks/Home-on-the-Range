@@ -2,6 +2,9 @@
 jobs = 4
 target-dir = "work/hotr-build/target"
 
+[alias]
+xtask = "run --manifest-path xtask/Cargo.toml --release --locked --"
+
 [env]
 SQLCIPHER_LIB_DIR = { value = "work/hotr-build/native", relative = true }
 SQLCIPHER_INCLUDE_DIR = { value = "work/hotr-build/native", relative = true }

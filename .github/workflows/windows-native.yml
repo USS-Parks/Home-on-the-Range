@@ -1,0 +1,31 @@
+name: Windows native verification
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+      - name: Build pinned native libraries and run local gate
+        shell: pwsh
+        run: |
+          . ./.cargo/prepare-native.ps1
+          cargo xtask verify --prompt HOTR-03
+          if ($LASTEXITCODE -ne 0) { throw 'Native verification failed' }
+      - name: Retain synthetic verification evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: windows-native-evidence
+          path: work/hotr-evidence/
+          if-no-files-found: warn
+          retention-days: 14

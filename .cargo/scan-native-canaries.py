@@ -27,9 +27,15 @@ for run in owner_runs:
     assert (run / "SYNTHETIC-ONLY").read_text().startswith("HOTR-04;"), "unowned owner run"
 owner_key = "HOTR-synthetic-owner-secret-649a5bd8"
 patterns.extend([owner_key.encode(), owner_key.encode("utf-16-le")])
+schema_runs = sorted((root / "work/hotr-tests").glob("HOTR-05-*"))
+for run in schema_runs:
+    assert run.resolve().is_relative_to(root.resolve()), "schema test path escaped project"
+    assert (run / "SYNTHETIC-ONLY").read_text().startswith("HOTR-05;"), "unowned schema run"
+for canary in ["HOTR-05-synthetic-key-373a2b7d", "HOTR05canary"]:
+    patterns.extend([canary.encode(), canary.encode("utf-16-le")])
 checked = 0
 overlap = max(map(len, patterns)) - 1
-for directory in [*runs, *owner_runs, root / "work/hotr-build/tmp", root / "work/hotr-evidence"]:
+for directory in [*runs, *owner_runs, *schema_runs, root / "work/hotr-build/tmp", root / "work/hotr-evidence"]:
     for path in directory.rglob("*"):
         assert not path.is_symlink(), "refusing symlink in test scan"
         assert path.resolve().is_relative_to(root.resolve()), "scan path escaped project"

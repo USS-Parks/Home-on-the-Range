@@ -95,3 +95,9 @@ the default user-installed PowerShell path had failed before command launch.
 No account, password, security setting, application profile, or OS-wide ACL was
 changed to run the proof. Hosted CI currently exercises the normal owner tests;
 the local two-account result is recorded separately and is not inferred from CI.
+
+The original hosted HOTR-04 run failed the literal SDDL comparison. HOTR-04-R1
+replaces string equality with structural owner SID, protected DACL, exact ACE
+count, trustee, mask, and inheritance checks. Equivalent SID aliases and ACE
+order are accepted; broader permissions are rejected. The final local proof is
+paired with HOTR-05, and hosted repair acceptance is tracked in VERIFICATION.

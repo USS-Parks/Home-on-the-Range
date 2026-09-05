@@ -90,9 +90,10 @@ pub fn create(path: &Path, passphrase: &[u8]) -> io::Result<()> {
     let database = directory.join("vault.db");
     drop(security::create_file(&database)?);
     security::verify_file_owner(&database, false)?;
-    let connection = open_encrypted(&database, passphrase).map_err(io::Error::other)?;
+    let mut connection = open_encrypted(&database, passphrase).map_err(io::Error::other)?;
     connection.execute_batch("CREATE TABLE hotr_vault(format INTEGER PRIMARY KEY CHECK(format=1)); INSERT INTO hotr_vault VALUES(1);")
         .map_err(|_| io::Error::other("vault initialization failed; new files retained"))?;
+    crate::schema::migrate(&mut connection).map_err(io::Error::other)?;
     drop(connection);
     security::create_file(&directory.join(".hotr-vault"))?.write_all(MARKER)?;
     Ok(())
@@ -236,18 +237,19 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                     match body[0] {
                         STATUS if body.len() == 1 => state(connection.is_some(), false, None),
                         UNLOCK if connection.is_none() => {
-                            let opened = open_encrypted(&directory.join("vault.db"), &body[1..])
-                                .and_then(|db| {
-                                    let format = db
-                                        .query_row("SELECT format FROM hotr_vault", [], |row| {
-                                            row.get::<_, u32>(0)
-                                        })
-                                        .map_err(|_| crate::StoreError::DatabaseRejected)?;
-                                    if format != 1 {
-                                        return Err(crate::StoreError::DatabaseRejected);
-                                    }
-                                    Ok(db)
-                                });
+                            let opened =
+                                crate::schema::open(&directory.join("vault.db"), &body[1..])
+                                    .and_then(|db| {
+                                        let format = db
+                                            .query_row("SELECT format FROM hotr_vault", [], |row| {
+                                                row.get::<_, u32>(0)
+                                            })
+                                            .map_err(|_| crate::StoreError::DatabaseRejected)?;
+                                        if format != 1 {
+                                            return Err(crate::StoreError::DatabaseRejected);
+                                        }
+                                        Ok(db)
+                                    });
                             match opened {
                                 Ok(db) => {
                                     connection = Some(db);

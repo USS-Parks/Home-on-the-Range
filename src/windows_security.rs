@@ -13,16 +13,18 @@ use std::{
 use windows_sys::Win32::{
     Foundation::{CloseHandle, HANDLE, INVALID_HANDLE_VALUE, LocalFree},
     Security::{
+        ACCESS_ALLOWED_ACE, ACE_HEADER,
         Authorization::{
-            ConvertSecurityDescriptorToStringSecurityDescriptorW, ConvertSidToStringSidW,
-            ConvertStringSecurityDescriptorToSecurityDescriptorW, GetNamedSecurityInfoW,
-            SE_FILE_OBJECT,
+            ConvertSidToStringSidW, ConvertStringSecurityDescriptorToSecurityDescriptorW,
+            GetNamedSecurityInfoW, SE_FILE_OBJECT,
         },
-        DACL_SECURITY_INFORMATION, GetTokenInformation, OWNER_SECURITY_INFORMATION, RevertToSelf,
-        SECURITY_ATTRIBUTES, TOKEN_QUERY, TOKEN_USER, TokenUser,
+        DACL_SECURITY_INFORMATION, GetAce, GetLengthSid, GetSecurityDescriptorControl,
+        GetSecurityDescriptorDacl, GetSecurityDescriptorOwner, GetTokenInformation, IsValidAcl,
+        IsValidSid, OWNER_SECURITY_INFORMATION, RevertToSelf, SECURITY_ATTRIBUTES, TOKEN_QUERY,
+        TOKEN_USER, TokenUser,
     },
     Storage::FileSystem::{
-        CREATE_NEW, CreateDirectoryW, CreateFileW, FILE_ATTRIBUTE_NORMAL,
+        CREATE_NEW, CreateDirectoryW, CreateFileW, FILE_ALL_ACCESS, FILE_ATTRIBUTE_NORMAL,
         FILE_FLAG_OPEN_REPARSE_POINT,
     },
     System::{
@@ -152,6 +154,9 @@ impl Descriptor {
         let sid = current_sid()?;
         let flags = if directory { "OICI" } else { "" };
         let sddl = format!("O:{sid}D:P(A;{flags};FA;;;{sid})(A;{flags};FA;;;SY)");
+        Self::from_sddl(&sddl)
+    }
+    fn from_sddl(sddl: &str) -> io::Result<Self> {
         let text = wide(sddl.as_ref());
         let mut pointer = ptr::null_mut();
         // SAFETY: terminated SDDL, valid output; LocalFree in Drop owns allocation.
@@ -225,8 +230,8 @@ pub fn verify_file_owner(path: &Path, directory: bool) -> io::Result<()> {
     let name = wide(path.as_os_str());
     let mut descriptor = ptr::null_mut();
     let information = OWNER_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION;
-    // SAFETY: Windows allocates a descriptor and string, both freed exactly once.
-    let actual = unsafe {
+    // SAFETY: Windows allocates a valid descriptor, owned by Descriptor below.
+    unsafe {
         let result = GetNamedSecurityInfoW(
             name.as_ptr(),
             SE_FILE_OBJECT,
@@ -240,32 +245,104 @@ pub fn verify_file_owner(path: &Path, directory: bool) -> io::Result<()> {
         if result != 0 {
             return Err(io::Error::from_raw_os_error(result as i32));
         }
-        let mut text = ptr::null_mut();
-        let result = if ConvertSecurityDescriptorToStringSecurityDescriptorW(
-            descriptor,
-            1,
-            information,
-            &mut text,
-            ptr::null_mut(),
-        ) == 0
-        {
-            Err(io::Error::last_os_error())
-        } else {
-            let result = take_string(text);
-            LocalFree(text.cast());
-            result
-        };
-        LocalFree(descriptor);
-        result?
+    }
+    let descriptor = Descriptor {
+        pointer: descriptor,
     };
-    let sid = current_sid()?;
-    let flags = if directory { "OICI" } else { "" };
-    let expected = format!("O:{sid}D:P(A;{flags};FA;;;{sid})(A;{flags};FA;;;SY)");
-    if actual != expected {
-        Err(io::Error::other(
-            "vault ownership or protected ACL rejected",
-        ))
-    } else {
+    // SAFETY: the OS-owned descriptor stays live throughout inspection.
+    unsafe { verify_descriptor(descriptor.pointer, directory, &current_sid()?) }
+}
+
+unsafe fn verify_descriptor(
+    descriptor: *mut c_void,
+    directory: bool,
+    expected_sid: &str,
+) -> io::Result<()> {
+    let rejected = || io::Error::other("vault ownership or protected ACL rejected");
+    // SAFETY: caller provides a live OS-validated security descriptor. Windows
+    // validates its ACL and ACE lookup; SID length is checked against ACE bounds.
+    unsafe {
+        let mut control = 0;
+        let mut revision = 0;
+        let mut owner = ptr::null_mut();
+        let mut defaulted = 0;
+        let mut present = 0;
+        let mut acl = ptr::null_mut();
+        if GetSecurityDescriptorControl(descriptor, &mut control, &mut revision) == 0
+            || control & 0x1000 == 0
+            || GetSecurityDescriptorOwner(descriptor, &mut owner, &mut defaulted) == 0
+            || owner.is_null()
+            || sid_string(owner)? != expected_sid
+            || GetSecurityDescriptorDacl(descriptor, &mut present, &mut acl, &mut defaulted) == 0
+            || present == 0
+            || acl.is_null()
+            || IsValidAcl(acl) == 0
+            || (*acl).AceCount != 2
+        {
+            return Err(rejected());
+        }
+        let flags = if directory { 3 } else { 0 };
+        let mut trustees = Vec::new();
+        for index in 0..2 {
+            let mut raw = ptr::null_mut();
+            if GetAce(acl, index, &mut raw) == 0 || raw.is_null() {
+                return Err(rejected());
+            }
+            let header = &*(raw.cast::<ACE_HEADER>());
+            // Header + access mask + the fixed eight-byte SID prefix.
+            if header.AceType != 0 || header.AceFlags != flags || header.AceSize < 16 {
+                return Err(rejected());
+            }
+            let ace = &*(raw.cast::<ACCESS_ALLOWED_ACE>());
+            let sid_bytes = raw.cast::<u8>().add(8);
+            let sid_length = 8 + 4 * usize::from(*sid_bytes.add(1));
+            if ace.Mask != FILE_ALL_ACCESS || sid_length + 8 > usize::from(header.AceSize) {
+                return Err(rejected());
+            }
+            let sid = ptr::addr_of!(ace.SidStart).cast_mut().cast();
+            if IsValidSid(sid) == 0
+                || GetLengthSid(sid) as usize + 8 > usize::from(ace.Header.AceSize)
+            {
+                return Err(rejected());
+            }
+            trustees.push(sid_string(sid)?);
+        }
+        trustees.sort();
+        let mut expected = vec![expected_sid.to_owned(), "S-1-5-18".to_owned()];
+        expected.sort();
+        if trustees != expected {
+            return Err(rejected());
+        }
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod acl_tests {
+    use super::*;
+    #[test]
+    fn structural_acl_checks_accept_aliases_and_order_but_reject_extra_access() {
+        // Builtin Administrators has the SDDL alias BA. Matching its literal
+        // rendered string to a numeric SID is not a security policy check.
+        let sid = "S-1-5-32-544";
+        for sddl in [
+            "O:BAD:P(A;;FA;;;BA)(A;;FA;;;SY)",
+            "O:BAD:P(A;;FA;;;S-1-5-18)(A;;FA;;;S-1-5-32-544)",
+        ] {
+            let descriptor = Descriptor::from_sddl(sddl).unwrap();
+            assert!(unsafe { verify_descriptor(descriptor.pointer, false, sid) }.is_ok());
+        }
+        for sddl in [
+            "O:BAD:P(A;;FA;;;BA)(A;;FA;;;SY)(A;;FR;;;WD)",
+            "O:BAD:(A;;FA;;;BA)(A;;FA;;;SY)",
+            "O:BAD:P(A;;FR;;;BA)(A;;FA;;;SY)",
+            "O:BAD:P(A;OI;FA;;;BA)(A;;FA;;;SY)",
+            "O:SYD:P(A;;FA;;;BA)(A;;FA;;;SY)",
+            "O:BAD:P(A;;FA;;;BA)(A;;FA;;;BA)",
+            "O:BAD:NO_ACCESS_CONTROL",
+        ] {
+            let descriptor = Descriptor::from_sddl(sddl).unwrap();
+            assert!(unsafe { verify_descriptor(descriptor.pointer, false, sid) }.is_err());
+        }
     }
 }

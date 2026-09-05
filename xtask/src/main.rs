@@ -37,10 +37,13 @@ fn execute() -> io::Result<()> {
         && (args.len() != 3
             || args[0] != "verify"
             || args[1] != "--prompt"
-            || !matches!(args[2].as_str(), "HOTR-02" | "HOTR-03" | "HOTR-04"))
+            || !matches!(
+                args[2].as_str(),
+                "HOTR-02" | "HOTR-03" | "HOTR-04" | "HOTR-05"
+            ))
     {
         return Err(io::Error::other(
-            "Usage: cargo xtask verify --prompt HOTR-02|HOTR-03|HOTR-04",
+            "Usage: cargo xtask verify --prompt HOTR-02|HOTR-03|HOTR-04|HOTR-05",
         ));
     }
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -207,7 +210,7 @@ fn execute() -> io::Result<()> {
             outcomes.push(outcome);
             pass?;
         }
-        if prompt == "HOTR-04" {
+        if matches!(prompt, "HOTR-04" | "HOTR-05") {
             let boundary = run(
                 &guard,
                 &directory,

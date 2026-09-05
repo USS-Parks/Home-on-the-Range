@@ -1,6 +1,7 @@
 //! Storage foundation. Service authorization is added by later approved prompts.
 
 pub mod owner;
+pub mod schema;
 pub mod windows_security;
 
 use rusqlite::{Connection, OpenFlags, ffi};
@@ -20,6 +21,8 @@ pub enum StoreError {
     OpenFailed,
     DatabaseRejected,
     ConfigurationFailed,
+    UnsupportedSchema,
+    NativeRejected(i32),
 }
 
 impl fmt::Display for StoreError {
@@ -30,6 +33,8 @@ impl fmt::Display for StoreError {
             Self::OpenFailed => "database could not be opened",
             Self::DatabaseRejected => "database or passphrase rejected",
             Self::ConfigurationFailed => "encrypted storage configuration failed",
+            Self::UnsupportedSchema => "vault schema is newer than this executable",
+            Self::NativeRejected(_) => "encrypted database operation rejected",
         })
     }
 }
@@ -78,7 +83,11 @@ pub fn native_versions(connection: &Connection) -> Result<NativeVersions, StoreE
     let query = |sql| {
         connection
             .query_row(sql, [], |row| row.get::<_, String>(0))
-            .map_err(|_| StoreError::CipherUnavailable)
+            .map_err(|error| {
+                StoreError::NativeRejected(
+                    error.sqlite_error().map_or(0, |code| code.extended_code),
+                )
+            })
     };
     let sqlcipher = query("PRAGMA cipher_version")?;
     if sqlcipher.split_whitespace().next() != Some("4.18.0") {
@@ -95,6 +104,23 @@ pub fn native_versions(connection: &Connection) -> Result<NativeVersions, StoreE
 /// Opens an already-existing file. Creation is exclusively a later owner operation.
 /// Keys travel through the native API, never through SQL strings or diagnostics.
 pub fn open_encrypted(path: &Path, passphrase: &[u8]) -> Result<Connection, StoreError> {
+    let connection = keyed_connection(path, passphrase, None)?;
+    connection
+        .execute_batch(
+            "PRAGMA journal_mode = WAL; PRAGMA synchronous = FULL; PRAGMA secure_delete = ON;",
+        )
+        .map_err(|_| StoreError::ConfigurationFailed)?;
+    Ok(connection)
+}
+
+/// A schema probe never enables WAL or requests a writable database handle.
+/// `Some(true)` is allowed only while the caller holds a write-denying handle
+/// and has verified that neither a WAL nor a rollback journal exists.
+pub(crate) fn keyed_connection(
+    path: &Path,
+    passphrase: &[u8],
+    read_only: Option<bool>,
+) -> Result<Connection, StoreError> {
     if !(16..=1024).contains(&passphrase.len()) {
         return Err(StoreError::InvalidKey);
     }
@@ -102,10 +128,40 @@ pub fn open_encrypted(path: &Path, passphrase: &[u8]) -> Result<Connection, Stor
     if !metadata.file_type().is_file() {
         return Err(StoreError::OpenFailed);
     }
-    let connection = Connection::open_with_flags(
-        path,
-        OpenFlags::SQLITE_OPEN_READ_WRITE | OpenFlags::SQLITE_OPEN_NO_MUTEX,
-    )
+    let connection = if let Some(immutable) = read_only {
+        let name = path.canonicalize().map_err(|_| StoreError::OpenFailed)?;
+        let name = name
+            .to_str()
+            .ok_or(StoreError::OpenFailed)?
+            .trim_start_matches(r"\\?\")
+            .replace('\\', "/");
+        let encoded: String = name
+            .bytes()
+            .map(|b| {
+                if b.is_ascii_alphanumeric() || b"/:._-".contains(&b) {
+                    (b as char).to_string()
+                } else {
+                    format!("%{b:02X}")
+                }
+            })
+            .collect();
+        let mode = if immutable {
+            "immutable=1"
+        } else {
+            "mode=ro&readonly_shm=1"
+        };
+        Connection::open_with_flags(
+            format!("file:///{encoded}?{mode}"),
+            OpenFlags::SQLITE_OPEN_READ_ONLY
+                | OpenFlags::SQLITE_OPEN_URI
+                | OpenFlags::SQLITE_OPEN_NO_MUTEX,
+        )
+    } else {
+        Connection::open_with_flags(
+            path,
+            OpenFlags::SQLITE_OPEN_READ_WRITE | OpenFlags::SQLITE_OPEN_NO_MUTEX,
+        )
+    }
     .map_err(|_| StoreError::OpenFailed)?;
     // SAFETY: connection is live and exclusively owned here. SQLite copies the
     // supplied bytes before this call returns; length is bounded above.
@@ -136,8 +192,7 @@ pub fn open_encrypted(path: &Path, passphrase: &[u8]) -> Result<Connection, Stor
         .map_err(|_| StoreError::ConfigurationFailed)?;
     connection
         .execute_batch(
-            "PRAGMA trusted_schema = OFF; PRAGMA foreign_keys = ON; PRAGMA temp_store = MEMORY;
-         PRAGMA journal_mode = WAL; PRAGMA synchronous = FULL; PRAGMA secure_delete = ON;",
+            "PRAGMA trusted_schema = OFF; PRAGMA foreign_keys = ON; PRAGMA temp_store = MEMORY;",
         )
         .map_err(|_| StoreError::ConfigurationFailed)?;
     Ok(connection)

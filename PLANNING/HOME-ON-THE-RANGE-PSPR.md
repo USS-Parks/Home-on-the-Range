@@ -14,6 +14,12 @@ Owner: USS-Parks
 
 Publication branch: `main`
 
+Current visibility: **PUBLIC**, explicitly confirmed by the user on 2026-09-05:
+"No, I changed it to public, it's fine." This supersedes private-repository
+instructions in earlier preparation records. Source and sanitized synthetic
+evidence may be pushed to public main; private context and credentials remain
+excluded. This confirmation does not deploy a public vault endpoint.
+
 ## 1. Governance and intended result
 
 Build a small usable context vault on the owner's Windows machine, harden it through measured failures and sustained load, and decide whether the tested result is suitable for local distribution. The product supplies shared, persistent, searchable context to separately authorized applications. It does not run or orchestrate the owner's agents.

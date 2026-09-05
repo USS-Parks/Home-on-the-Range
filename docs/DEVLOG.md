@@ -242,3 +242,19 @@ retained for reproducibility; no cleanup or pre-existing-file deletion occurred.
 Named application acceptance, search, MCP, backups, stress/soak and deployment
 remain later gates. Publish this locally passed bundle and require its exact
 fresh hosted pass before HOTR-09. Full STS remains active.
+
+### HOTR-07/08 publication and user visibility correction
+
+Commit `b4fe15bd19d439cb34a5522d99c119d29ab2dc16` is verified on origin/main.
+All 36 staged source hashes and the product hash matched the passing manifest;
+JSON Schema validation and repository hooks passed. Its fresh Windows run is
+[33998187706](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33998187706).
+Hosted status is recorded separately when the run completes.
+
+The user then clarified: "No, I changed it to public, it's fine." The earlier
+public setting was intentional. Repository visibility was immediately restored
+and verified PUBLIC. Active AGENTS.md/PSPR instructions now preserve PUBLIC;
+historical private observations remain unchanged. Source and sanitized evidence
+continue to main; no private vault/credential content is included. This explicit
+user choice supersedes the prior private default. The visibility correction is
+documentation only; the exact code verification run above remains required.

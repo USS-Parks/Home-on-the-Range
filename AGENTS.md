@@ -2,14 +2,14 @@
 
 ## Current authorization (2026-09-05)
 
-Full STS is approved. Read `PLANNING/HOTR-BOUNDED-WRITES-APPROVED-2026-09-05.md` and its referenced scope, `PLANNING/HOTR-STS-APPROVAL-AND-COMPATIBILITY-2026-09-05.md`, and `PLANNING/HOTR-LAMPREY-HARNESS-INTEGRATION-2026-09-05.md` with the PSPR. Normal project source edits, bounded build/synthetic-test writes, and commits/pushes to private main are authorized. Existing user data, other applications' profiles, discretionary cleanup, and deletion of pre-existing files remain excluded. Earlier pending-approval statements below describe the initial planning state and are superseded by the recorded user approvals.
+Full STS is approved. Read `PLANNING/HOTR-BOUNDED-WRITES-APPROVED-2026-09-05.md` and its referenced scope, `PLANNING/HOTR-STS-APPROVAL-AND-COMPATIBILITY-2026-09-05.md`, and `PLANNING/HOTR-LAMPREY-HARNESS-INTEGRATION-2026-09-05.md` with the PSPR. Normal project source edits, bounded build/synthetic-test writes, and commits/pushes to main are authorized. The user explicitly confirmed PUBLIC repository visibility on 2026-09-05: "No, I changed it to public, it's fine." Preserve that choice. Existing user data, other applications' profiles, discretionary cleanup, and deletion of pre-existing files remain excluded. Earlier pending-approval and private-visibility statements describe superseded historical states.
 
 ## Authority and authorization
 
 - Read `PLANNING/HOME-ON-THE-RANGE-PSPR.md` and `docs/DEVLOG.md` before implementation. Resume the next approved, incomplete prompt.
 - The user requested the granular roster for STS approval on 2026-09-05. Drafting and publishing the plan is authorized. HOTR-01 onward requires explicit STS or named-prompt/milestone approval.
 - The user has given standing authorization to commit and push all in-scope project source, documentation, tests, and sanitized evidence to `USS-Parks/Home-on-the-Range`, branch `main`. Do not ask again for each in-scope commit or push. Approval of a roster does not authorize unrelated work.
-- Keep the repository private unless the user explicitly changes that instruction. Never publish vault contents, credentials, passphrases, imported chats, private file paths from context, or raw sensitive test evidence.
+- Keep the repository PUBLIC as explicitly confirmed by the user on 2026-09-05. Do not change visibility based on older private-repository notes. Never publish vault contents, credentials, passphrases, imported chats, private file paths from context, or raw sensitive test evidence.
 - Use one focused commit per prompt after its prescribed local gate passes. A prompt requiring hosted verification remains pending until the exact commit's hosted gate passes.
 - Never force push, bypass branch protections, reset unrelated changes, or claim a failed/unrun gate passed. Record blockers and insert numbered repair prompts when necessary.
 

@@ -1,0 +1,25 @@
+# Runtime data, secrets, and generated outputs never belong in source control.
+/target/
+/node_modules/
+/work/
+/data/
+/backups/
+/dist/
+/artifacts/private/
+.env
+.env.*
+!.env.example
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.key
+*.pem
+*.pfx
+*.dmp
+*.log
+*.hotr-backup
+*.credential
+*.secret

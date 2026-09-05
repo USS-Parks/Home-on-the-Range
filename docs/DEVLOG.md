@@ -20,3 +20,13 @@ Files: README, project AGENTS, ignore/line-ending rules, canonical PSPR, this lo
 Local document check passed: 36 unique sequential prompt IDs, all five required fields on every prompt, and the explicit pending-approval marker. Repository publication checks also validate dependency order, relative documentation links, staged-file hygiene, and whitespace. Publication SHA is recorded in the closeout entry after the push is verified.
 
 Next: obtain STS approval, then start HOTR-01. Recommended first authorization is through HOTR-12 (the usable local prototype).
+
+### HOTR-00 publication closeout
+
+- Plan/governance commit: `b2c900519569bc2288d4d4f4e18c6cc2a6171f1a`.
+- Published to `origin/main`; `git ls-remote origin refs/heads/main` returned the identical SHA. GitHub confirmed private visibility and default branch `main`.
+- Document validation: PASS for 36 unique sequential IDs, five required fields per prompt, dependency order, relative links, pending-approval marker, staged-file allowlist, credential-pattern scan, and staged whitespace. The repository's no-slop hooks passed for both commit and push.
+- Preparation corrections: the dependency checker was updated to trim Markdown hard-break spaces; staged whitespace checking then rejected those spaces, which were replaced with ordinary paragraph separation. Complete whitespace failure output is retained at ignored `work/evidence/HOTR-00/whitespace-before-fix.txt`. The final rerun passed.
+- Checkout inventory: one canonical checkout on `main`, clean after initial publication, zero ahead/behind commits, no temporary worktrees. Approximately 26 KiB of generated diagnostic evidence is retained for traceability. No `target` or `node_modules` tree exists; nothing needs worktree retirement.
+- This following documentation-only closeout records the already-verified planning commit. Its own final remote SHA is verified at publication and reported in the task response.
+- No application runtime, database, model download, client integration, or product test has been installed/executed. HOTR-01–36 remain NOT STARTED pending explicit STS approval.

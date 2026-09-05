@@ -175,12 +175,13 @@ pub(crate) fn keyed_connection(
     if result != ffi::SQLITE_OK {
         return Err(StoreError::DatabaseRejected);
     }
+    // Configure native logging before a schema-dependent query can reject a key.
+    connection
+        .execute_batch("PRAGMA cipher_memory_security = ON; PRAGMA cipher_log_level = NONE;")
+        .map_err(|_| StoreError::ConfigurationFailed)?;
     native_versions(&connection)?;
     connection
         .set_db_config(rusqlite::config::DbConfig::SQLITE_DBCONFIG_DEFENSIVE, true)
-        .map_err(|_| StoreError::ConfigurationFailed)?;
-    connection
-        .execute_batch("PRAGMA cipher_memory_security = ON; PRAGMA cipher_log_level = NONE;")
         .map_err(|_| StoreError::ConfigurationFailed)?;
     connection
         .query_row("SELECT count(*) FROM sqlite_schema", [], |row| {

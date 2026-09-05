@@ -5,7 +5,7 @@
   "required": ["schema_version", "prompt", "result", "source", "runner_sha256", "commands", "seed", "memory_limit_bytes", "disk_limit_bytes", "minimum_free_bytes", "cpu_rate_per_10000"],
   "properties": {
     "schema_version": { "const": 1 },
-    "prompt": { "type": "string", "pattern": "^HOTR-[0-9]+(-fault)?$" },
+    "prompt": { "type": "string", "pattern": "^HOTR-[0-9]+(-fault|-R[0-9]+)?$" },
     "result": { "enum": ["PASS", "FAIL"] },
     "failure": { "type": ["string", "null"] },
     "runner_sha256": { "$ref": "#/$defs/hash" },

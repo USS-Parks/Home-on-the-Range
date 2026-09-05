@@ -11,7 +11,7 @@ use std::{
 };
 use tokio::{
     io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt},
-    net::windows::named_pipe::{ClientOptions, NamedPipeClient, ServerOptions},
+    net::windows::named_pipe::{ClientOptions, NamedPipeClient, NamedPipeServer, ServerOptions},
     time::{sleep, timeout},
 };
 use zeroize::Zeroizing;
@@ -188,6 +188,35 @@ pub async fn request(path: &Path, operation: u8, passphrase: &[u8]) -> io::Resul
     .map_err(|_| io::Error::other("owner request timed out"))?
 }
 
+async fn next_instance(
+    options: &ServerOptions,
+    endpoint: &str,
+    attributes: &mut windows_sys::Win32::Security::SECURITY_ATTRIBUTES,
+) -> io::Result<NamedPipeServer> {
+    // A dropped Tokio pipe can retain its native handle until a canceled I/O
+    // completion is dispatched. Yield for that retirement without increasing
+    // the two-instance limit or replaying any received operation.
+    timeout(Duration::from_secs(1), async {
+        loop {
+            // SAFETY: the caller retains the descriptor and initialized attributes.
+            match unsafe {
+                options.create_with_security_attributes_raw(
+                    endpoint,
+                    (attributes as *mut windows_sys::Win32::Security::SECURITY_ATTRIBUTES).cast(),
+                )
+            } {
+                Ok(pipe) => return Ok(pipe),
+                Err(error) if error.raw_os_error() == Some(231) => {
+                    sleep(Duration::from_millis(10)).await;
+                }
+                Err(error) => return Err(error),
+            }
+        }
+    })
+    .await
+    .map_err(|_| io::Error::other("owner pipe instance retirement timed out"))?
+}
+
 pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
     let directory = validate(path)?;
     let endpoint = pipe_name(&directory)?;
@@ -221,12 +250,7 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
         // Keep an instance available before replying, avoiding a disconnect/
         // reconnect gap. One request is processed and one may wait in the kernel.
         options.first_pipe_instance(false);
-        let successor = unsafe {
-            options.create_with_security_attributes_raw(
-                &endpoint,
-                (&mut attributes as *mut windows_sys::Win32::Security::SECURITY_ATTRIBUTES).cast(),
-            )
-        }?;
+        let successor = next_instance(&options, &endpoint, &mut attributes).await?;
         let mut pipe = std::mem::replace(&mut available, successor);
         let mut closing = false;
         let reply = match timeout(DEADLINE, read_frame(&mut pipe, MAX_FRAME)).await {
@@ -289,8 +313,51 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
             Ok::<(), io::Error>(())
         })
         .await;
+        let _ = pipe.disconnect();
         if closing {
             return Ok(());
         } // main exits; the key-holding process ends.
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn native_instance_retirement_is_bounded() {
+        let endpoint = format!(
+            r"\\.\pipe\hotr-test-retirement-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        );
+        let descriptor = security::Descriptor::owner_only(false).unwrap();
+        let mut attributes = descriptor.attributes();
+        let mut options = ServerOptions::new();
+        options.max_instances(2).reject_remote_clients(true);
+        let first = next_instance(&options, &endpoint, &mut attributes)
+            .await
+            .unwrap();
+        let second = next_instance(&options, &endpoint, &mut attributes)
+            .await
+            .unwrap();
+        // All native slots are held: this must time out rather than spin or grow.
+        let start = std::time::Instant::now();
+        assert!(
+            next_instance(&options, &endpoint, &mut attributes)
+                .await
+                .is_err()
+        );
+        assert!((Duration::from_secs(1)..Duration::from_secs(3)).contains(&start.elapsed()));
+        let (successor, ()) =
+            tokio::join!(next_instance(&options, &endpoint, &mut attributes), async {
+                sleep(Duration::from_millis(100)).await;
+                drop(first);
+            });
+        assert!(successor.is_ok());
+        drop(second);
     }
 }

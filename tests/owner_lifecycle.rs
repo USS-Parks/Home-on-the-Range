@@ -159,7 +159,21 @@ async fn actual_owner_lifecycle_and_preservation() {
         assert!(reply.error.is_some());
         assert_eq!(reply.state, "locked");
     }
-    for _ in 0..32 {
+    // Keep a consumed client endpoint alive briefly after acknowledgement.
+    // Windows can retain that instance until both sides have actually closed.
+    let mut retiring = owner::connect(&vault).await.unwrap();
+    retiring.write_u32_le(1).await.unwrap();
+    retiring.write_u8(owner::STATUS).await.unwrap();
+    let length = retiring.read_u32_le().await.unwrap();
+    let mut bytes = vec![0; length as usize];
+    retiring.read_exact(&mut bytes).await.unwrap();
+    retiring.write_u8(1).await.unwrap();
+    let (during_retirement, ()) = tokio::join!(owner::request(&vault, owner::STATUS, &[]), async {
+        tokio::time::sleep(Duration::from_millis(200)).await;
+        drop(retiring);
+    });
+    assert_eq!(during_retirement.unwrap().state, "locked");
+    for _ in 0..4096 {
         assert_eq!(
             owner::request(&vault, owner::STATUS, &[])
                 .await
@@ -176,6 +190,10 @@ async fn actual_owner_lifecycle_and_preservation() {
     let closed = owner::request(&vault, owner::LOCK, &[]).await.unwrap();
     assert!(closed.closing);
     server.wait_exit();
+    assert!(
+        fs::read(run.join("first.stderr.txt")).unwrap().is_empty(),
+        "owner diagnostics must not emit native wrong-key errors"
+    );
     assert!(owner::request(&vault, owner::STATUS, &[]).await.is_err());
     let (mut restarted, ready) = Server::start(&vault, "restart", 0);
     assert_eq!(ready["state"], "locked");

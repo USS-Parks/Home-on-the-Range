@@ -4,7 +4,7 @@ Version: 1.0, 2026-09-05
 
 Status: **APPROVED FOR FULL STS — EXECUTION ACTIVE**
 
-Execution checkpoint: HOTR-01–05 have passed locally. HOTR-03 passed exact-commit Windows CI. The separate HOTR-04 hosted run failed at ACL validation; [HOTR-04-R1](HOTR-04-R1-HOSTED-ACL-REPAIR.md) is locally verified with HOTR-05 and awaits exact-commit hosted acceptance before HOTR-06. See DEVLOG and VERIFICATION for commits, preserved failures, and remaining gates.
+Execution checkpoint: HOTR-01–05 have passed locally. HOTR-03 passed exact-commit Windows CI. HOTR-04-R1 repaired the hosted ACL failure; its subsequent full hosted run failed rapid pipe reconnects. [HOTR-04-R2](HOTR-04-R2-HOSTED-PIPE-REPAIR.md) passed the full local repair gate and awaits exact-commit hosted acceptance before HOTR-06. See DEVLOG and VERIFICATION for commits, preserved failures, and remaining gates.
 
 Current amendments: [bounded write approval](HOTR-BOUNDED-WRITES-APPROVED-2026-09-05.md), [compatibility expansion](HOTR-STS-APPROVAL-AND-COMPATIBILITY-2026-09-05.md), and [Lamprey Harness integration](HOTR-LAMPREY-HARNESS-INTEGRATION-2026-09-05.md). Original proposal/approval wording below is retained as plan history; these dated user approvals govern execution. Consult DEVLOG and VERIFICATION for actual prompt status.
 

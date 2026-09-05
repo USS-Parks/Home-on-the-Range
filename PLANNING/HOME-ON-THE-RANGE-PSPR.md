@@ -2,7 +2,9 @@
 
 Version: 1.0, 2026-09-05
 
-Status: **DRAFT — PENDING EXPLICIT STS APPROVAL**
+Status: **APPROVED FOR FULL STS — EXECUTION ACTIVE**
+
+Current amendments: [bounded write approval](HOTR-BOUNDED-WRITES-APPROVED-2026-09-05.md), [compatibility expansion](HOTR-STS-APPROVAL-AND-COMPATIBILITY-2026-09-05.md), and [Lamprey Harness integration](HOTR-LAMPREY-HARNESS-INTEGRATION-2026-09-05.md). Original proposal/approval wording below is retained as plan history; these dated user approvals govern execution. Consult DEVLOG and VERIFICATION for actual prompt status.
 
 Initiative: HOTR
 
@@ -653,5 +655,7 @@ Local preparation also read installed agentmemory architecture/configuration ski
 | Date | Event | Effect |
 |---|---|---|
 | 2026-09-05 | Initial user-requested PSPR | HOTR-01–36 proposed; standing commit/push authorization to private main recorded; implementation pending explicit STS approval |
+| 2026-09-05 | Full STS and stack approved | User selected SQLCipher through rusqlite and expanded named application/provider/OS compatibility; separate addenda preserve prompt history |
+| 2026-09-05 | Preservation exception approved | User explicitly approved the bounded project write proposal; original project files snapshotted before edits; outside-scope files remain protected |
 
 Record the user's approved prompt range and any resource/stack amendments here before executing the first prompt. Do not backfill approval that was never given.

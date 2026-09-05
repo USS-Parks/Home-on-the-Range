@@ -2,7 +2,7 @@
 
 A proposed Windows-first context vault shared by local AI applications through a local service, MCP, and an HTTP API.
 
-**Status: planning only. The implementation roster is awaiting explicit STS approval. No application has been built or installed.**
+**Status: full STS approved; foundation review complete and native encryption proof next. No application has been built or installed yet.**
 
 The first usable milestone is an encrypted vault with versioned context, scoped application credentials, exact/keyword retrieval, two demonstrated client integrations, and tested encrypted backup recovery. Later milestones add local semantic retrieval, management, fault testing, and packaging.
 

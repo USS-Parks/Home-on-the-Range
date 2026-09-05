@@ -1,5 +1,9 @@
 # Home on the Range working agreements
 
+## Current authorization (2026-09-05)
+
+Full STS is approved. Read `PLANNING/HOTR-BOUNDED-WRITES-APPROVED-2026-09-05.md` and its referenced scope, `PLANNING/HOTR-STS-APPROVAL-AND-COMPATIBILITY-2026-09-05.md`, and `PLANNING/HOTR-LAMPREY-HARNESS-INTEGRATION-2026-09-05.md` with the PSPR. Normal project source edits, bounded build/synthetic-test writes, and commits/pushes to private main are authorized. Existing user data, other applications' profiles, discretionary cleanup, and deletion of pre-existing files remain excluded. Earlier pending-approval statements below describe the initial planning state and are superseded by the recorded user approvals.
+
 ## Authority and authorization
 
 - Read `PLANNING/HOME-ON-THE-RANGE-PSPR.md` and `docs/DEVLOG.md` before implementation. Resume the next approved, incomplete prompt.

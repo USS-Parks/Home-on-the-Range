@@ -1,10 +1,11 @@
 # Verification ledger
 
-No implementation gates have run. The product is not installed or accepted.
+HOTR-01 foundation review has passed; no native implementation gate has run. The product is not installed or accepted.
 
 | Gate | Required evidence | Status |
 |---|---|---|
 | HOTR-00 | Plan structure, approval boundary, clean diff, authorized main publication | PASS — `b2c900519569bc2288d4d4f4e18c6cc2a6171f1a` verified on origin/main |
+| HOTR-01 | Pinned reuse review, requirement gaps, user-ratified SQLCipher architecture, bounded-write approval, baseline preservation | PASS locally; publication follows |
 | M1 / HOTR-01–12 | Actual encrypted Windows service, scoped access, keyword retrieval, two real clients, restored encrypted backup | Not started |
 | M2 / HOTR-13–18 | Selected imports, correction consistency, local embeddings, hybrid retrieval evaluation, management UI | Not started |
 | M3 / HOTR-19–22 | Auditing, key rotation, Windows lifecycle, controlled daily-use comparison | Not started |

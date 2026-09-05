@@ -30,3 +30,15 @@ Next: obtain STS approval, then start HOTR-01. Recommended first authorization i
 - Checkout inventory: one canonical checkout on `main`, clean after initial publication, zero ahead/behind commits, no temporary worktrees. Approximately 26 KiB of generated diagnostic evidence is retained for traceability. No `target` or `node_modules` tree exists; nothing needs worktree retirement.
 - This following documentation-only closeout records the already-verified planning commit. Its own final remote SHA is verified at publication and reported in the task response.
 - No application runtime, database, model download, client integration, or product test has been installed/executed. HOTR-01–36 remain NOT STARTED pending explicit STS approval.
+
+## 2026-09-05 — HOTR-01 — Foundation and approved execution boundary
+
+Full STS was approved by the user, with SQLCipher through rusqlite and an expanded application/provider/OS roster including Lamprey Harness. A later explicit "Yes, I approve and authorize now" approved the exact bounded-write proposal. See the dated approval/addenda in PLANNING; no further confirmation is needed for the operations they authorize.
+
+Eight original project files were preserved with matching SHA-256 hashes under `work/hotr-baselines/2026-09-05-before-STS/`. No files were deleted and no outside application profiles or data were changed.
+
+HOTR-01 gate: PASS for the read-only foundation decision. Two reuse candidates were inspected at pinned revisions with MIT license metadata; every must-have has a route and a stated evidence gap in `docs/adr/0001-foundation.md`. The user-selected Rust/SQLCipher architecture is ratified. Installed client metadata and live Lamprey source interfaces informed the dedicated compatibility prompts. None of those clients is yet integrated.
+
+Native finding for HOTR-02: the existing libsqlite3-sys 0.38.1 cache bundles SQLCipher 4.14.0; a later current SQLCipher source is required for the native gate. Public metadata reports libsqlite3-sys 0.38.2 and SQLCipher v4.18.0. Versions are evidence, not permission to reuse unverified binaries. Native build/tests remain next.
+
+Files: recorded approval and compatibility/preservation/Lamprey addenda, foundation ADR, current-authority pointers, and ledgers. Before publication, verify Markdown links, diff whitespace, staged-file hygiene, and repository hooks. The prompt's commit/remote SHA is recorded in the following closeout entry without circular SHA rewriting.

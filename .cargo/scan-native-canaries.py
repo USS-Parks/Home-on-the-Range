@@ -21,9 +21,15 @@ for run in runs:
         completed += 1
 
 assert completed, "no passing encryption result manifest"
+owner_runs = sorted((root / "work/hotr-tests").glob("HOTR-04-*"))
+for run in owner_runs:
+    assert run.resolve().is_relative_to(root.resolve()), "owner test path escaped project"
+    assert (run / "SYNTHETIC-ONLY").read_text().startswith("HOTR-04;"), "unowned owner run"
+owner_key = "HOTR-synthetic-owner-secret-649a5bd8"
+patterns.extend([owner_key.encode(), owner_key.encode("utf-16-le")])
 checked = 0
 overlap = max(map(len, patterns)) - 1
-for directory in [*runs, root / "work/hotr-build/tmp", root / "work/hotr-evidence"]:
+for directory in [*runs, *owner_runs, root / "work/hotr-build/tmp", root / "work/hotr-evidence"]:
     for path in directory.rglob("*"):
         assert not path.is_symlink(), "refusing symlink in test scan"
         assert path.resolve().is_relative_to(root.resolve()), "scan path escaped project"

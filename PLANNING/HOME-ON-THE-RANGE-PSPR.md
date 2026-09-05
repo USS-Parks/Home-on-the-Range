@@ -4,7 +4,7 @@ Version: 1.0, 2026-09-05
 
 Status: **APPROVED FOR FULL STS — EXECUTION ACTIVE**
 
-Execution checkpoint: HOTR-01–03 have passed their local gates. HOTR-03 hosted workflow evidence is tracked separately. Next sequential prompt: HOTR-04. See DEVLOG and VERIFICATION for commits, exact evidence, and remaining live-system gates.
+Execution checkpoint: HOTR-01–04 have passed their local gates, including a real second-account owner-boundary test. HOTR-03 passed hosted Windows CI at its exact published commit. Next sequential prompt: HOTR-05. See DEVLOG and VERIFICATION for commits, exact evidence, and remaining live-system gates.
 
 Current amendments: [bounded write approval](HOTR-BOUNDED-WRITES-APPROVED-2026-09-05.md), [compatibility expansion](HOTR-STS-APPROVAL-AND-COMPATIBILITY-2026-09-05.md), and [Lamprey Harness integration](HOTR-LAMPREY-HARNESS-INTEGRATION-2026-09-05.md). Original proposal/approval wording below is retained as plan history; these dated user approvals govern execution. Consult DEVLOG and VERIFICATION for actual prompt status.
 

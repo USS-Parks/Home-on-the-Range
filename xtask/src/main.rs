@@ -37,10 +37,10 @@ fn execute() -> io::Result<()> {
         && (args.len() != 3
             || args[0] != "verify"
             || args[1] != "--prompt"
-            || !matches!(args[2].as_str(), "HOTR-02" | "HOTR-03"))
+            || !matches!(args[2].as_str(), "HOTR-02" | "HOTR-03" | "HOTR-04"))
     {
         return Err(io::Error::other(
-            "Usage: cargo xtask verify --prompt HOTR-02|HOTR-03",
+            "Usage: cargo xtask verify --prompt HOTR-02|HOTR-03|HOTR-04",
         ));
     }
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -206,6 +206,30 @@ fn execute() -> io::Result<()> {
             let pass = outcome.ensure_pass();
             outcomes.push(outcome);
             pass?;
+        }
+        if prompt == "HOTR-04" {
+            let boundary = run(
+                &guard,
+                &directory,
+                "owner-boundary",
+                &cargo,
+                &[
+                    "test",
+                    "--release",
+                    "--locked",
+                    "--test",
+                    "owner_lifecycle",
+                    "live_second_principal_boundary",
+                    "--",
+                    "--ignored",
+                    "--nocapture",
+                ],
+                Duration::from_secs(240),
+            )?;
+            let pass = boundary.ensure_pass();
+            outcomes.push(boundary);
+            pass?;
+            hotr_xtask::ensure_required(&outcomes, &["owner-boundary"])?;
         }
         let scan = run(
             &guard,

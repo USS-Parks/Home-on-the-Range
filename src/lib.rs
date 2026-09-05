@@ -1,5 +1,8 @@
 //! Storage foundation. Service authorization is added by later approved prompts.
 
+pub mod owner;
+pub mod windows_security;
+
 use rusqlite::{Connection, OpenFlags, ffi};
 use serde::Serialize;
 use std::{fmt, path::Path, time::Duration};

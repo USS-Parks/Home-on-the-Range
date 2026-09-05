@@ -1,14 +1,15 @@
 # Verification ledger
 
-HOTR-01–03 local gates have passed. The shared service is not installed or accepted; hosted CI is tracked separately.
+HOTR-01–04 local gates have passed. The shared context service is not installed or accepted; hosted CI is tracked separately.
 
 | Gate | Required evidence | Status |
 |---|---|---|
 | HOTR-00 | Plan structure, approval boundary, clean diff, authorized main publication | PASS — `b2c900519569bc2288d4d4f4e18c6cc2a6171f1a` verified on origin/main |
 | HOTR-01 | Pinned reuse review, requirement gaps, user-ratified SQLCipher architecture, bounded-write approval, baseline preservation | PASS — `b6a2ae04332d6dac5700aba4659697730e575e37` verified on origin/main |
 | HOTR-02 | Native release build, actual cipher/provider versions, FTS/WAL/reopen/integrity, wrong-key/keyless/plain-SQLite/tamper rejection, storage/temp/log scan | PASS — `dcc54f2c0becc8b0542cdec3dd1c95535a5298a7` verified on origin/main; [native evidence](evidence/HOTR-02-native.json) |
-| HOTR-03 | Failed assertion/timeout/log-flood refusal, live Windows resource limits, path/PID guards, seed/redaction/required-command tests, exact source/binary hashes, minimal CI | PASS locally; [harness evidence](evidence/HOTR-03-harness.json); exact-commit hosted run pending publication |
-| M1 / HOTR-01–12 | Actual encrypted Windows service, scoped access, keyword retrieval, two real clients, restored encrypted backup | In progress; HOTR-01–03 passed locally, HOTR-04 next |
+| HOTR-03 | Failed assertion/timeout/log-flood refusal, live Windows resource limits, path/PID guards, seed/redaction/required-command tests, exact source/binary hashes, minimal CI | PASS locally and hosted — `c95bffb8e068abd0f345762ca806fce49402a875` verified on origin/main; [harness evidence](evidence/HOTR-03-harness.json); [exact-commit Windows run](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33991495729) |
+| HOTR-04 | Actual no-echo ConPTY create/unlock, protected ACLs, bounded wrong/malformed requests, duplicate pipe/port refusal, lock/process exit, real second authenticated Windows principal denial | PASS locally — [owner evidence](evidence/HOTR-04-owner.json), including direct error-5 denial of directory/database/marker/pipe; hosted owner tests tracked after publication |
+| M1 / HOTR-01–12 | Actual encrypted Windows service, scoped access, keyword retrieval, two real clients, restored encrypted backup | In progress; HOTR-01–04 passed locally, HOTR-05 next |
 | M2 / HOTR-13–18 | Selected imports, correction consistency, local embeddings, hybrid retrieval evaluation, management UI | Not started |
 | M3 / HOTR-19–22 | Auditing, key rotation, Windows lifecycle, controlled daily-use comparison | Not started |
 | M4 / HOTR-23–32 | Security, malformed inputs, races, crashes, storage faults, model faults, scale, soak, dependency review, repairs | Not started |

@@ -82,3 +82,25 @@ The frozen PSPR workload targets, monitored disk limits, kernel resource limits,
 One canonical checkout remains; no temporary worktrees, source clones, or extra dependency trees were created. Project-owned prerequisites, build artifacts, baseline copies, failed diagnostics, and synthetic evidence are retained. No real vault, external application profile, OS account, startup entry, or provider connection was changed.
 
 Next: HOTR-04 owner lifecycle and local administration. Full STS continues. Commit/remote SHA and the exact hosted run are recorded after publication.
+
+### HOTR-03 publication and hosted closeout
+
+Commit `c95bffb8e068abd0f345762ca806fce49402a875` was pushed to private origin/main and the remote SHA matched. Commit/push hooks passed. The exact commit's Windows workflow [33991495729](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33991495729) passed: job `101374424104`, completed 2026-09-05 21:05:11 UTC, including native preparation, the HOTR-03 gate, and evidence upload. This supersedes the earlier pending hosted status without changing its historical local result.
+
+## 2026-09-05 — HOTR-04 — Owner lifecycle and Windows administration
+
+Gate: PASS locally, including the required genuine second-principal proof. Final bounded run: `work/hotr-evidence/HOTR-04-80084-1788642932680279900/`. The source-bound sanitized manifest is `docs/evidence/HOTR-04-owner.json`; the separate-account receipt and preserved synthetic fixture are in `work/hotr-tests/HOTR-04-41464-1788643027165455900/`.
+
+Implemented create/serve/status/unlock/lock, real no-echo Windows console prompts, zeroizing passphrase buffers, explicit protected owner/SYSTEM file and pipe ACLs, remote-pipe rejection, first-instance reservation, peer SID validation, bounded framing, deterministic port collision refusal, and lock through process exit. Existing destinations are refused without replacement. A successor pipe instance prevents a reconnect gap. The loopback port is reserved only; context REST operations remain HOTR-08.
+
+Live gate evidence: ConPTY create and unlock did not echo synthetic passphrases; wrong-key responses were bounded and generic; malformed/oversized frames were rejected; 32 successive reconnects succeeded; duplicate pipe and occupied port failed; locking ended the key holder and its connections; restart was locked. Existing-vault creation refusal preserved the database hash. The actual Codex sandbox account had a distinct authenticated Windows SID and received error 5 on direct directory, database, marker, and administration-pipe access while the owner stayed unlocked. The owner then locked and exited. This was neither a mock nor a restricted same-user token. Selecting system cmd.exe made the existing sandbox account usable after the default user-installed PowerShell launcher had failed. No OS account/security change was needed.
+
+Release build, warnings-denied all-target Clippy, encryption tests, owner tests, harness contracts, and canary scan passed. The normal test suite explicitly ignores the interactive two-account test, and the HOTR-04 runner separately requires and executes it; missing evidence fails after 180 seconds. The independent scan checked 175 storage/temp/log files across retained native and owner runs, with no plaintext native canary or synthetic owner key. Windows job limits enclose the gate and its descendants.
+
+Retained repairs: initial Windows API import correction; first owner run exposed a pipe reconnect race and an unhandled ConPTY cursor-position handshake in the test driver, both repaired and retested; initial gate registration missed the second allowlist; warnings-denied Clippy rejected a redundant unit expression. Failures remain visible in local logs. No required check was waived.
+
+Final product SHA-256: `aa1296d320e0e6891ab3b93eed57b66e0fcb1ddd66b4dab212dca8ef0d548fd4`. Runner SHA-256: `d0e5b9274e2b1566930cbceed186d17099f234afd985e48c2331cf43dce1c0b4`. The separate-account fixture records the identical product hash. Source and native hashes are in the manifest and are checked against the staged source before publication.
+
+Files: owner and Windows security modules, CLI/dependencies, actual-process/ConPTY tests, scoped second-account probe, harness registration and canary extension, owner runbook, and evidence/ledgers. One canonical checkout remains, no worktrees, approximately 1,809.5 MiB of retained build prerequisites/artifacts, synthetic fixtures, baselines and evidence. No real vault, other application's profile, startup entry, or existing user file was deleted. Hosted normal owner tests are checked after publication; the two-account proof is local evidence.
+
+Next: HOTR-05 versioned records and namespaces. Full STS continues. This prompt's commit and exact remote SHA are recorded after publication.

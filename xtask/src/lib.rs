@@ -67,7 +67,7 @@ impl Guard {
         Ok(path)
     }
     pub fn new_run(&self, prompt: &str) -> io::Result<PathBuf> {
-        if !matches!(prompt, "HOTR-02" | "HOTR-03" | "HOTR-03-fault") {
+        if !matches!(prompt, "HOTR-02" | "HOTR-03" | "HOTR-04" | "HOTR-03-fault") {
             return Err(io::Error::other("unregistered prompt refused"));
         }
         let stamp = SystemTime::now()

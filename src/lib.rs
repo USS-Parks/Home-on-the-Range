@@ -3,6 +3,7 @@
 pub mod owner;
 pub mod schema;
 pub mod windows_security;
+pub mod writer;
 
 use rusqlite::{Connection, OpenFlags, ffi};
 use serde::Serialize;

@@ -69,7 +69,13 @@ impl Guard {
     pub fn new_run(&self, prompt: &str) -> io::Result<PathBuf> {
         if !matches!(
             prompt,
-            "HOTR-02" | "HOTR-03" | "HOTR-04" | "HOTR-05" | "HOTR-04-R2" | "HOTR-03-fault"
+            "HOTR-02"
+                | "HOTR-03"
+                | "HOTR-04"
+                | "HOTR-05"
+                | "HOTR-06"
+                | "HOTR-04-R2"
+                | "HOTR-03-fault"
         ) {
             return Err(io::Error::other("unregistered prompt refused"));
         }

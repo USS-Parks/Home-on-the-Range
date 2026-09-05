@@ -244,9 +244,15 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
     );
     io::stdout().flush()?;
     let owner_sid = security::current_sid()?;
-    let mut connection = None;
+    let mut connection: Option<crate::writer::Writer> = None;
     loop {
         available.connect().await?;
+        if connection
+            .as_ref()
+            .is_some_and(crate::writer::Writer::is_stopped)
+        {
+            return Err(io::Error::other("database worker stopped"));
+        }
         // Keep an instance available before replying, avoiding a disconnect/
         // reconnect gap. One request is processed and one may wait in the kernel.
         options.first_pipe_instance(false);
@@ -276,7 +282,7 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                                     });
                             match opened {
                                 Ok(db) => {
-                                    connection = Some(db);
+                                    connection = Some(crate::writer::Writer::start(db)?);
                                     state(true, false, None)
                                 }
                                 Err(_) => {
@@ -286,7 +292,9 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                             }
                         }
                         LOCK if body.len() == 1 => {
-                            drop(connection.take());
+                            if let Some(writer) = connection.take() {
+                                writer.shutdown().await?;
+                            }
                             closing = true;
                             state(false, true, None)
                         }

@@ -1,6 +1,6 @@
 # Verification ledger
 
-HOTR-01–05 local gates have passed. HOTR-04-R2 awaits its hosted repair gate. The shared context service is not installed or accepted; hosted CI is tracked separately.
+HOTR-01–06 local gates have passed. HOTR-04-R2 passed its exact hosted repair gate. HOTR-07 is next. The shared context service is not installed or accepted; hosted CI is tracked separately.
 
 | Gate | Required evidence | Status |
 |---|---|---|
@@ -10,9 +10,10 @@ HOTR-01–05 local gates have passed. HOTR-04-R2 awaits its hosted repair gate. 
 | HOTR-03 | Failed assertion/timeout/log-flood refusal, live Windows resource limits, path/PID guards, seed/redaction/required-command tests, exact source/binary hashes, minimal CI | PASS locally and hosted — `c95bffb8e068abd0f345762ca806fce49402a875` verified on origin/main; [harness evidence](evidence/HOTR-03-harness.json); [exact-commit Windows run](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33991495729) |
 | HOTR-04 | Actual no-echo ConPTY create/unlock, protected ACLs, bounded wrong/malformed requests, duplicate pipe/port refusal, lock/process exit, real second authenticated Windows principal denial | PASS locally at `1e049d27ec1f915dd54498fc44f6231ec934cee7` — [owner evidence](evidence/HOTR-04-owner.json); [hosted run 33992714760](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33992714760) FAIL at literal ACL comparison |
 | HOTR-04-R1 | Structural SID/ACE verification, alias/order and deny cases, repeated real owner/two-account gate, exact-commit Windows CI | PASS locally; hosted ACL and console tests passed at `437f77887b512f3d7f1fcfcd0f922a42fb2d6719`, but [full run 33993684320](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33993684320) FAIL on owner reconnect; see R2 |
-| HOTR-04-R2 | Bounded actual pipe-slot retirement, 4,096 reconnects, retained client overlap, silent wrong-key errors, full owner/two-account/encryption gate, hosted run | PASS locally — [repair evidence](evidence/HOTR-04-R2-pipe.json); exact-commit hosted acceptance PENDING |
+| HOTR-04-R2 | Bounded actual pipe-slot retirement, 4,096 reconnects, retained client overlap, silent wrong-key errors, full owner/two-account/encryption gate, hosted run | PASS locally and hosted at `eeddaedbd8d92b8fca1220156179d13f21253245` — [repair evidence](evidence/HOTR-04-R2-pipe.json); [exact hosted run 33995345800](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33995345800) |
 | HOTR-05 | Versioned encrypted records, migrations preserving history, Unicode/byte limits, relation constraints, opaque sources, future closed/WAL files untouched | PASS locally — [final combined evidence](evidence/HOTR-05-and-04-R1.json); [earlier schema checkpoint](evidence/HOTR-05-schema.json) retained before the ACL repair |
-| M1 / HOTR-01–12 | Actual encrypted Windows service, scoped access, keyword retrieval, two real clients, restored encrypted backup | In progress; await HOTR-04-R2 hosted acceptance, then HOTR-06 |
+| HOTR-06 | Atomic revisions/audit/receipts, concurrent winner, principal-scoped replay, bounded queue, cancellation/unknown outcomes, actual crash/ack replay, repeated owner boundary | PASS locally — [transaction evidence](evidence/HOTR-06-transactions.json); hosted run tracked after publication |
+| M1 / HOTR-01–12 | Actual encrypted Windows service, scoped access, keyword retrieval, two real clients, restored encrypted backup | In progress; HOTR-07 follows HOTR-06 publication |
 | M2 / HOTR-13–18 | Selected imports, correction consistency, local embeddings, hybrid retrieval evaluation, management UI | Not started |
 | M3 / HOTR-19–22 | Auditing, key rotation, Windows lifecycle, controlled daily-use comparison | Not started |
 | M4 / HOTR-23–32 | Security, malformed inputs, races, crashes, storage faults, model faults, scale, soak, dependency review, repairs | Not started |

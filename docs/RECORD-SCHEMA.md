@@ -1,17 +1,18 @@
 # Versioned context records
 
-HOTR-05 defines encrypted storage and typed record contracts. Application writes,
-capabilities, and HTTP/MCP entry points follow in HOTR-06 through HOTR-10; accepting
+HOTR-05 defines encrypted storage and typed record contracts. HOTR-06 adds the
+atomic writer. Capabilities and HTTP/MCP entry points follow in HOTR-07 through HOTR-10; accepting
 a `state` value in an internal Rust type is not authorization to accept a fact.
 
 ## Schema and history
 
-The encrypted database uses SQLite `user_version=2`. Version 0 is the HOTR-04
+The encrypted database uses SQLite `user_version=3`. Version 0 is the HOTR-04
 container with its `hotr_vault` format marker. Migration 1 adds namespaces,
 record identities, and revisions. Migration 2 adds revision source references,
-tags, and relations. Both migrations run in one immediate transaction on an
+tags, and relations. Migration 3 adds mutation audit events and durable retry
+receipts. Needed migrations run in one immediate transaction on an
 older vault. Existing version-1 identities and complete revision history survive
-the version-2 migration. Unsupported future versions fail before writable open.
+the later migrations. Unsupported future versions fail before writable open.
 
 The identity is `(namespace, id)`. IDs and namespaces are bounded ASCII labels,
 not paths; namespaces may have slash-separated segments. Empty segments, `.` and

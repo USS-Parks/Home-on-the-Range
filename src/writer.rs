@@ -58,6 +58,10 @@ pub enum WriteError {
     Overloaded,
     Stopped,
     PersistenceRejected,
+    Unauthorized,
+    Forbidden,
+    NotFound,
+    OutcomeUnknown,
 }
 impl std::fmt::Display for WriteError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -68,6 +72,10 @@ impl std::fmt::Display for WriteError {
             Self::Overloaded => "writer queue is full",
             Self::Stopped => "writer is stopped",
             Self::PersistenceRejected => "write persistence rejected",
+            Self::Unauthorized => "application credential rejected",
+            Self::Forbidden => "operation is outside application grants",
+            Self::NotFound => "record not found",
+            Self::OutcomeUnknown => "operation outcome unknown; reconcile before retry",
         })
     }
 }
@@ -81,15 +89,25 @@ type Result = std::result::Result<WriteOutcome, WriteError>;
 
 struct Job {
     principal: String,
+    credential_hash: Option<[u8; 32]>,
     request: WriteRequest,
     phase: Arc<AtomicU8>,
     deadline: Instant,
     reply: oneshot::Sender<Result>,
 }
 
+enum Message {
+    Write(Job),
+    Command {
+        command: crate::capabilities::Command,
+        reply: oneshot::Sender<crate::capabilities::CommandResult>,
+        deadline: Instant,
+    },
+}
+
 #[derive(Clone)]
 pub struct WriterHandle {
-    sender: mpsc::SyncSender<Job>,
+    sender: mpsc::SyncSender<Message>,
     stopped: Arc<AtomicBool>,
 }
 
@@ -134,13 +152,32 @@ impl Drop for PendingWrite {
 }
 
 impl WriterHandle {
-    pub fn submit(
+    pub(crate) fn submit(
         &self,
         principal: &str,
         request: WriteRequest,
     ) -> std::result::Result<PendingWrite, WriteError> {
-        if !valid_identifier(principal, false)
-            || !valid_identifier(&request.idempotency_key, false)
+        if !valid_identifier(principal, false) {
+            return Err(WriteError::InvalidRequest);
+        }
+        self.submit_inner(principal.to_owned(), None, request)
+    }
+
+    pub fn submit_authenticated(
+        &self,
+        credential_hash: [u8; 32],
+        request: WriteRequest,
+    ) -> std::result::Result<PendingWrite, WriteError> {
+        self.submit_inner(String::new(), Some(credential_hash), request)
+    }
+
+    fn submit_inner(
+        &self,
+        principal: String,
+        credential_hash: Option<[u8; 32]>,
+        request: WriteRequest,
+    ) -> std::result::Result<PendingWrite, WriteError> {
+        if !valid_identifier(&request.idempotency_key, false)
             || request.expected_revision == Some(0)
             || request.record.validate().is_err()
         {
@@ -153,13 +190,14 @@ impl WriterHandle {
         let phase = Arc::new(AtomicU8::new(PENDING));
         let (send, reply) = oneshot::channel();
         self.sender
-            .try_send(Job {
-                principal: principal.to_owned(),
+            .try_send(Message::Write(Job {
+                principal,
+                credential_hash,
                 request,
                 phase: phase.clone(),
                 deadline,
                 reply: send,
-            })
+            }))
             .map_err(|error| match error {
                 mpsc::TrySendError::Full(_) => WriteError::Overloaded,
                 mpsc::TrySendError::Disconnected(_) => WriteError::Stopped,
@@ -169,6 +207,30 @@ impl WriterHandle {
             phase,
             deadline,
         })
+    }
+
+    pub(crate) async fn command(
+        &self,
+        command: crate::capabilities::Command,
+    ) -> crate::capabilities::CommandResult {
+        if self.stopped.load(Ordering::SeqCst) {
+            return Err(WriteError::Stopped);
+        }
+        let (send, receive) = oneshot::channel();
+        self.sender
+            .try_send(Message::Command {
+                command,
+                reply: send,
+                deadline: Instant::now() + REQUEST_DEADLINE,
+            })
+            .map_err(|error| match error {
+                mpsc::TrySendError::Full(_) => WriteError::Overloaded,
+                mpsc::TrySendError::Disconnected(_) => WriteError::Stopped,
+            })?;
+        tokio::time::timeout(REQUEST_DEADLINE, receive)
+            .await
+            .map_err(|_| WriteError::OutcomeUnknown)?
+            .map_err(|_| WriteError::OutcomeUnknown)?
     }
 }
 
@@ -196,17 +258,39 @@ impl Writer {
     }
 
     fn start_inner(mut connection: Connection, #[cfg(test)] hooks: Hooks) -> io::Result<Self> {
-        let (sender, receive) = mpsc::sync_channel::<Job>(QUEUE_CAPACITY);
+        let (sender, receive) = mpsc::sync_channel::<Message>(QUEUE_CAPACITY);
         let stopped = Arc::new(AtomicBool::new(false));
         let flag = stopped.clone();
         let thread = thread::Builder::new()
             .name("hotr-database".into())
             .spawn(move || {
                 while !flag.load(Ordering::SeqCst) {
-                    let job = match receive.recv_timeout(Duration::from_millis(100)) {
-                        Ok(job) => job,
+                    let message = match receive.recv_timeout(Duration::from_millis(100)) {
+                        Ok(message) => message,
                         Err(mpsc::RecvTimeoutError::Timeout) => continue,
                         Err(mpsc::RecvTimeoutError::Disconnected) => break,
+                    };
+                    let job = match message {
+                        Message::Write(job) => job,
+                        Message::Command {
+                            command,
+                            reply,
+                            deadline,
+                        } => {
+                            if reply.is_closed()
+                                || Instant::now() >= deadline
+                                || flag.load(Ordering::SeqCst)
+                            {
+                                let _ = reply.send(Err(WriteError::Stopped));
+                            } else {
+                                let result = crate::capabilities::execute(&mut connection, command);
+                                let _ = reply.send(result);
+                            }
+                            if !connection.is_autocommit() {
+                                break;
+                            }
+                            continue;
+                        }
                     };
                     if flag.load(Ordering::SeqCst) || Instant::now() >= job.deadline {
                         let _ = job.phase.compare_exchange(
@@ -235,9 +319,16 @@ impl Writer {
                     }
                 }
                 flag.store(true, Ordering::SeqCst);
-                for job in receive.try_iter() {
-                    job.phase.store(CANCELED, Ordering::SeqCst);
-                    let _ = job.reply.send(Ok(WriteOutcome::Canceled));
+                for message in receive.try_iter() {
+                    match message {
+                        Message::Write(job) => {
+                            job.phase.store(CANCELED, Ordering::SeqCst);
+                            let _ = job.reply.send(Ok(WriteOutcome::Canceled));
+                        }
+                        Message::Command { reply, .. } => {
+                            let _ = reply.send(Err(WriteError::Stopped));
+                        }
+                    }
                 }
                 drop(connection);
             })?;
@@ -284,11 +375,16 @@ fn apply(
         return Ok(WriteOutcome::Canceled);
     }
     let request = &job.request;
+    let principal = if let Some(hash) = job.credential_hash {
+        crate::capabilities::authorize_write(connection, &hash, &request.record)?
+    } else {
+        job.principal.clone()
+    };
     let hash = Sha256::digest(serde_json::to_vec(request).map_err(|_| WriteError::InvalidRequest)?);
     let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
     let previous = tx.query_row(
         "SELECT request_hash,namespace,record_id,revision,committed_at_ms,audit_sequence FROM write_receipts WHERE principal=?1 AND idempotency_key=?2",
-        params![job.principal, request.idempotency_key], |row| Ok((row.get::<_,Vec<u8>>(0)?, Receipt {
+        params![principal, request.idempotency_key], |row| Ok((row.get::<_,Vec<u8>>(0)?, Receipt {
             namespace:row.get(1)?, id:row.get(2)?, revision:row.get(3)?, committed_at_ms:row.get(4)?, audit_sequence:row.get(5)?,
         }))
     ).optional()?;
@@ -300,6 +396,9 @@ fn apply(
         };
     }
     let record = &request.record;
+    if job.credential_hash.is_some() {
+        crate::capabilities::ensure_mutable(&tx, record)?;
+    }
     let current: Option<u32> = tx
         .query_row(
             "SELECT current_revision FROM records WHERE namespace=?1 AND id=?2",
@@ -369,12 +468,12 @@ fn apply(
             params![record.namespace, record.id, revision],
         )?;
     }
-    tx.execute("INSERT INTO mutation_audit(principal,namespace,record_id,revision,operation,committed_at_ms) VALUES(?1,?2,?3,?4,?5,?6)",params![job.principal,record.namespace,record.id,revision,if current.is_some(){"revise"}else{"create"},now])?;
+    tx.execute("INSERT INTO mutation_audit(principal,namespace,record_id,revision,operation,committed_at_ms) VALUES(?1,?2,?3,?4,?5,?6)",params![principal,record.namespace,record.id,revision,if current.is_some(){"revise"}else{"create"},now])?;
     let audit_sequence = tx.last_insert_rowid();
     tx.execute(
         "INSERT INTO write_receipts VALUES(?1,?2,?3,?4,?5,?6,?7,?8)",
         params![
-            job.principal,
+            principal,
             request.idempotency_key,
             hash.as_slice(),
             record.namespace,

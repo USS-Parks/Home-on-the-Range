@@ -20,10 +20,14 @@ sha2 = "0.10"
 zeroize = "1"
 clap = { version = "=4.6.6", features = ["derive"] }
 rpassword = "=7.5.4"
+axum = { version = "=0.8.9", default-features = false, features = ["http1", "json", "tokio"] }
+hyper = { version = "=1.11.1", default-features = false, features = ["client", "server", "http1"] }
+hyper-util = { version = "=0.1.20", default-features = false, features = ["tokio", "service"] }
 tokio = { version = "=1.53.1", features = ["rt", "macros", "net", "io-util", "time", "sync"] }
-windows-sys = { version = "=0.61.2", features = ["Win32_Foundation", "Win32_Security", "Win32_Security_Authorization", "Win32_Security_Cryptography", "Win32_Storage_FileSystem", "Win32_System_Pipes", "Win32_System_Threading"] }
+windows-sys = { version = "=0.61.2", features = ["Win32_Foundation", "Win32_NetworkManagement_IpHelper", "Win32_Security", "Win32_Security_Authorization", "Win32_Security_Cryptography", "Win32_Storage_FileSystem", "Win32_System_Pipes", "Win32_System_Threading"] }
 
 [dev-dependencies]
+reqwest = { version = "=0.13.4", default-features = false, features = ["json"] }
 portable-pty = "=0.9.0"
 
 [profile.release]

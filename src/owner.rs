@@ -18,10 +18,25 @@ use zeroize::Zeroizing;
 
 const MARKER: &[u8] = b"Home on the Range vault format 1\n";
 const DEADLINE: Duration = Duration::from_secs(5);
-const MAX_FRAME: usize = 1025;
+const MAX_FRAME: usize = crate::api::MAX_REQUEST + 1;
 pub const STATUS: u8 = 1;
 pub const UNLOCK: u8 = 2;
 pub const LOCK: u8 = 3;
+pub const ADMIN: u8 = 4;
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(
+    tag = "operation",
+    content = "arguments",
+    deny_unknown_fields,
+    rename_all = "snake_case"
+)]
+pub enum AdminRequest {
+    Issue(crate::capabilities::NewClient),
+    Revoke { client_id: String },
+    Clients,
+    Accept(crate::capabilities::Accept),
+}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Reply {
@@ -29,6 +44,8 @@ pub struct Reply {
     pub pid: u32,
     pub closing: bool,
     pub error: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none", default)]
+    pub data: Option<serde_json::Value>,
 }
 
 fn state(unlocked: bool, closing: bool, error: Option<&str>) -> Reply {
@@ -37,10 +54,11 @@ fn state(unlocked: bool, closing: bool, error: Option<&str>) -> Reply {
         pid: std::process::id(),
         closing,
         error: error.map(str::to_owned),
+        data: None,
     }
 }
 
-fn safe_absolute(path: &Path) -> io::Result<PathBuf> {
+pub(crate) fn safe_absolute(path: &Path) -> io::Result<PathBuf> {
     let absolute = if path.is_absolute() {
         path.to_owned()
     } else {
@@ -50,7 +68,20 @@ fn safe_absolute(path: &Path) -> io::Result<PathBuf> {
         match component {
             Component::Prefix(prefix)
                 if matches!(prefix.kind(), Prefix::Disk(_) | Prefix::VerbatimDisk(_)) => {}
-            Component::RootDir | Component::Normal(_) => (),
+            Component::RootDir => (),
+            Component::Normal(name) => {
+                let text = name
+                    .to_str()
+                    .ok_or_else(|| io::Error::other("path encoding rejected"))?;
+                let stem = text.split('.').next().unwrap_or("").to_ascii_uppercase();
+                let device = matches!(stem.as_str(), "CON" | "PRN" | "AUX" | "NUL")
+                    || (stem.len() == 4
+                        && (stem.starts_with("COM") || stem.starts_with("LPT"))
+                        && matches!(stem.as_bytes()[3], b'1'..=b'9'));
+                if text.contains([':', '\0']) || text.ends_with(['.', ' ']) || device {
+                    return Err(io::Error::other("ambiguous Windows path rejected"));
+                }
+            }
             _ => {
                 return Err(io::Error::other(
                     "vault path must be a local path without traversal",
@@ -172,13 +203,26 @@ pub async fn request(path: &Path, operation: u8, passphrase: &[u8]) -> io::Resul
     if passphrase.len() > 1024 {
         return Err(io::Error::other("passphrase length rejected"));
     }
+    request_payload(path, operation, passphrase).await
+}
+
+pub async fn admin(path: &Path, request: &AdminRequest) -> io::Result<Reply> {
+    let payload =
+        serde_json::to_vec(request).map_err(|_| io::Error::other("owner arguments rejected"))?;
+    request_payload(path, ADMIN, &payload).await
+}
+
+async fn request_payload(path: &Path, operation: u8, payload: &[u8]) -> io::Result<Reply> {
+    if payload.len() > crate::api::MAX_REQUEST {
+        return Err(io::Error::other("owner payload too large"));
+    }
     timeout(DEADLINE, async {
         let mut client = connect(path).await?;
-        let mut body = Zeroizing::new(Vec::with_capacity(passphrase.len() + 1));
+        let mut body = Zeroizing::new(Vec::with_capacity(payload.len() + 1));
         body.push(operation);
-        body.extend_from_slice(passphrase);
+        body.extend_from_slice(payload);
         write_frame(&mut client, &body).await?;
-        let response = read_frame(&mut client, 4096).await?;
+        let response = read_frame(&mut client, crate::api::MAX_RESPONSE).await?;
         let reply = serde_json::from_slice(&response)
             .map_err(|_| io::Error::other("invalid owner response"))?;
         client.write_u8(1).await?;
@@ -220,8 +264,8 @@ async fn next_instance(
 pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
     let directory = validate(path)?;
     let endpoint = pipe_name(&directory)?;
-    // Reserve the future REST endpoint deterministically. HOTR-08 adds its API.
     let listener = TcpListener::bind(SocketAddrV4::new(Ipv4Addr::LOCALHOST, port))?;
+    let port = listener.local_addr()?.port();
     let descriptor = security::Descriptor::owner_only(false)?;
     let mut attributes = descriptor.attributes();
     let mut options = ServerOptions::new();
@@ -238,15 +282,24 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
             (&mut attributes as *mut windows_sys::Win32::Security::SECURITY_ATTRIBUTES).cast(),
         )
     }?;
+    listener.set_nonblocking(true)?;
+    let shared: crate::api::SharedWriter = std::sync::Arc::new(std::sync::RwLock::new(None));
+    let mut http = tokio::spawn(crate::api::run(
+        tokio::net::TcpListener::from_std(listener)?,
+        shared.clone(),
+    ));
     println!(
         "{}",
-        serde_json::json!({"state":"locked", "pid":std::process::id(), "port":listener.local_addr()?.port()})
+        serde_json::json!({"state":"locked", "pid":std::process::id(), "port":port})
     );
     io::stdout().flush()?;
     let owner_sid = security::current_sid()?;
     let mut connection: Option<crate::writer::Writer> = None;
     loop {
-        available.connect().await?;
+        tokio::select! {
+            result=available.connect()=>result?,
+            _=&mut http=>return Err(io::Error::other("application listener stopped")),
+        }
         if connection
             .as_ref()
             .is_some_and(crate::writer::Writer::is_stopped)
@@ -266,7 +319,7 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                 } else {
                     match body[0] {
                         STATUS if body.len() == 1 => state(connection.is_some(), false, None),
-                        UNLOCK if connection.is_none() => {
+                        UNLOCK if connection.is_none() && body.len() <= 1025 => {
                             let opened =
                                 crate::schema::open(&directory.join("vault.db"), &body[1..])
                                     .and_then(|db| {
@@ -282,7 +335,12 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                                     });
                             match opened {
                                 Ok(db) => {
-                                    connection = Some(crate::writer::Writer::start(db)?);
+                                    let worker = crate::writer::Writer::start(db)?;
+                                    *shared
+                                        .write()
+                                        .map_err(|_| io::Error::other("owner state failed"))? =
+                                        Some(worker.handle());
+                                    connection = Some(worker);
                                     state(true, false, None)
                                 }
                                 Err(_) => {
@@ -292,11 +350,30 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                             }
                         }
                         LOCK if body.len() == 1 => {
+                            *shared
+                                .write()
+                                .map_err(|_| io::Error::other("owner state failed"))? = None;
                             if let Some(writer) = connection.take() {
                                 writer.shutdown().await?;
                             }
                             closing = true;
                             state(false, true, None)
+                        }
+                        ADMIN if connection.is_some() => {
+                            let command = crate::api::decode::<AdminRequest>(&body[1..]);
+                            let handle = connection.as_ref().unwrap().handle();
+                            let result = match command {
+                                Ok(command) => admin_dispatch(&handle, command, port).await,
+                                Err(error) => Err(error),
+                            };
+                            match result {
+                                Ok(data) => {
+                                    let mut reply = state(true, false, None);
+                                    reply.data = Some(data);
+                                    reply
+                                }
+                                Err(error) => state(true, false, Some(&error.to_string())),
+                            }
                         }
                         _ => state(
                             connection.is_some(),
@@ -323,8 +400,32 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
         .await;
         let _ = pipe.disconnect();
         if closing {
+            http.abort();
             return Ok(());
         } // main exits; the key-holding process ends.
+    }
+}
+
+async fn admin_dispatch(
+    handle: &crate::writer::WriterHandle,
+    request: AdminRequest,
+    port: u16,
+) -> crate::capabilities::CommandResult {
+    use crate::capabilities::Command;
+    match request {
+        AdminRequest::Issue(request) => handle.command(Command::Issue { request, port }).await,
+        AdminRequest::Revoke { client_id } => {
+            handle.command(Command::Revoke { id: client_id }).await
+        }
+        AdminRequest::Clients => handle.command(Command::Clients).await,
+        AdminRequest::Accept(request) => {
+            let value = handle.command(Command::AcceptedInput { request }).await?;
+            let request = serde_json::from_value(value)
+                .map_err(|_| crate::writer::WriteError::InvalidRequest)?;
+            let outcome = handle.submit("owner", request)?.wait().await?;
+            serde_json::to_value(outcome)
+                .map_err(|_| crate::writer::WriteError::PersistenceRejected)
+        }
     }
 }
 

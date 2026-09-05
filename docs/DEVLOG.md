@@ -155,3 +155,90 @@ Retained failures: initial usize-to-SQL ordinal compiler rejection; full gate `H
 Release format/build/all-target warnings-denied Clippy, all encrypted/native/schema/owner/ConPTY tests, harness contracts, and the actual second authenticated Windows account denial passed. The final probe at 22:36:13.8506888Z used the same binary, received error 5 on all four boundaries, left the owner unlocked, and then proved lock/process exit. The independent canary scan checked 584 storage/temp/log files across eleven passing native fixtures without plaintext matches.
 
 Files: transaction worker/tests, schema-3 migration and registration, owner worker lifecycle, Tokio sync feature, runner/scanner registration, transaction/schema documentation, source-bound evidence and ledgers. Existing user data, other applications, and retained baselines/evidence remain preserved. Next: publish HOTR-06 to main, record its exact hosted run separately, then HOTR-07 application capabilities under full STS.
+
+### HOTR-06 publication and fresh-checkout failure
+
+Commit `edf926ce8b5d29d75dc6e147b42217e4799fd8af` was pushed to private main;
+the exact remote SHA matched, 31 source hashes matched the staged candidate,
+evidence schema validation and hooks passed. Hosted run
+[33996469717](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33996469717),
+job 101387776367, failed at 22:47:13 UTC. All five transaction unit tests tried to
+canonicalize an absent `work/hotr-tests` root before any fixture. The prior local
+tests had already created it. Complete output is retained under
+`work/hotr-evidence/HOTR-06-hosted-33996469717/`.
+
+HOTR-06-R1 validates the path and creates the missing approved synthetic root,
+retaining existing directories. It is verified with the already-active
+HOTR-07/08 source in a single focused boundary bundle. This follows the PSPR's
+explicit bundle allowance: capabilities need actual process calls, and REST is
+their planned transport. Neither gate is waived. HOTR-09 waits for the exact
+fresh hosted pass. The failed earlier hosted run stays failed.
+
+## 2026-09-05 — HOTR-07/08 with HOTR-06-R1 — Capabilities and bounded REST
+
+Local full gate: PASS. Final run
+`work/hotr-evidence/HOTR-08-78444-1788649852989493200/`; sanitized manifest
+`docs/evidence/HOTR-07-08-capabilities-rest.json`. Product SHA-256
+`dbc6e0343288c45009c8d170556a948a94ed5cff1d3ee406edfb51b34fa62e22`;
+runner SHA-256 `17ba7fbcfa13b47b58fba68e9c83c6b1d5da4dcd8f567968f65d97726414c8d2`.
+
+Schema 4 adds immutable client identities, hashed 256-bit BCrypt tokens, exact
+namespace grants, and permanent revocation. Owner-only enrollment returns a
+user-scoped DPAPI profile to a new owner/SYSTEM-protected file. Reader/contributor
+policy, credential-derived identity, accepted-record protection, historical
+lookup, original receipt replay and permanent revocation execute on the same
+bounded worker queue as writes. The application API has no owner routes.
+
+The actual Hyper/Axum loopback server exposes typed status, get/history, and
+create/revise endpoints, with fixed Host/Origin rules, no-store responses,
+256 KiB request/1 MiB response/32-level JSON bounds, five-second header and
+ten-second handler limits, 128 connections and 64 active requests. Overload
+returns controlled 429/503. The provided scoped Rust/CLI client checks the
+server-side identity of its established TCP connection before decrypting a token;
+it does not follow redirects, consult proxies, or automatically replay writes.
+Generic reqwest use is confined to test dependencies.
+
+Real process evidence: separate contributor/reader/other-namespace credentials,
+spoofed principal and accepted-state rejection, source-bearing current/history
+reads, owner acceptance, durable receipt replay, revocation over the same TCP
+connection, and restart-persistent revocation passed. The safe CLI and Rust client
+completed actual requests. Invalid Hosts/Origins, malformed/oversized/deep JSON,
+record limits, slow headers/bodies, handler saturation, and connection saturation
+passed. Original paths were not replaced, including refused credential writes.
+
+The actual authenticated second Windows account probe ran at
+2026-09-05T23:13:11.0856166Z. Directory/database/marker/pipe access returned error
+5. Copied DPAPI ciphertext could not be decrypted. A listener owned by that
+account accepted a connection from the production client and received zero
+application bytes before client identity rejection. The owner stayed unlocked,
+the vault hash was unchanged, and lock exited the key holder. Probe and product
+hashes match. No new OS account or security configuration was needed.
+
+Full release build, warnings-denied all-target Clippy, native encryption,
+transaction/crash/replay tests, schema/future-file preservation, ConPTY/owner
+lifecycle, runner contracts and the mandatory distinct-account probe passed.
+The independent storage/temp/log scan checked 808 files across 12 passing native
+runs; the app matrix additionally scanned generated raw tokens in memory against
+every managed fixture file. No plaintext canary/token appeared in those files.
+
+Retained local failures: the initial full gate
+`HOTR-08-64780-1788649017112763500` observed an HTTP uploader reset after early
+oversize rejection. The exact 413 assertion now sends an oversized declared
+length and reads the refusal before uploading the rejected body. The next gate
+`HOTR-08-77512-1788649752724521100` failed Clippy's collapsible-if requirement in
+the TCP identity lookup; its control flow was corrected. Complete failed logs
+remain retained. The passing final run supersedes neither failure historically.
+
+Publication preflight unexpectedly observed GitHub visibility PUBLIC, conflicting
+with AGENTS.md's private-repository requirement. The cause/time of that change is
+unknown. Before publishing this candidate, visibility was restored and verified
+PRIVATE using the existing repository administration authorization. This does
+not retract any prior public copies; no repository history was rewritten.
+
+One canonical checkout remains, no linked worktrees. All eight preserved original
+baseline hashes match. Retained project build/cache, synthetic fixtures, baseline
+copies and evidence total approximately 2.893 GiB, with 331.77 GiB free. They are
+retained for reproducibility; no cleanup or pre-existing-file deletion occurred.
+Named application acceptance, search, MCP, backups, stress/soak and deployment
+remain later gates. Publish this locally passed bundle and require its exact
+fresh hosted pass before HOTR-09. Full STS remains active.

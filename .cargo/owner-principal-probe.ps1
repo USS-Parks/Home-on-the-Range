@@ -8,7 +8,7 @@ $runDirectory = [IO.Path]::GetDirectoryName($challengePath)
 if (-not (Test-Path -LiteralPath (Join-Path $runDirectory 'SYNTHETIC-ONLY') -PathType Leaf)) { throw 'Missing synthetic marker' }
 $challengeData = Get-Content -LiteralPath $challengePath -Raw | ConvertFrom-Json
 if (-not $identity.IsAuthenticated -or $identity.User.Value -eq $challengeData.owner_sid) { throw 'A different authenticated Windows account is required' }
-foreach ($name in @('directory', 'database', 'marker', 'receipt')) {
+foreach ($name in @('directory', 'database', 'marker', 'receipt', 'fake_tcp_port')) {
     $candidate = [IO.Path]::GetFullPath($challengeData.$name)
     if (-not $candidate.StartsWith($runDirectory + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Probe path outside marked run' }
 }
@@ -35,6 +35,43 @@ $result.pipe = Test-AccessDenied {
     $pipe = [IO.Pipes.NamedPipeClientStream]::new('.', $pipeName, [IO.Pipes.PipeDirection]::InOut)
     try { $pipe.Connect(1000) } finally { $pipe.Dispose() }
 }
+if ($null -ne $challengeData.protected_token) {
+    Add-Type -AssemblyName System.Security
+    $ciphertext = [byte[]]$challengeData.protected_token
+    if ($ciphertext.Length -eq 0 -or $ciphertext.Length -gt 4096) { throw 'Invalid synthetic DPAPI input size' }
+    try {
+        $plaintext = [Security.Cryptography.ProtectedData]::Unprotect($ciphertext, $null, [Security.Cryptography.DataProtectionScope]::CurrentUser)
+        [Array]::Clear($plaintext, 0, $plaintext.Length)
+        $result.dpapi = @{ denied=$false }
+    } catch {
+        $result.dpapi = @{ denied=$true; exception=$_.Exception.GetBaseException().GetType().FullName }
+    }
+}
+if ($null -ne $challengeData.fake_tcp_port) {
+    $listener = [Net.Sockets.TcpListener]::new([Net.IPAddress]::Loopback, 0)
+    try {
+        $listener.Start(1)
+        $portBytes = [Text.Encoding]::UTF8.GetBytes([string]$listener.LocalEndpoint.Port)
+        $portPending = $challengeData.fake_tcp_port + '.pending'
+        $portFile = [IO.File]::Open($portPending, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::None)
+        try { $portFile.Write($portBytes, 0, $portBytes.Length); $portFile.Flush($true) } finally { $portFile.Dispose() }
+        [IO.File]::Move($portPending, $challengeData.fake_tcp_port)
+        $accept = $listener.AcceptTcpClientAsync()
+        if (-not $accept.Wait(15000)) { throw 'Owner never attempted the foreign TCP endpoint' }
+        $client = $accept.Result
+        try {
+            $network = $client.GetStream()
+            $network.ReadTimeout = 3000
+            $buffer = [byte[]]::new(1)
+            # Success requires an actual accepted connection that closes without
+            # even one application byte. A timeout is not proof of denial.
+            $count = $network.Read($buffer, 0, 1)
+            [Array]::Clear($buffer, 0, $buffer.Length)
+            $result.fake_tcp = @{ accepted=$true; application_bytes=$count }
+            if ($count -ne 0) { throw 'Owner sent application bytes to another account' }
+        } finally { $client.Dispose() }
+    } finally { $listener.Stop() }
+}
 $json = $result | ConvertTo-Json -Depth 5
 # Exclusive temporary receipt, then non-overwriting atomic publication in this
 # new marked synthetic run. No vault data or existing file is modified.
@@ -51,3 +88,4 @@ Write-Output $json
 foreach ($name in @('directory', 'database', 'marker', 'pipe')) {
     if (-not $result[$name].denied) { throw "Boundary failed for $name" }
 }
+if ($null -ne $challengeData.protected_token -and -not $result.dpapi.denied) { throw 'Copied DPAPI credential was decrypted by another account' }

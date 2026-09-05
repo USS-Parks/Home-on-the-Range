@@ -18,7 +18,9 @@ fn run_dir() -> PathBuf {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .canonicalize()
         .unwrap();
-    let base = root.join("work/hotr-tests").canonicalize().unwrap();
+    let base = owner::safe_absolute(&root.join("work/hotr-tests")).unwrap();
+    fs::create_dir_all(&base).unwrap();
+    let base = base.canonicalize().unwrap();
     assert!(base.starts_with(&root));
     let stamp = SystemTime::now()
         .duration_since(UNIX_EPOCH)

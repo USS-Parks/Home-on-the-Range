@@ -1,5 +1,8 @@
 //! Storage foundation. Service authorization is added by later approved prompts.
 
+pub mod api;
+pub mod capabilities;
+pub mod credentials;
 pub mod owner;
 pub mod schema;
 pub mod windows_security;

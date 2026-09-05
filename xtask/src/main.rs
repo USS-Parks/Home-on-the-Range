@@ -39,7 +39,14 @@ fn execute() -> io::Result<()> {
             || args[1] != "--prompt"
             || !matches!(
                 args[2].as_str(),
-                "HOTR-02" | "HOTR-03" | "HOTR-04" | "HOTR-05" | "HOTR-06" | "HOTR-04-R2"
+                "HOTR-02"
+                    | "HOTR-03"
+                    | "HOTR-04"
+                    | "HOTR-05"
+                    | "HOTR-06"
+                    | "HOTR-07"
+                    | "HOTR-08"
+                    | "HOTR-04-R2"
             ))
     {
         return Err(io::Error::other(
@@ -210,7 +217,10 @@ fn execute() -> io::Result<()> {
             outcomes.push(outcome);
             pass?;
         }
-        if matches!(prompt, "HOTR-04" | "HOTR-05" | "HOTR-06" | "HOTR-04-R2") {
+        if matches!(
+            prompt,
+            "HOTR-04" | "HOTR-05" | "HOTR-06" | "HOTR-07" | "HOTR-08" | "HOTR-04-R2"
+        ) {
             let boundary = run(
                 &guard,
                 &directory,

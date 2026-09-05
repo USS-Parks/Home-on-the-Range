@@ -4,7 +4,7 @@ Version: 1.0, 2026-09-05
 
 Status: **APPROVED FOR FULL STS — EXECUTION ACTIVE**
 
-Execution checkpoint: HOTR-01–06 and [HOTR-04-R2](HOTR-04-R2-HOSTED-PIPE-REPAIR.md) passed their local gates; exact R2 commit `eeddaedbd8d92b8fca1220156179d13f21253245` passed hosted Windows run 33995345800. Earlier failures remain retained. Next after HOTR-06 publication: HOTR-07 application capabilities. See DEVLOG and VERIFICATION for commits, evidence, and remaining gates.
+Execution checkpoint: HOTR-01–06 and [HOTR-04-R2](HOTR-04-R2-HOSTED-PIPE-REPAIR.md) passed their local gates; exact R2 commit `eeddaedbd8d92b8fca1220156179d13f21253245` passed hosted Windows run 33995345800. HOTR-06's hosted fixture initialization failed and is tracked by [HOTR-06-R1](HOTR-06-R1-FRESH-FIXTURE-REPAIR.md). HOTR-07/08 execute as the [documented capabilities/REST bundle](HOTR-07-08-LIVE-BOUNDARY-BUNDLE.md), including that bounded fixture repair. HOTR-09 waits for its exact fresh hosted pass. All earlier failures remain retained. See DEVLOG and VERIFICATION for evidence and remaining gates.
 
 Current amendments: [bounded write approval](HOTR-BOUNDED-WRITES-APPROVED-2026-09-05.md), [compatibility expansion](HOTR-STS-APPROVAL-AND-COMPATIBILITY-2026-09-05.md), and [Lamprey Harness integration](HOTR-LAMPREY-HARNESS-INTEGRATION-2026-09-05.md). Original proposal/approval wording below is retained as plan history; these dated user approvals govern execution. Consult DEVLOG and VERIFICATION for actual prompt status.
 

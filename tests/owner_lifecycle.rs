@@ -143,7 +143,7 @@ async fn actual_owner_lifecycle_and_preservation() {
     assert!(start.elapsed() < Duration::from_secs(5));
     for (length, body) in [
         (0, vec![]),
-        (1026, vec![]),
+        ((hotr::api::MAX_REQUEST + 2) as u32, vec![]),
         (1, vec![255]),
         (2, vec![owner::STATUS, 0]),
     ] {
@@ -224,13 +224,30 @@ async fn live_second_principal_boundary() {
     owner::request(&vault, owner::UNLOCK, SECRET.as_bytes())
         .await
         .unwrap();
+    let enrolled = owner::admin(
+        &vault,
+        &owner::AdminRequest::Issue(hotr::capabilities::NewClient {
+            label: "synthetic DPAPI boundary".into(),
+            role: hotr::capabilities::Role::Reader,
+            namespaces: vec!["dpapi-proof".into()],
+        }),
+    )
+    .await
+    .unwrap();
+    assert!(enrolled.error.is_none());
+    let profile: hotr::credentials::CredentialProfile =
+        serde_json::from_value(enrolled.data.unwrap()).unwrap();
+    let token = hotr::credentials::unprotect(&profile).unwrap();
+    assert!(hotr::credentials::token_hash(&token).is_some());
     let original = Sha256::digest(fs::read(vault.join("vault.db")).unwrap());
     let owner_sid = windows_security::current_sid().unwrap();
     let challenge = serde_json::json!({
         "owner_sid": owner_sid, "server_pid": server.child.id(),
         "directory": vault, "database": vault.join("vault.db"),
         "marker": vault.join(".hotr-vault"), "pipe": owner::pipe_name(&vault).unwrap(),
-        "receipt": run.join("second-principal.json")
+        "receipt": run.join("second-principal.json"),
+        "protected_token": profile.protected_token,
+        "fake_tcp_port": run.join("fake-tcp-port.json")
     });
     fs::write(
         run.join("challenge.json"),
@@ -243,7 +260,22 @@ async fn live_second_principal_boundary() {
     );
     let start = Instant::now();
     let receipt_path = run.join("second-principal.json");
+    let fake_port_path = run.join("fake-tcp-port.json");
+    let mut fake_peer_attempted = false;
     while !receipt_path.exists() {
+        if !fake_peer_attempted && fake_port_path.exists() {
+            let port: u16 = serde_json::from_slice(&fs::read(&fake_port_path).unwrap()).unwrap();
+            let mut fake_profile = profile.clone();
+            fake_profile.port = port;
+            let error = hotr::api::scoped_request(&fake_profile, "GET", "/v1/status", None)
+                .await
+                .unwrap_err();
+            assert!(
+                matches!(error.kind(), std::io::ErrorKind::PermissionDenied),
+                "foreign TCP peer must be denied before authentication: {error}"
+            );
+            fake_peer_attempted = true;
+        }
         assert!(
             start.elapsed() < Duration::from_secs(180),
             "live second-principal evidence missing"
@@ -258,7 +290,14 @@ async fn live_second_principal_boundary() {
     let receipt: serde_json::Value =
         serde_json::from_slice(&fs::read(receipt_path).unwrap()).unwrap();
     assert_eq!(receipt["authenticated"], true);
+    assert!(fake_peer_attempted);
+    assert_eq!(receipt["fake_tcp"]["accepted"], true);
+    assert_eq!(receipt["fake_tcp"]["application_bytes"], 0);
     assert_ne!(receipt["sid"].as_str().unwrap(), owner_sid);
+    assert_eq!(
+        receipt["dpapi"]["denied"], true,
+        "copied credential must reject a different authenticated account"
+    );
     for name in ["directory", "database", "marker", "pipe"] {
         assert_eq!(
             receipt[name]["win32_error"], 5,
@@ -288,6 +327,8 @@ async fn live_second_principal_boundary() {
             "files_access_denied":true, "pipe_access_denied":true,
             "vault_unchanged":true, "owner_still_unlocked_after_probe":true,
             "key_holder_exited":true
+            ,"copied_dpapi_credential_denied":true,
+            "foreign_tcp_peer_rejected_before_authentication":true
         }))
         .unwrap(),
     )

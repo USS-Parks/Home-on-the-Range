@@ -1,5 +1,8 @@
 use clap::{Parser, Subcommand};
-use std::{io, path::PathBuf};
+use std::{
+    io::{self, Read},
+    path::PathBuf,
+};
 use zeroize::Zeroizing;
 
 #[derive(Parser)]
@@ -28,6 +31,44 @@ enum Operation {
     },
     Lock {
         path: PathBuf,
+    },
+    Issue {
+        path: PathBuf,
+        #[arg(long)]
+        credential: PathBuf,
+        #[arg(long)]
+        label: String,
+        #[arg(long, value_enum)]
+        role: hotr::capabilities::Role,
+        #[arg(long = "namespace", required = true)]
+        namespaces: Vec<String>,
+    },
+    Revoke {
+        path: PathBuf,
+        client_id: String,
+    },
+    Clients {
+        path: PathBuf,
+    },
+    Accept {
+        path: PathBuf,
+        #[arg(long)]
+        namespace: String,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        expected_revision: u32,
+        #[arg(long)]
+        request_id: String,
+    },
+    /// Use a scoped credential; POST reads one bounded JSON document from stdin.
+    Request {
+        #[arg(long)]
+        credential: PathBuf,
+        #[arg(long, value_parser = ["GET", "POST"], default_value = "GET")]
+        method: String,
+        #[arg(long, default_value = "/v1/status")]
+        endpoint: String,
     },
 }
 
@@ -74,6 +115,90 @@ async fn execute(operation: Operation) -> Result<(), Box<dyn std::error::Error>>
         }
         Operation::Lock { path } => {
             print_reply(hotr::owner::request(&path, hotr::owner::LOCK, &[]).await?)?
+        }
+        Operation::Issue {
+            path,
+            credential,
+            label,
+            role,
+            namespaces,
+        } => {
+            if credential.try_exists()? {
+                return Err(
+                    io::Error::other("credential destination exists; no file replaced").into(),
+                );
+            }
+            let reply = hotr::owner::admin(
+                &path,
+                &hotr::owner::AdminRequest::Issue(hotr::capabilities::NewClient {
+                    label,
+                    role,
+                    namespaces,
+                }),
+            )
+            .await?;
+            if reply.error.is_some() {
+                return Err(io::Error::other("credential issuance rejected").into());
+            }
+            let profile: hotr::credentials::CredentialProfile = serde_json::from_value(
+                reply
+                    .data
+                    .ok_or_else(|| io::Error::other("credential reply missing"))?,
+            )?;
+            hotr::credentials::save(&credential, &profile)?;
+            println!("Client enrolled: {}", profile.client_id);
+        }
+        Operation::Revoke { path, client_id } => print_reply(
+            hotr::owner::admin(&path, &hotr::owner::AdminRequest::Revoke { client_id }).await?,
+        )?,
+        Operation::Clients { path } => {
+            print_reply(hotr::owner::admin(&path, &hotr::owner::AdminRequest::Clients).await?)?
+        }
+        Operation::Accept {
+            path,
+            namespace,
+            id,
+            expected_revision,
+            request_id,
+        } => print_reply(
+            hotr::owner::admin(
+                &path,
+                &hotr::owner::AdminRequest::Accept(hotr::capabilities::Accept {
+                    namespace,
+                    id,
+                    expected_revision,
+                    idempotency_key: request_id,
+                }),
+            )
+            .await?,
+        )?,
+        Operation::Request {
+            credential,
+            method,
+            endpoint,
+        } => {
+            let profile = hotr::credentials::load(&credential)?;
+            let value = if method == "POST" {
+                let mut input = Zeroizing::new(Vec::new());
+                io::stdin()
+                    .take(hotr::api::MAX_REQUEST as u64 + 1)
+                    .read_to_end(&mut input)?;
+                if input.len() > hotr::api::MAX_REQUEST {
+                    return Err(io::Error::other("client request limit").into());
+                }
+                Some(
+                    serde_json::from_slice::<serde_json::Value>(&input)
+                        .map_err(|_| io::Error::other("client JSON rejected"))?,
+                )
+            } else {
+                None
+            };
+            let (status, result) =
+                hotr::api::scoped_request(&profile, &method, &endpoint, value.as_ref()).await?;
+            println!("{}", serde_json::to_string(&result)?);
+            if !(200..300).contains(&status) {
+                return Err(io::Error::other(format!("request rejected (HTTP {status})")).into());
+            }
         }
     }
     Ok(())

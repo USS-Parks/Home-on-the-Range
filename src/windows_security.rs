@@ -107,6 +107,83 @@ pub fn current_sid() -> io::Result<String> {
     process_sid(unsafe { GetCurrentProcess() })
 }
 
+/// Identify the server side of this established loopback connection. Looking up
+/// the listener before connecting would leave a port-replacement race.
+pub fn tcp_peer_sid(local: std::net::SocketAddr, peer: std::net::SocketAddr) -> io::Result<String> {
+    use windows_sys::Win32::NetworkManagement::IpHelper::{
+        GetExtendedTcpTable, MIB_TCPROW_OWNER_PID, MIB_TCPTABLE_OWNER_PID, TCP_TABLE_OWNER_PID_ALL,
+    };
+    let loopback = std::net::IpAddr::V4(std::net::Ipv4Addr::LOCALHOST);
+    if local.ip() != loopback || peer.ip() != loopback {
+        return Err(io::Error::other("peer must be IPv4 loopback"));
+    }
+    // SAFETY: OS-sized storage is aligned for the DWORD-only table. Every row
+    // read is checked against both the returned size and allocated capacity.
+    unsafe {
+        let mut size = 0u32;
+        if GetExtendedTcpTable(ptr::null_mut(), &mut size, 0, 2, TCP_TABLE_OWNER_PID_ALL, 0) != 122
+        {
+            return Err(io::Error::other("TCP identity size query failed"));
+        }
+        for _ in 0..3 {
+            if !(4..=16 * 1024 * 1024).contains(&size) {
+                return Err(io::Error::other("TCP identity table size rejected"));
+            }
+            let mut buffer = vec![0u32; (size as usize).div_ceil(4)];
+            let result = GetExtendedTcpTable(
+                buffer.as_mut_ptr().cast(),
+                &mut size,
+                0,
+                2,
+                TCP_TABLE_OWNER_PID_ALL,
+                0,
+            );
+            if result == 122 {
+                continue;
+            }
+            if result != 0 {
+                return Err(io::Error::from_raw_os_error(result as i32));
+            }
+            let offset = mem::offset_of!(MIB_TCPTABLE_OWNER_PID, table);
+            let count = buffer[0] as usize;
+            let required = count
+                .checked_mul(mem::size_of::<MIB_TCPROW_OWNER_PID>())
+                .and_then(|n| n.checked_add(offset));
+            if required.is_none_or(|n| n > size as usize || n > buffer.len() * 4) {
+                return Err(io::Error::other("TCP identity table bounds rejected"));
+            }
+            let address = u32::from_ne_bytes([127, 0, 0, 1]);
+            let mut pid = None;
+            for index in 0..count {
+                let row = &*buffer
+                    .as_ptr()
+                    .cast::<u8>()
+                    .add(offset + index * mem::size_of::<MIB_TCPROW_OWNER_PID>())
+                    .cast::<MIB_TCPROW_OWNER_PID>();
+                if row.dwState == 5
+                    && row.dwLocalAddr == address
+                    && row.dwRemoteAddr == address
+                    && u16::from_be(row.dwLocalPort as u16) == peer.port()
+                    && u16::from_be(row.dwRemotePort as u16) == local.port()
+                    && pid.replace(row.dwOwningPid).is_some()
+                {
+                    return Err(io::Error::other("ambiguous TCP peer identity"));
+                }
+            }
+            let pid = pid.ok_or_else(|| {
+                io::Error::new(io::ErrorKind::NotFound, "TCP peer identity not ready")
+            })?;
+            let raw = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, 0, pid);
+            if raw.is_null() {
+                return Err(io::Error::last_os_error());
+            }
+            let process = OwnedHandle::from_raw_handle(raw.cast());
+            return process_sid(process.as_raw_handle().cast());
+        }
+    }
+    Err(io::Error::other("TCP identity table changed repeatedly"))
+}
+
 pub fn pipe_server_sid(pipe: &impl AsRawHandle) -> io::Result<String> {
     // SAFETY: pipe remains live; the process handle is owned and closed by RAII.
     unsafe {

@@ -74,6 +74,8 @@ impl Guard {
                 | "HOTR-04"
                 | "HOTR-05"
                 | "HOTR-06"
+                | "HOTR-07"
+                | "HOTR-08"
                 | "HOTR-04-R2"
                 | "HOTR-03-fault"
         ) {

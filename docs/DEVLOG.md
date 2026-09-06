@@ -1117,3 +1117,8 @@ Fresh independent ASTRA REVIEW `/root/hotr18_final_review` returned `ship` with 
 Latest owner direction: finish HOTR-18, commit and push all in-scope session work to main, then standby until further instruction. HOTR-19 implementation has not started; the preliminary read-only audit design is parked. HOTR-12 compatibility and further Lamprey/plugin work remain deferred.
 
 API-EQUIVALENT COST RECEIPT: unavailable. Native tools expose no observed parent/delegate token usage; no cost or savings estimate is supported.
+
+
+HOTR-18 implementation commit `420bf447f5b62af20810cf30c240469e44de4deb` contains the source accepted by full local gate `HOTR-18-91104-1788724083416365000` and fresh independent review (`ship`, no findings). This documentation-only closeout records its SHA; all 85 source/input hashes and both binaries remain unchanged. Non-force main publication and the exact published-head hosted Windows result follow. Final main SHA and hosted run are reported externally to avoid circular commit bookkeeping. One canonical main checkout is retained with no linked worktrees; approximately 5.63 GiB of shared build/model cache and synthetic evidence remains, including failed fixtures. No deletion, personal import or profile enrollment occurred.
+
+Owner-directed stopping point: standby immediately after HOTR-18 publication and verification. HOTR-19 implementation has not started. The complete roster, later stress/soak, all-app enrollment and deployment remain unfinished.

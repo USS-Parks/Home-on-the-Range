@@ -703,9 +703,10 @@
   },
   "publication": {
     "branch": "main",
-    "status": "pending authorized commit and push",
-    "hosted_status": "pending exact published head",
-    "next_action": "standby after HOTR-18 publication and verification; HOTR-19 implementation not started"
+    "status": "implementation committed; documentation-only closeout then authorized non-force main push",
+    "hosted_status": "verify exact published main head and report run externally after this closeout commit",
+    "next_action": "standby after HOTR-18 publication and verification; HOTR-19 implementation not started",
+    "source_binding": "All 85 normalized runtime/input hashes and both binaries match the accepted implementation; source.commit/source.dirty retain the original gate snapshot metadata."
   },
   "retained_failures": [
     {
@@ -724,5 +725,6 @@
     "Backup observations cover the current service process only and do not verify external snapshot availability.",
     "Same Windows user and OS remain trusted; no browser-extension, screenshot or operating-system secure-erasure guarantee.",
     "Remaining HOTR-12/Lamprey compatibility stays deferred; auditing, rotation, scale/soak and deployment remain later prompts."
-  ]
+  ],
+  "accepted_implementation_commit": "420bf447f5b62af20810cf30c240469e44de4deb"
 }

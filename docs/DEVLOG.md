@@ -1028,3 +1028,6 @@ Parent review of the complete code and fixture diff is complete. Pinned manifest
 
 
 Fresh ASTRA REVIEW `/root/hotr16_review`: `ship`, no actionable findings. Independent checks matched all 76 source hashes, both binaries, all four fixture reports and pinned model files. An initial reviewer-only hash discrepancy was traced to double-escaped CRLF normalization and withdrawn after the corrected independent check. The documentation now explicitly budgets the service context object and separately identifies MCP framing/compatibility-text overhead; runtime sources did not change. Requested reviewer Sol/high, observed execution settings and token usage unobservable. API-equivalent cost and savings are unavailable, not zero. Parent accepts the passed prompt for authorized main publication; HOTR-17 quality is next.
+
+
+HOTR-16 implementation commit `4640559ef66a00a73d914420b3439b32a6e60077` contains the source accepted by full gate `HOTR-16-19596-1788718053792654100` and the fresh independent `ship` review. This documentation-only closeout records the implementation SHA; all 76 runtime/source hashes remain unchanged. Non-force main publication and exact hosted verification follow. One canonical checkout and approximately 5.47 GiB of cache/model/synthetic evidence are retained, with no deletion or new worktree. Continue HOTR-17 after publication.

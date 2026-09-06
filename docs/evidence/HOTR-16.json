@@ -1,6 +1,6 @@
 {
   "prompt": "HOTR-16",
-  "result": "PASS locally and fresh independent review ship; publication pending",
+  "result": "PASS locally and fresh review ship; implementation committed",
   "gate": "HOTR-16-19596-1788718053792654100",
   "source": {
     "commit": "e2efb97ab86e17967800991459d904ede79d8ab2",
@@ -451,5 +451,10 @@
       "Budgets cover service context object; MCP framing and compatibility-text duplication are additional transport overhead"
     ],
     "verification_note": "Initial reviewer hash discrepancy was a double-escaped normalization expression; corrected actual-CRLF normalization matched all 76 source hashes. No source drift occurred."
+  },
+  "publication": {
+    "implementation_commit": "4640559ef66a00a73d914420b3439b32a6e60077",
+    "branch": "main",
+    "hosted_verification": "PENDING exact published-head run"
   }
 }

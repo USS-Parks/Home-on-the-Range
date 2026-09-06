@@ -143,3 +143,6 @@ HOTR-15 implementation commit `3f6b232af870244c27bb798d05852895cbd5d4d7` records
 
 
 HOTR-16 final local gate `HOTR-16-19596-1788718053792654100` PASS: 46 product tests, six verifier tests, two actual installed-Ollama fixtures and a 7,093-file plaintext canary scan. All 76 source hashes match; product SHA-256 `c5de23315bbf1b0afe3091d9c15c2599b52663272bd21d19c24b34745228c8b0`, runner SHA-256 `b2d1bf1a1a51691e7d16d23a70214049ef6c11a917234090750d6b93d5000d44`. [Source-bound hybrid evidence](evidence/HOTR-16.json) separates real HTTP/MCP/model proof from controlled adapter race fixtures. Fresh independent review, main publication, exact hosted verification and HOTR-17 quality remain pending.
+
+
+HOTR-16 implementation `4640559ef66a00a73d914420b3439b32a6e60077`: full local gate and fresh independent review PASS. Main publication and exact hosted verification remain separately tracked. No runtime source changed for this SHA closeout; HOTR-17 held-out evaluation is next.

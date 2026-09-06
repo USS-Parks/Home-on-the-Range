@@ -1,0 +1,285 @@
+{
+  "command_log_limit_bytes": 8388608,
+  "commands": [
+    {
+      "arguments": [
+        "fmt",
+        "--check"
+      ],
+      "elapsed_ms": 608,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "format",
+      "log_bytes": 0,
+      "pid": 76360,
+      "stored_log_bytes": 18
+    },
+    {
+      "arguments": [
+        "build",
+        "--release",
+        "--locked"
+      ],
+      "elapsed_ms": 439,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "build",
+      "log_bytes": 62,
+      "pid": 81700,
+      "stored_log_bytes": 79
+    },
+    {
+      "arguments": [
+        "clippy",
+        "--release",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_ms": 3551,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "clippy",
+      "log_bytes": 151,
+      "pid": 76788,
+      "stored_log_bytes": 168
+    },
+    {
+      "arguments": [
+        "test",
+        "--release",
+        "--locked",
+        "--",
+        "--test-threads=1"
+      ],
+      "elapsed_ms": 119091,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "tests",
+      "log_bytes": 3826,
+      "pid": 76320,
+      "stored_log_bytes": 3842
+    },
+    {
+      "arguments": [
+        "fmt",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--check"
+      ],
+      "elapsed_ms": 229,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "harness-format",
+      "log_bytes": 0,
+      "pid": 72628,
+      "stored_log_bytes": 18
+    },
+    {
+      "arguments": [
+        "clippy",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--release",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_ms": 361,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "harness-clippy",
+      "log_bytes": 62,
+      "pid": 80564,
+      "stored_log_bytes": 79
+    },
+    {
+      "arguments": [
+        "test",
+        "--lib",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--release",
+        "--locked",
+        "--",
+        "--test-threads=1"
+      ],
+      "elapsed_ms": 286,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "harness-tests",
+      "log_bytes": 638,
+      "pid": 6804,
+      "stored_log_bytes": 654
+    },
+    {
+      "arguments": [
+        "test",
+        "--release",
+        "--locked",
+        "--test",
+        "owner_lifecycle",
+        "live_second_principal_boundary",
+        "--",
+        "--ignored",
+        "--nocapture"
+      ],
+      "elapsed_ms": 48712,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "owner-boundary",
+      "log_bytes": 472,
+      "pid": 77912,
+      "stored_log_bytes": 488
+    },
+    {
+      "arguments": [
+        "-I",
+        "-B",
+        ".cargo/scan-native-canaries.py"
+      ],
+      "elapsed_ms": 10395,
+      "executable": "python",
+      "exit_code": 0,
+      "failure": null,
+      "label": "canary-scan",
+      "log_bytes": 122,
+      "pid": 73064,
+      "stored_log_bytes": 138
+    }
+  ],
+  "cpu_rate_per_10000": 2500,
+  "cpu_workers": 4,
+  "disk_limit_bytes": 21474836480,
+  "failure": null,
+  "hosted_ci": "NOT RUN",
+  "memory_limit_bytes": 8589934592,
+  "minimum_free_bytes": 26843545600,
+  "platform": {
+    "arch": "x86_64",
+    "os": "windows"
+  },
+  "product_sha256": "23fe71a07d6970ee1006a667480aca8e2ae4d7a0ab40faf0bc557399012f8190",
+  "prompt": "HOTR-11",
+  "result": "PASS",
+  "runner_sha256": "b8d77294a4f124aca935a5d22676af4f184c189b9bd402a4f8d23499ed4ba6f5",
+  "schema_version": 1,
+  "seed": 47821,
+  "source": {
+    "commit": "91c12e2333ea4482cd3cd9a5c621b6f03f12464b",
+    "dirty": true,
+    "native_sha256": {
+      "libcrypto.lib": "20ab3f3c0dc0f9bace06565dcce6fe965a2b4f47d7dfcc25560d14088d77b893",
+      "sqlcipher.lib": "4700b9557b33c5a9162c5af42a00af1faad150146de31ee7f520a0954a031609",
+      "sqlite3.c": "45c136615ae3ee8c366dbdde3d78f77c4a15b04ddf55d387b987e45d777b8a42"
+    },
+    "normalized_source_sha256": {
+      ".cargo/config.toml": "434a52b014edd006e7b6fa18301d903499fba0862aee92495b8dd95ca23eb365",
+      ".cargo/owner-principal-probe.ps1": "a9ec2c5a2c9837d8ee5192b4fcf28d1751ce315e2f34086fbac49cd51eef3b2f",
+      ".cargo/prepare-native.ps1": "ab3de675afb46fc59d577d514ce4195d1bbbe45a44f9e91d23cf90887a9bde5a",
+      ".cargo/scan-native-canaries.py": "8dff07cba84fd25ec32fd432a35857ca473e5500dbf2b55ce1d32d35b15722f8",
+      ".github/workflows/windows-native.yml": "ab05c4953039226d06914e96a66c4a5b8301750df700602cb18154ff70a610d6",
+      "Cargo.lock": "600931f19748d377dced1d3d30e5963e83d2336a796d8272c8f981ec8976fb45",
+      "Cargo.toml": "322be0cc960b67189ba3bb812b52ac3e2bc6e2763977af2f1a4b34e4f208397b",
+      "build.rs": "8eb17bf45c9b98ec15cb1a19889c42882b3fe4196ade6459bfd5073f360b72a1",
+      "integrations/clients/live_cli.py": "67e97c645e0c9e836fabe64f38812dababd7ee910f560e4382ffb30a2a4158e2",
+      "src/api.rs": "c6ba7da0451269a04e38574ebeb1e24fe61e581d6c21b9a44ba3300c6e83a7ae",
+      "src/backup.rs": "f00bb323bd2fc5f84729c4ffd8f99bcbae148e4285a303ef94f7c3f9b0fd6ef2",
+      "src/capabilities.rs": "0d4ee4c7a5248c7cefc66e7743a7dc99667efc6bacf484f645f2e649a3c7a509",
+      "src/credentials.rs": "ace05a2480c5de41a3b8ff5ce4afec26014c06fe4579bca08490dfc932a57b4d",
+      "src/lib.rs": "9110ef7e95724a4a6001a7f377f2b37823355e4635f8a4163c70a0b8d9f138e5",
+      "src/main.rs": "5dce97b8d55ac6d538ebdace13e1da892a6aacd291e31c6e21c2bc06f4ffb828",
+      "src/mcp.rs": "fd28014f0689a525a3b4dcfea874f21a1fe675ae2b9351576a79eea12a97133b",
+      "src/owner.rs": "3043fe6345e707e9083e607298cf75a2b05403416e36a295e00fac7466904c89",
+      "src/retrieval.rs": "b18d5c9cf40e4adce19dcd08985c0969e75d1f54d0fff69e555e7fc0cd11bb29",
+      "src/schema.rs": "0750ea0d548353c6dba1d2e2e041236714ed9bd90173899ff352345a95e583c6",
+      "src/schema_v1.sql": "62c7da764a66eb81be3324eb741c660a7c56598f80d4b59de011f7eac5ab431e",
+      "src/schema_v2.sql": "41550b33bb043a9a4016de80af6d25c99fb390ab955a7b677c5467dc1b14bc6c",
+      "src/schema_v3.sql": "e8a6f173425f97e3172ab30db5a3c3f0628d14dc496ca396db17d80df17fd240",
+      "src/schema_v4.sql": "c373faa46c691efae898265826b6f5487d4faac16db009a5e2452e3e787b13fd",
+      "src/schema_v5.sql": "307e5af7b6e910be7a1d965ae9ba49038a931e8ba3d14ae9af474aa728339bed",
+      "src/windows_security.rs": "e54b657ac4d027383a9c054cc2cdde3a54e83e5cab7b4b1eb0786d544d961b7d",
+      "src/writer.rs": "cc6cd2bffcea37f2310552e14d705873de7dc56afba1ae941f336a71e60f743a",
+      "src/writer_tests.rs": "3110c258116bbee7247b659dec2afb977ccaaca3e1be0d3374749ed59c450137",
+      "tests/api_capabilities.rs": "295fca13fe777467198d349c8f692267b22b8f28f2d2d5371e6d7c1b693f8632",
+      "tests/encryption.rs": "d98035a8ecde9fadd18d02c5cbe99e779ab755aa2eb73359616b93f3eef70fc8",
+      "tests/owner_lifecycle.rs": "9e59d688fc347306395f6b43dfa2798551f47c2dee41103c0937e4aa35534f0d",
+      "tests/schema.rs": "4f6ab61275660e1cbbf5952cd171654c5a005fb47c6effb8dbd8dd2e2aff8bba",
+      "tests/support/apps.rs": "b69bd096e1685c0c548b8f8b400c07fa37346f1372e9762ac51ff7938f8c0bb3",
+      "tests/support/backup.rs": "1d862df5fa4fdc83f5cb13787b5b0e0bff294dd67e7033d9ea7602031c8fa0fb",
+      "tests/support/mcp.rs": "c7ad3b71450f202b749ab65c45e4b2cc41ad709cdf2f825936b907825475649e",
+      "xtask/Cargo.lock": "fbd9aa7678363510fe593cb108cabdad3d12f078de7302a8a4023d78d928e928",
+      "xtask/Cargo.toml": "3c56553b6e2443c28c659f1f1b18df36eb583475202ebebe0b5706fc49f9f357",
+      "xtask/native-builder/Cargo.lock": "11e14128caf3dec373927ad5bcb771867856a89d5a6a6752514e22abf4c97bda",
+      "xtask/native-builder/Cargo.toml": "aa88450cffdc47d430df5037dbd76f8e6b996ac2bdb57deb3c2910e95181d526",
+      "xtask/native-builder/build.rs": "c6796b1671edf06c696968ed256dbe85c9f5e6c18fc0cae9d698bfb10919c9fd",
+      "xtask/native-builder/src/main.rs": "da1d383a162e3a5a00c73b6e9f26bca9cecc4a9f00051fe0c2d4f72cddd5c6ee",
+      "xtask/src/lib.rs": "584e927fd82ddd6425338ed5a2bd2217138daced9e6321d901f212347a987ac0",
+      "xtask/src/limits.rs": "05e13bcd50b103ac0daf28982aa4633395f9296aa7abe582ceb1e14f66458eb8",
+      "xtask/src/main.rs": "405db1e8c1ca5eedc8ab2775b4ee04c72be58f2631b297096eda591b57ba2253",
+      "xtask/tests/contracts.rs": "abe81a6e82e90477165df2b16c2aef22fc378311fe05667b6121311791157fa4"
+    }
+  },
+  "source_hash_policy": "SHA-256 of UTF-8 source normalized to LF and exact native/binary bytes; unchanged source required during gate",
+  "repair_id": "HOTR-11-R1",
+  "validation_scope": {
+    "description": "Full HOTR-11 working-tree gate; only the fixture repair is published in this commit. Exact clean hosted verification remains pending.",
+    "preserved_uncommitted_paths": [
+      "tests/api_capabilities.rs",
+      "tests/support/apps.rs",
+      "integrations/clients/live_cli.py",
+      "xtask/src/lib.rs",
+      "xtask/src/main.rs"
+    ],
+    "live_application_prompts": 0
+  },
+  "acceptance": {
+    "recovery": {
+      "all_receipts_reconciled_to_snapshot_watermark": true,
+      "binary_sha256": "23fe71a07d6970ee1006a667480aca8e2ae4d7a0ab40faf0bc557399012f8190",
+      "concurrent_acknowledged_writes": 200,
+      "different_encryption_key": true,
+      "new_reader_reenrolled": true,
+      "original_vault_and_snapshot_preserved_on_bad_restore": true,
+      "rehashed_tamper_and_truncation_denied": true,
+      "restored_old_clients_denied": 3,
+      "result": "PASS",
+      "snapshot": {
+        "bytes": 143360,
+        "ciphertext_sha256": "2a09aa190b47007ff9bff9a74f2176da35034415c3f42ece601e4845ff992daf",
+        "format": 1,
+        "snapshot_id": "0503c1b308d86a85e18dfd6bb2a01114",
+        "sqlcipher": "4.18.0",
+        "watermark": {
+          "audit_sequence": 14,
+          "clients": 3,
+          "grants": 3,
+          "receipts": 14,
+          "records": 13,
+          "revisions": 14,
+          "schema_version": 5
+        }
+      }
+    },
+    "second_account_utc": "2026-09-06T01:10:45.3410156Z",
+    "four_access_denials_win32_error": 5,
+    "copied_dpapi_denied": true,
+    "foreign_tcp_application_bytes": 0,
+    "owner_vault_unchanged": true,
+    "lock_exited_key_holder": true,
+    "scan_files": 1981,
+    "native_passing_runs": 17
+  }
+}

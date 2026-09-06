@@ -387,6 +387,8 @@ mod tests {
     #[test]
     fn encrypted_native_backup_spans_multiple_steps() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("work/hotr-tests");
+        owner::safe_absolute(&root).unwrap();
+        fs::create_dir_all(&root).unwrap();
         let run = root.join(format!(
             "HOTR-07-backup-{}-{}",
             std::process::id(),

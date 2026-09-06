@@ -492,3 +492,42 @@ No user vault, application profile, startup entry or other project was changed.
 Publish this passed prompt, then continue HOTR-12 actual Codex/Claude application
 proof, followed by Lamprey and the rest of full STS. Larger crash/fault/soak and
 deployment gates remain open.
+
+## HOTR-11 publication and HOTR-11-R1 — 2026-09-06 UTC
+
+HOTR-11 commit `91c12e2333ea4482cd3cd9a5c621b6f03f12464b` passed hooks and was
+verified on origin/main. Exact hosted run 34002264699 failed before the first
+backup unit test could open a database: Windows error 3 at `src/backup.rs:398`.
+The fresh runner lacked `work/hotr-tests`; the unit test assumed it existed.
+Full logs and artifact remain under `work/hotr-evidence/HOTR-11-hosted-34002264699/`.
+
+Repair scope: two lines inside the backup `cfg(test)` module validate/create
+that parent. No runtime backup, storage, owner/API authorization or credential
+behavior was edited. Targeted format/Clippy/native-copy checks passed, retained in
+`work/hotr-evidence/HOTR-11-R1-1788656713452.txt`. The rebuilt executable hash
+changed, so the complete HOTR-11 native gate was repeated rather than reusing the
+previous binary's evidence.
+
+Full local gate PASS: `work/hotr-evidence/HOTR-11-80132-1788656858761724100/`;
+sanitized record `docs/evidence/HOTR-11-R1-fixture.json`. Format/build/strict lint,
+native backup/restore and multi-step copy, HTTP/MCP, schema/crash, real ConPTY,
+harness and second-account checks passed. At 2026-09-06T01:10:45.3410156Z the actual
+separate authenticated account was denied four protected surfaces with error 5,
+could not decrypt DPAPI ciphertext and received zero application bytes at its
+fake endpoint. Owner state/vault stayed intact and lock exited the key holder.
+The scanner passed 1,981 files across 17 passing native encryption runs.
+
+Product SHA-256: `23fe71a07d6970ee1006a667480aca8e2ae4d7a0ab40faf0bc557399012f8190`.
+Runner SHA-256: `b8d77294a4f124aca935a5d22676af4f184c189b9bd402a4f8d23499ed4ba6f5`.
+The 44-source working-tree manifest includes five explicitly listed HOTR-12
+driver/test/harness files that remain uncommitted. The application test was
+ignored, and no model prompt was sent. This focused repair publishes only its
+two source lines, plan/log updates and evidence. Do not call the local working
+tree a clean exact-commit test; the repair's hosted run must establish that.
+
+HOTR-12's initial local gate `HOTR-12-78964-1788656332064645300` was intentionally
+interrupted at its separate-account stage after ordinary native checks, before
+any provider request, to handle this prerequisite. Its source and complete
+available logs/interruption record are preserved. Continue its full gate after
+the repair's local publication and track clean hosted acceptance before M1
+closeout. No existing application settings or user vault was changed.

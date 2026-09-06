@@ -137,3 +137,6 @@ API-EQUIVALENT COST RECEIPT: unavailable. Parent and native subagent per-call to
 
 
 Fresh independent HOTR-15 review `/root/hotr15_review` returned `ship`, matching all 71 source hashes, product/runner hashes, raw gate logs and all three fixture reports. The sole P3 documentation finding was repaired: README and model docs now reflect the passed gate, and model task prefixes are distinguished from MCP tool names. No runtime source changed after verification. A separate read-only post-inference check found exactly the five pinned model files with unchanged manifest/blob hashes. Requested reviewer route Sol/high; actual model/effort/token telemetry remains unobservable. The authorized focused main commit and exact publication checks follow.
+
+
+HOTR-15 implementation commit `3f6b232af870244c27bb798d05852895cbd5d4d7` records the source verified by `HOTR-15-73280-1788715935249086000` and accepted by the fresh `ship` review. This documentation-only closeout records that SHA; runtime sources are unchanged. Authorized non-force publication to main and exact hosted verification are tracked separately. HOTR-16 is the next approved prompt.

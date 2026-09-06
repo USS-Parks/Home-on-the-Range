@@ -1,6 +1,6 @@
 {
   "prompt": "HOTR-15",
-  "result": "PASS locally and fresh review ship; main publication pending",
+  "result": "PASS locally and fresh review ship; implementation committed",
   "gate": "HOTR-15-73280-1788715935249086000",
   "source": {
     "commit": "d1903b7dbf708d7c9caf919350e0cf2769f1ec8b",
@@ -446,5 +446,10 @@
       "Hybrid retrieval and held-out quality belong to HOTR-16/17",
       "Same-Windows-user local-server impersonation boundary"
     ]
+  },
+  "publication": {
+    "implementation_commit": "3f6b232af870244c27bb798d05852895cbd5d4d7",
+    "branch": "main",
+    "hosted_verification": "PENDING exact published-head run"
   }
 }

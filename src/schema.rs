@@ -4,7 +4,7 @@ use rusqlite::{Connection, OptionalExtension, TransactionBehavior, params};
 use serde::{Deserialize, Serialize};
 use std::{collections::HashSet, fs, os::windows::fs::OpenOptionsExt, path::Path};
 
-pub const VERSION: u32 = 6;
+pub const VERSION: u32 = 7;
 pub const MAX_BODY_BYTES: usize = 65_536;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, schemars::JsonSchema)]
@@ -202,6 +202,11 @@ pub fn migrate(connection: &mut Connection) -> Result<(), StoreError> {
     if version < 6 {
         transaction
             .execute_batch(include_str!("schema_v6.sql"))
+            .map_err(|_| StoreError::DatabaseRejected)?;
+    }
+    if version < 7 {
+        transaction
+            .execute_batch(include_str!("schema_v7.sql"))
             .map_err(|_| StoreError::DatabaseRejected)?;
     }
     transaction

@@ -66,6 +66,7 @@ fn execute() -> io::Result<()> {
                     | "HOTR-11"
                     | "HOTR-12"
                     | "HOTR-13"
+                    | "HOTR-14"
                     | "HOTR-04-R2"
             ))
     {

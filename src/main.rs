@@ -14,6 +14,20 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Operation {
+    /// Apply one bounded owner lifecycle JSON request from stdin.
+    Lifecycle {
+        path: PathBuf,
+    },
+    /// Inspect current content, retention and a possible revision conflict.
+    Inspect {
+        path: PathBuf,
+        #[arg(long)]
+        namespace: String,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        expected_revision: Option<u32>,
+    },
     NativeInfo,
     /// Preview owner-selected files, then commit with the returned preview digest.
     Import {
@@ -117,6 +131,38 @@ async fn main() {
 
 async fn execute(operation: Operation) -> Result<(), Box<dyn std::error::Error>> {
     match operation {
+        Operation::Lifecycle { path } => {
+            let mut input = Zeroizing::new(Vec::new());
+            io::stdin()
+                .take(hotr::api::MAX_REQUEST as u64 + 1)
+                .read_to_end(&mut input)?;
+            if input.len() > hotr::api::MAX_REQUEST {
+                return Err(io::Error::other("owner request limit").into());
+            }
+            let request = serde_json::from_slice(&input)
+                .map_err(|_| io::Error::other("owner JSON rejected"))?;
+            print_reply(
+                hotr::owner::admin(&path, &hotr::owner::AdminRequest::Lifecycle(request)).await?,
+            )?;
+        }
+        Operation::Inspect {
+            path,
+            namespace,
+            id,
+            expected_revision,
+        } => {
+            print_reply(
+                hotr::owner::admin(
+                    &path,
+                    &hotr::owner::AdminRequest::Inspect(hotr::lifecycle::Inspect {
+                        namespace,
+                        id,
+                        expected_revision,
+                    }),
+                )
+                .await?,
+            )?;
+        }
         Operation::Import {
             path,
             root,

@@ -2,7 +2,7 @@
 use super::*;
 use std::{io::Read, process::ChildStdin};
 
-struct Mcp {
+pub(super) struct Mcp {
     child: Child,
     input: Option<ChildStdin>,
     replies: mpsc::Receiver<Result<Value, &'static str>>,
@@ -18,7 +18,7 @@ impl Drop for Mcp {
     }
 }
 impl Mcp {
-    fn start(run: &Path, credential: &str, label: &str) -> Self {
+    pub(super) fn start(run: &Path, credential: &str, label: &str) -> Self {
         let stderr = fs::OpenOptions::new()
             .write(true)
             .create_new(true)
@@ -106,17 +106,17 @@ impl Mcp {
         assert_eq!(reply["id"], id);
         reply
     }
-    async fn initialize(&mut self, version: &str) -> Value {
+    pub(super) async fn initialize(&mut self, version: &str) -> Value {
         let reply=self.request("initialize",json!({"protocolVersion":version,"capabilities":{},"clientInfo":{"name":"hotr-native-protocol-fixture","version":"1"}})).await;
         assert!(reply.get("error").is_none());
         self.send(json!({"jsonrpc":"2.0","method":"notifications/initialized"}));
         reply
     }
-    async fn tool(&mut self, name: &str, args: Value) -> Value {
+    pub(super) async fn tool(&mut self, name: &str, args: Value) -> Value {
         self.request("tools/call", json!({"name":name,"arguments":args}))
             .await
     }
-    async fn finish(&mut self, success: bool) {
+    pub(super) async fn finish(&mut self, success: bool) {
         self.input.take();
         let start = Instant::now();
         loop {
@@ -139,12 +139,12 @@ impl Mcp {
     }
 }
 
-fn data(reply: &Value) -> &Value {
+pub(super) fn data(reply: &Value) -> &Value {
     assert!(reply.get("error").is_none(), "protocol rejected valid call");
     assert_eq!(reply["result"]["isError"], false);
     &reply["result"]["structuredContent"]
 }
-fn denied(reply: Value, status: u16) {
+pub(super) fn denied(reply: Value, status: u16) {
     assert_eq!(reply["result"]["isError"], true);
     assert_eq!(reply["result"]["structuredContent"]["http_status"], status);
 }

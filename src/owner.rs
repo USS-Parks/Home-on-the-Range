@@ -33,6 +33,8 @@ pub const BACKUP: u8 = 5;
     rename_all = "snake_case"
 )]
 pub enum AdminRequest {
+    Lifecycle(crate::lifecycle::Request),
+    Inspect(crate::lifecycle::Inspect),
     Import(crate::imports::Request),
     Issue(crate::capabilities::NewClient),
     Revoke { client_id: String },
@@ -443,6 +445,8 @@ async fn admin_dispatch(
 ) -> crate::capabilities::CommandResult {
     use crate::capabilities::Command;
     match request {
+        AdminRequest::Lifecycle(request) => handle.command(Command::Lifecycle(request)).await,
+        AdminRequest::Inspect(request) => handle.command(Command::Inspect(request)).await,
         AdminRequest::Import(request) => handle.command(Command::Import(request)).await,
         AdminRequest::Issue(request) => handle.command(Command::Issue { request, port }).await,
         AdminRequest::Revoke { client_id } => {

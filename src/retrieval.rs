@@ -119,6 +119,7 @@ fn pack(
     page: &Page,
     rows: Vec<(String, u32)>,
     total: i64,
+    context_mode: &str,
 ) -> Result<Value, WriteError> {
     let mut records = Vec::new();
     let mut omitted = 0u32;
@@ -144,7 +145,7 @@ fn pack(
         }
     }
     let next = page.offset + consumed;
-    let response = json!({"records":records,"total":total,"next_offset":if i64::from(next)<total && consumed>0 {Some(next)} else {None},"omitted_for_budget":omitted,"byte_budget":page.byte_budget,"token_budget":page.token_budget,"estimated_tokens":bytes,"token_estimate":"one per serialized UTF-8 byte including envelope reserve; not provider accounting","pagination":"offset over current authorized results; concurrent writes may change pages"});
+    let response = json!({"context_mode":context_mode,"records":records,"total":total,"next_offset":if i64::from(next)<total && consumed>0 {Some(next)} else {None},"omitted_for_budget":omitted,"byte_budget":page.byte_budget,"token_budget":page.token_budget,"estimated_tokens":bytes,"token_estimate":"one per serialized UTF-8 byte including envelope reserve; not provider accounting","pagination":"offset over current authorized results; concurrent writes may change pages"});
     let actual = serde_json::to_vec(&response)
         .map_err(|_| WriteError::PersistenceRejected)?
         .len();
@@ -163,7 +164,7 @@ pub(crate) fn search(db: &Connection, query: Search) -> Result<Value, WriteError
     // followed by stable ID order. FTS supplies literal term intersection.
     let rows=db.prepare("SELECT v.id,v.current_revision FROM record_fts JOIN visible_records v ON v.record_rowid=record_fts.rowid WHERE record_fts MATCH ?1 AND v.namespace=?2 ORDER BY (v.id=?3 COLLATE NOCASE) DESC, EXISTS(SELECT 1 FROM revision_sources s WHERE s.namespace=v.namespace AND s.record_id=v.id AND s.revision=v.current_revision AND s.reference=?3) DESC, v.id LIMIT ?4 OFFSET ?5")?
         .query_map(params![literal,query.page.namespace,query.query,query.page.limit,query.page.offset],|row|Ok((row.get(0)?,row.get(1)?)))?.collect::<rusqlite::Result<Vec<_>>>()?;
-    pack(db, &query.page, rows, total)
+    pack(db, &query.page, rows, total, "current")
 }
 
 pub(crate) fn list(db: &Connection, page: Page) -> Result<Value, WriteError> {
@@ -175,7 +176,7 @@ pub(crate) fn list(db: &Connection, page: Page) -> Result<Value, WriteError> {
     )?;
     let rows=db.prepare("SELECT id,current_revision FROM visible_records WHERE namespace=?1 ORDER BY id LIMIT ?2 OFFSET ?3")?
         .query_map(params![page.namespace,page.limit,page.offset],|row|Ok((row.get(0)?,row.get(1)?)))?.collect::<rusqlite::Result<Vec<_>>>()?;
-    pack(db, &page, rows, total)
+    pack(db, &page, rows, total, "current")
 }
 
 pub(crate) fn count(db: &Connection, query: Count) -> Result<Value, WriteError> {
@@ -209,5 +210,5 @@ pub(crate) fn history(db: &Connection, query: History) -> Result<Value, WriteErr
     )?;
     let rows=db.prepare("SELECT record_id,revision FROM revisions WHERE namespace=?1 AND record_id=?2 ORDER BY revision LIMIT ?3 OFFSET ?4")?
         .query_map(params![query.page.namespace,query.id,query.page.limit,query.page.offset],|row|Ok((row.get(0)?,row.get(1)?)))?.collect::<rusqlite::Result<Vec<_>>>()?;
-    pack(db, &query.page, rows, total)
+    pack(db, &query.page, rows, total, "historical")
 }

@@ -45,6 +45,9 @@ mod installed_hermes;
 #[path = "support/imports.rs"]
 mod owner_imports;
 
+#[path = "support/lifecycle.rs"]
+mod owner_lifecycle;
+
 fn local_client() -> reqwest::Client {
     reqwest::Client::builder()
         .no_proxy()
@@ -194,7 +197,7 @@ async fn actual_scoped_fts_current_history_visibility_and_budgets() {
             )
             .await
             .0,
-            200
+            404
         );
     }
     assert_eq!(

@@ -1,5 +1,9 @@
 # Home on the Range — Canonical Plan / Sequential Prompt Roster
 
+Current resumption (2026-09-06): the owner resumed the same trajectory after the app restart and explicitly invoked `astra-advisor:orchestration`. Finish HOTR-14 parent verification, fresh read-only review and main publication, then continue the approved roster from HOTR-15. The requested skill authorizes bounded native subagent routing/review. Earlier standby instructions below are historical; HOTR-12/Lamprey deferrals remain in force.
+
+Current standby instruction (2026-09-06): finish the current HOTR-14 verification/publication checkpoint, then stop so the owner can restart the app with the astra-advisor plug-in. HOTR-15 is next but must not start until the owner resumes. Earlier full-STS authorization remains in force; the current request controls execution timing.
+
 Current override (2026-09-06): the owner deferred remaining HOTR-12 compatibility and further Lamprey/plugin work and directed execution to HOTR-13. See `HOTR-13-RESUMPTION-2026-09-06.md`. Earlier next-HOTR-12B statements below are historical. Full STS continues.
 
 Current execution instruction: the owner resumed all pertinent application

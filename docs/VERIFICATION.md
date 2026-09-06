@@ -106,3 +106,19 @@ Hermes publication `5f6c6481af2892ad7da5ba499e7efc74cf8b4eac` has exact [Windows
 
 
 Final combined-source HOTR-13 gate PASS: `HOTR-13-79532-1788708735741015700`, covering implementation `7a7db6070b4acb6f4fa317ac60fc57cfcacf451e` above preserved upstream `bb1977dbde1894180069cdad87b69cf79992a984`. Again, all 27 product tests and six verifier tests, both format/strict-Clippy checks, release build and final canary scan passed; the scan covered 4,574 files. Product SHA-256 `a75c10b89c97a4768702eb542b28727f8dd3088837afc51f7932269be94dd5c5`; runner SHA-256 `fc0dbf0283ec0395b959a93d9abcd6fb8d862625674c9fdfce738d94fc4a1ee1`. The three new import fixtures match this exact product binary. Earlier failures and the prior passing gate remain retained in [the evidence](evidence/HOTR-13.json).
+
+
+## HOTR-14 — corrections, retention and grants
+
+Local PASS: `HOTR-14-72804-1788710656448614500`; 28 product tests and six runner tests, release build, both format/strict-Clippy gates and canary scan of 5,201 files. [Source-bound evidence](evidence/HOTR-14.json) records all 65 source hashes and the actual two-bridge fixture. All current retrieval paths enforce suppression and current scope; explicit history remains authorized and labeled historical. Actual owner correction, supersession, validity/expiry/tombstones, role downgrade, grant removal and restart receipts passed. Earlier failures remain retained.
+
+The owner requested main publication and immediate standby. Exact hosted CI is separate; named-app compatibility and later stress, semantic and deployment gates remain outstanding. Next prompt after resumption: HOTR-15.
+
+
+Resumed parent gate `HOTR-14-85332-1788713354061792200` PASS on identical 65-source hash map: 28 product tests, six runner tests and 5,442-file scan. The [evidence](evidence/HOTR-14.json) now binds the final binary `ec4aab64f85c0a9d9f23e54568092b9bace9daf649a8f9dddbf6377302c862df` to the fresh two-bridge fixture and retains the earlier passed binary separately. The owner resumed execution; fresh review precedes HOTR-14 main publication.
+
+
+Final repaired HOTR-14 local gate `HOTR-14-84644-1788714278331656100` PASS: 29 product tests, six runner tests, both format/strict-Clippy gates and 5,917-file scan. [Evidence](evidence/HOTR-14.json) binds current source and executable to real schema-5/6 restored services and two lifecycle bridges. Old backup bytes and context/receipt/audit state are preserved; old credentials return 401 after migration and fresh credentials recall revision 1. Earlier schema-bound backup failure is repaired; initial synthetic ACL failure is retained. Fresh review and exact main/hosted verification remain separate acceptance steps.
+
+
+Fresh independent ASTRA REVIEW returned `ship` with no findings after the repaired gate. Parent staged-source, preserved-baseline and document-link checks also PASS. HOTR-14 is locally accepted for main publication; exact hosted CI remains pending until observed.

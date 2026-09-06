@@ -5,6 +5,7 @@ pub mod backup;
 pub mod capabilities;
 pub mod credentials;
 pub mod imports;
+pub mod lifecycle;
 pub mod mcp;
 pub mod owner;
 pub mod retrieval;

@@ -7,6 +7,160 @@ use std::sync::{
 const BACKUP_KEY: &[u8] = b"HOTR11BackupKey-8bcd49c1-different";
 
 #[tokio::test(flavor = "current_thread")]
+async fn actual_legacy_backup_migration_preserves_source_and_revokes_clients() {
+    fn private_file(path: &Path, bytes: &[u8]) {
+        let mut file = hotr::windows_security::create_file(path).unwrap();
+        file.write_all(bytes).unwrap();
+        file.sync_all().unwrap();
+    }
+    let run = run_dir();
+    let client = local_client();
+    let legacy_token = "b".repeat(64);
+    let token_hash: [u8; 32] = Sha256::digest(legacy_token.as_bytes()).into();
+    for version in [5u32, 6] {
+        let snapshot = run.join(format!("snapshot-v{version}"));
+        hotr::windows_security::create_directory(&snapshot).unwrap();
+        drop(hotr::windows_security::create_file(&snapshot.join("vault.db")).unwrap());
+        let db = hotr::open_encrypted(&snapshot.join("vault.db"), KEY).unwrap();
+        db.execute_batch("CREATE TABLE hotr_vault(format INTEGER PRIMARY KEY CHECK(format=1)); INSERT INTO hotr_vault VALUES(1);").unwrap();
+        for migration in [
+            include_str!("../../src/schema_v1.sql"),
+            include_str!("../../src/schema_v2.sql"),
+            include_str!("../../src/schema_v3.sql"),
+            include_str!("../../src/schema_v4.sql"),
+            include_str!("../../src/schema_v5.sql"),
+            include_str!("../../src/schema_v6.sql"),
+        ]
+        .into_iter()
+        .take(version as usize)
+        {
+            db.execute_batch(migration).unwrap();
+        }
+        db.pragma_update(None, "user_version", version).unwrap();
+        db.execute("INSERT INTO clients(id,label,token_hash,role,revoked,created_at_ms) VALUES('legacy','legacy',?1,'contributor',0,0)", [token_hash.as_slice()]).unwrap();
+        db.execute("INSERT INTO client_grants VALUES('legacy','alpha')", [])
+            .unwrap();
+        let writer = hotr::writer::Writer::start(db).unwrap();
+        writer
+            .handle()
+            .submit_authenticated(
+                token_hash,
+                write_request("alpha", "legacy-record", "legacy-write", None),
+            )
+            .unwrap()
+            .wait()
+            .await
+            .unwrap();
+        writer.shutdown().await.unwrap();
+        let db = hotr::open_encrypted(&snapshot.join("vault.db"), KEY).unwrap();
+        db.execute_batch("PRAGMA journal_mode=DELETE;").unwrap();
+        drop(db);
+        let original = fs::read(snapshot.join("vault.db")).unwrap();
+        let manifest = hotr::backup::Manifest {
+            format: 1,
+            snapshot_id: "11".repeat(16),
+            sqlcipher: "4.18.0".into(),
+            bytes: original.len() as u64,
+            ciphertext_sha256: format!("{:x}", Sha256::digest(&original)),
+            watermark: hotr::backup::Watermark {
+                schema_version: version,
+                records: 1,
+                revisions: 1,
+                receipts: 1,
+                audit_sequence: 1,
+                clients: 1,
+                grants: 1,
+            },
+        };
+        let original_manifest = serde_json::to_vec_pretty(&manifest).unwrap();
+        private_file(&snapshot.join("backup.json"), &original_manifest);
+        for rejected_version in [
+            4,
+            hotr::schema::VERSION + 1,
+            if version == 5 { 6 } else { 5 },
+        ] {
+            let bad = run.join(format!("bad-v{version}-as-{rejected_version}"));
+            hotr::windows_security::create_directory(&bad).unwrap();
+            let mut changed = manifest.clone();
+            changed.watermark.schema_version = rejected_version;
+            private_file(
+                &bad.join("backup.json"),
+                &serde_json::to_vec(&changed).unwrap(),
+            );
+            private_file(&bad.join("vault.db"), &original);
+            let rejected_destination =
+                run.join(format!("rejected-v{version}-as-{rejected_version}"));
+            assert!(hotr::backup::restore(&bad, &rejected_destination, KEY).is_err());
+            assert!(!rejected_destination.exists());
+        }
+        let restored = run.join(format!("restored-v{version}"));
+        fs::create_dir(&restored).unwrap();
+        let result = hotr::backup::restore(&snapshot, &restored.join("vault"), KEY).unwrap();
+        assert_eq!(result["watermark"]["schema_version"], version);
+        assert_eq!(result["restored_schema_version"], hotr::schema::VERSION);
+        assert_eq!(result["clients_invalidated"], 1);
+        assert_eq!(fs::read(snapshot.join("vault.db")).unwrap(), original);
+        assert_eq!(
+            fs::read(snapshot.join("backup.json")).unwrap(),
+            original_manifest
+        );
+        let mut server = Server::start(&restored, "legacy-restored");
+        unlock(&restored).await;
+        assert_eq!(
+            post(
+                &client,
+                server.port,
+                &legacy_token,
+                "/v1/records/get",
+                &json!({"namespace":"alpha","id":"legacy-record"})
+            )
+            .await
+            .0,
+            401
+        );
+        let (_, fresh_token) = issue_cli(&restored, "fresh-reader", "reader", "alpha");
+        let recalled = post(
+            &client,
+            server.port,
+            &fresh_token,
+            "/v1/records/get",
+            &json!({"namespace":"alpha","id":"legacy-record"}),
+        )
+        .await;
+        assert_eq!(recalled.0, 200);
+        assert_eq!(recalled.1["body"], BODY);
+        assert_eq!(recalled.1["revision"], 1);
+        server.stop(&restored).await;
+        let db = hotr::schema::open(&restored.join("vault/vault.db"), KEY).unwrap();
+        assert_eq!(
+            db.query_row("SELECT count(*) FROM write_receipts", [], |r| r
+                .get::<_, u32>(0))
+                .unwrap(),
+            1
+        );
+        assert_eq!(
+            db.query_row("SELECT count(*) FROM mutation_audit", [], |r| r
+                .get::<_, u32>(0))
+                .unwrap(),
+            1
+        );
+        assert_eq!(
+            db.query_row(
+                "SELECT grant_revision FROM clients WHERE id='legacy'",
+                [],
+                |r| r.get::<_, u32>(0)
+            )
+            .unwrap(),
+            0
+        );
+        drop(db);
+        scan(&snapshot, &[]);
+        scan(&restored, &[&fresh_token]);
+    }
+    write_new(&run.join("HOTR-14-legacy-restore.json"), &serde_json::to_vec_pretty(&json!({"result":"PASS","source_schema_versions":[5,6],"restored_schema_version":hotr::schema::VERSION,"original_backups_unchanged":true,"legacy_credentials_denied":401,"new_clients_recall_original_revision":true,"future_unsupported_and_mismatched_versions_refused_before_creation":true,"binary_sha256":format!("{:x}",Sha256::digest(fs::read(env!("CARGO_BIN_EXE_hotr")).unwrap()))})).unwrap());
+}
+
+#[tokio::test(flavor = "current_thread")]
 async fn actual_encrypted_backup_during_writes_and_fresh_restore() {
     let run = run_dir();
     owner::create(&run.join("vault"), KEY).unwrap();

@@ -1,0 +1,695 @@
+{
+  "prompt": "HOTR-14",
+  "result": "PASS locally; publication and exact hosted result tracked separately",
+  "gate": "HOTR-14-84644-1788714278331656100",
+  "source": {
+    "commit": "a11d1a4e7ebba9f45ab8132bbad9ece3c63ca837",
+    "dirty": true,
+    "native_sha256": {
+      "libcrypto.lib": "a732e953ad89e07f8acfd1f656a598105724b3bfb739a4c89984cac10f136199",
+      "sqlcipher.lib": "6fc809b1a11e664fb348da594cd0b03a36e9c9046d7731c478725d8f51f532a7",
+      "sqlite3.c": "45c136615ae3ee8c366dbdde3d78f77c4a15b04ddf55d387b987e45d777b8a42"
+    },
+    "normalized_source_sha256": {
+      ".cargo/config.toml": "434a52b014edd006e7b6fa18301d903499fba0862aee92495b8dd95ca23eb365",
+      ".cargo/enter-prepared-native.ps1": "90c29f33ad82618d554fa7eb1af0d59746fbed6a502f5c7525c85995523db3f3",
+      ".cargo/inspect-electron.cjs": "573efb2a075fd4efca232cfdda2ae6a5529ef4081d5ccbe8d3e2bc1ff8594c79",
+      ".cargo/inspect-hermes-cli.cjs": "c566f41dccc6ebb5f6694c9dd24064d8e415ea4a0d34566f69163d3b0a502dae",
+      ".cargo/inspect-installed-clients.ps1": "1555b0d95de548643969059ab1374d1cc968e44159a22ac7e668836cc6063341",
+      ".cargo/owner-principal-probe.ps1": "a9ec2c5a2c9837d8ee5192b4fcf28d1751ce315e2f34086fbac49cd51eef3b2f",
+      ".cargo/prepare-native.ps1": "ab3de675afb46fc59d577d514ce4195d1bbbe45a44f9e91d23cf90887a9bde5a",
+      ".cargo/scan-native-canaries.py": "8dff07cba84fd25ec32fd432a35857ca473e5500dbf2b55ce1d32d35b15722f8",
+      ".cargo/verify-installed-clients.ps1": "6f4c9c5548676f8cb83d8335b214690d7c045479afb10a464edc8ea75e0332f7",
+      ".github/workflows/windows-native.yml": "ab05c4953039226d06914e96a66c4a5b8301750df700602cb18154ff70a610d6",
+      "Cargo.lock": "2909ba4442f8a7e322eceabef486f8a29c553f6a20691f5843fa9ee3fb351ae4",
+      "Cargo.toml": "4a36c39faf40606286008fbb62cf6f7d63beb48015c58269162e114d22f78abf",
+      "build.rs": "8eb17bf45c9b98ec15cb1a19889c42882b3fe4196ade6459bfd5073f360b72a1",
+      "integrations/clients/hermes_cli.cjs": "d7620c0f447e116f673b993b89f536adcbd34c70d65bf62befea29811bc4db42",
+      "integrations/clients/hermes_results.cjs": "9e18a7e8ffd8e4ac4cd4e108d4ddf1310604ac97f9eebc8810194611f7dd66fa",
+      "integrations/clients/hermes_results.test.cjs": "c53349aeb686f94268a9bc2df1b7cb4fc6475d994da6065c6667344f82d6aee7",
+      "integrations/clients/lamprey_bootstrap.cjs": "f6b00425f018873d6fc8280495db4e7c5d7264678e04032fc18fbe45236a3728",
+      "integrations/clients/lamprey_chat.cjs": "66b05c969bcfecede27deef9e2768987c92c479cf5f3a17e5b85fbaea3ca7268",
+      "integrations/clients/lamprey_probe.cjs": "0eddb97ca2ed99a15fe513b719f33031b6824db8f48e1609c6a95e3cf6a93069",
+      "integrations/clients/live_cli.py": "8971f6e57f4516b4beba0c124b0cfb498275c7a31bd6c1234e4be0bff1f2157d",
+      "integrations/clients/prompt_budget.cjs": "498a8e05b892c1c0a557ffc698dcbc7f43d353cef37cb4a91ef8cda0d6840ea6",
+      "integrations/clients/prompt_budget.test.cjs": "248e7ca43097be2e25aa417a9c126b75c4f43bf1f07281845100f62115703b8f",
+      "src/api.rs": "c6ba7da0451269a04e38574ebeb1e24fe61e581d6c21b9a44ba3300c6e83a7ae",
+      "src/backup.rs": "7b4bb1928e80687efc27531c4f718de8a0fc39f87ae7bda73dd3333903122fe4",
+      "src/capabilities.rs": "b2a0fc3616d5bf07da523d77826ce6e4f04b4e214c4f3ae8c8dafdf844d735b6",
+      "src/credentials.rs": "ace05a2480c5de41a3b8ff5ce4afec26014c06fe4579bca08490dfc932a57b4d",
+      "src/imports.rs": "c701b00559044f3fb8a4ecaed5357c089ca1c46620052870f13f8a67f7bdea7c",
+      "src/lib.rs": "16367810a310b715c735b222621b500a35e188a0a6998fb689411487179a59fb",
+      "src/lifecycle.rs": "280fdc99d92509c4aadc77ef4008c5d74a6aa78548853e4b5f40dcaa41ff87b4",
+      "src/main.rs": "ffa717d3818fa1e2944e278ac3bffc7b00d7f61c9674b3f4488579990fa3e31b",
+      "src/mcp.rs": "04a454be7d12321ec7baa61d94c17ede1b7ddbfd2eb12a73f18f9ad0ab3e559b",
+      "src/owner.rs": "6f4a627209924b696fec612333f4cdf436858555366b0b99179da5a56211a927",
+      "src/retrieval.rs": "afd385fb35f72ade2c3b93c82a2970f67f2536ed184554814ae54d8ad028735f",
+      "src/schema.rs": "38b8f66462d7dc8938e6b97e1979fc0d3aec1aed0cd12608c2f22e5efe27ebfd",
+      "src/schema_v1.sql": "62c7da764a66eb81be3324eb741c660a7c56598f80d4b59de011f7eac5ab431e",
+      "src/schema_v2.sql": "41550b33bb043a9a4016de80af6d25c99fb390ab955a7b677c5467dc1b14bc6c",
+      "src/schema_v3.sql": "e8a6f173425f97e3172ab30db5a3c3f0628d14dc496ca396db17d80df17fd240",
+      "src/schema_v4.sql": "c373faa46c691efae898265826b6f5487d4faac16db009a5e2452e3e787b13fd",
+      "src/schema_v5.sql": "307e5af7b6e910be7a1d965ae9ba49038a931e8ba3d14ae9af474aa728339bed",
+      "src/schema_v6.sql": "755c740e9ad0f728df4668f07d3353527d19dec5fb09db2157cbb7b0934b065e",
+      "src/schema_v7.sql": "2a1b61bc7c6adf6bf3c750c3b3fd3a80939571d00a33cf61c7bf5964d9a94a0d",
+      "src/windows_security.rs": "e54b657ac4d027383a9c054cc2cdde3a54e83e5cab7b4b1eb0786d544d961b7d",
+      "src/writer.rs": "a18de4f3e902d88091a698938eaaedad237f6bc823f252827dadad74394f93b2",
+      "src/writer_tests.rs": "3110c258116bbee7247b659dec2afb977ccaaca3e1be0d3374749ed59c450137",
+      "tests/api_capabilities.rs": "6dd974941e88d23d2c4ee4db5a7ecfdf4fc727fcbc9056661cae0f1bc60ddfc4",
+      "tests/encryption.rs": "d98035a8ecde9fadd18d02c5cbe99e779ab755aa2eb73359616b93f3eef70fc8",
+      "tests/owner_lifecycle.rs": "8f845175c183a0775d98b5fdecf5a77b6e32d331bc9a6359fb99a33ca4e7a6c8",
+      "tests/schema.rs": "4dc8e6c217560def4faf0d73f2a79e05c686743c2cbffa82bc5cc30ec248ec0b",
+      "tests/support/apps.rs": "b69bd096e1685c0c548b8f8b400c07fa37346f1372e9762ac51ff7938f8c0bb3",
+      "tests/support/backup.rs": "d269fedf8e69fc6d5b517b8aa0cfb4153b1ade692b15baa7c72f70b78125ec59",
+      "tests/support/hermes.rs": "19bd4fbdc6f16ea9922a21e3b703dcf63fd1492574eb12800c7fbb5bf338e705",
+      "tests/support/imports.rs": "f806147c26cbf06804b4f3ea2bc7aeefbeff55580d190f73bc7316eaa2c1096e",
+      "tests/support/lamprey.rs": "8198498e5a9571c4eb1d35712bd01d528f29efc04817b7d1bed753cd7722f912",
+      "tests/support/lifecycle.rs": "5333ff68595cf29c7c741d1dffc2362bfb3132113fd3a2dd817a670fe22825c2",
+      "tests/support/mcp.rs": "02836788b7d85563dec0dfa18d2215cce7afa3b10c9940699c182331127a8ea9",
+      "xtask/Cargo.lock": "fbd9aa7678363510fe593cb108cabdad3d12f078de7302a8a4023d78d928e928",
+      "xtask/Cargo.toml": "3c56553b6e2443c28c659f1f1b18df36eb583475202ebebe0b5706fc49f9f357",
+      "xtask/native-builder/Cargo.lock": "11e14128caf3dec373927ad5bcb771867856a89d5a6a6752514e22abf4c97bda",
+      "xtask/native-builder/Cargo.toml": "aa88450cffdc47d430df5037dbd76f8e6b996ac2bdb57deb3c2910e95181d526",
+      "xtask/native-builder/build.rs": "c6796b1671edf06c696968ed256dbe85c9f5e6c18fc0cae9d698bfb10919c9fd",
+      "xtask/native-builder/src/main.rs": "da1d383a162e3a5a00c73b6e9f26bca9cecc4a9f00051fe0c2d4f72cddd5c6ee",
+      "xtask/src/lib.rs": "05feb1999d90937941b00db5c94fcea8919a9de0c2f54f9e917fec9ab9025ed8",
+      "xtask/src/limits.rs": "05e13bcd50b103ac0daf28982aa4633395f9296aa7abe582ceb1e14f66458eb8",
+      "xtask/src/main.rs": "01b64e6baf6f89123478c7274e62e62ac79d11e2196cf9b044b82a41db5c883c",
+      "xtask/tests/contracts.rs": "abe81a6e82e90477165df2b16c2aef22fc378311fe05667b6121311791157fa4"
+    }
+  },
+  "product_sha256": "e2fab29f42d9dab48cd3de89d388c01b6be66b00473a23d07aadbd6101057c50",
+  "runner_sha256": "1b66c1f587e9cb394e0fa5ba0e954d43167e4327ffc187bd68b10ad83c914b5d",
+  "commands": [
+    {
+      "label": "format",
+      "arguments": [
+        "fmt",
+        "--check"
+      ],
+      "elapsed_ms": 627,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "build",
+      "arguments": [
+        "build",
+        "--release",
+        "--locked"
+      ],
+      "elapsed_ms": 21420,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "clippy",
+      "arguments": [
+        "clippy",
+        "--release",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_ms": 1955,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "tests",
+      "arguments": [
+        "test",
+        "--release",
+        "--locked",
+        "--",
+        "--test-threads=1"
+      ],
+      "elapsed_ms": 122954,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "harness-format",
+      "arguments": [
+        "fmt",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--check"
+      ],
+      "elapsed_ms": 209,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "harness-clippy",
+      "arguments": [
+        "clippy",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--release",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_ms": 346,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "harness-tests",
+      "arguments": [
+        "test",
+        "--lib",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--release",
+        "--locked",
+        "--",
+        "--test-threads=1"
+      ],
+      "elapsed_ms": 248,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "canary-scan",
+      "arguments": [
+        "-I",
+        "-B",
+        ".cargo/scan-native-canaries.py"
+      ],
+      "elapsed_ms": 30847,
+      "exit_code": 0,
+      "failure": null
+    }
+  ],
+  "product_tests_passed": 29,
+  "runner_tests_passed": 6,
+  "scan_files": 5917,
+  "actual_lifecycle_proof": [
+    {
+      "fixture": "HOTR-07-31484-1788714407615178100",
+      "file": "HOTR-14-lifecycle.json",
+      "evidence": {
+        "accepted_writer_denial": 403,
+        "actual_bridges": 2,
+        "binary_sha256": "e2fab29f42d9dab48cd3de89d388c01b6be66b00473a23d07aadbd6101057c50",
+        "current_correction_revision": 2,
+        "history_requires_current_grant": true,
+        "restart_retains_policy": true,
+        "result": "PASS",
+        "same_bridge_grant_withdrawal": true,
+        "stale_revision_conflict": true,
+        "suppression_ids": 4
+      }
+    }
+  ],
+  "failed_runs_retained": [
+    {
+      "gate": "HOTR-14-57708-1788710249573899900",
+      "reason": "New fixture used nonexistent MCP tool names; corrected to established hotr_get and hotr_search."
+    },
+    {
+      "gate": "HOTR-14-89092-1788710486499592800",
+      "reason": "Legacy role immutability trigger rejected owner grant change; v7 preserves credential identity while permitting explicit owner role policy."
+    },
+    {
+      "gate": "HOTR-14-78016-1788713993335812800",
+      "reason": "Legacy fixture created manifest without required protected ACL; corrected fixture to use production protected file creation, leaving production ACL checks intact."
+    }
+  ],
+  "preservation": {
+    "original_baselines_verified": 8,
+    "preexisting_files_deleted": 0,
+    "personal_imports": 0,
+    "provider_prompts": 0,
+    "registered_worktrees": 1,
+    "generated_bytes": 4490791398
+  },
+  "limitations": [
+    "Actual owner CLI, HTTP and two separate MCP bridge processes verified; named LLM application workflows were not repeated.",
+    "Remaining HOTR-12 compatibility and further Lamprey/plugin work remain deferred.",
+    "Explicit currently authorized history retains suppressed revisions; older backups and already returned app text retain their content.",
+    "Separate-account, full stress/soak, semantic index and deployment gates are separate roster work."
+  ],
+  "standby": "Superseded: owner resumed the approved roster with Astra Advisor orchestration after restart. Finish HOTR-14 review/publication, then HOTR-15.",
+  "local_gate_history": [
+    {
+      "gate": "HOTR-14-72804-1788710656448614500",
+      "source": {
+        "commit": "a11d1a4e7ebba9f45ab8132bbad9ece3c63ca837",
+        "dirty": true,
+        "native_sha256": {
+          "libcrypto.lib": "a732e953ad89e07f8acfd1f656a598105724b3bfb739a4c89984cac10f136199",
+          "sqlcipher.lib": "6fc809b1a11e664fb348da594cd0b03a36e9c9046d7731c478725d8f51f532a7",
+          "sqlite3.c": "45c136615ae3ee8c366dbdde3d78f77c4a15b04ddf55d387b987e45d777b8a42"
+        },
+        "normalized_source_sha256": {
+          ".cargo/config.toml": "434a52b014edd006e7b6fa18301d903499fba0862aee92495b8dd95ca23eb365",
+          ".cargo/enter-prepared-native.ps1": "90c29f33ad82618d554fa7eb1af0d59746fbed6a502f5c7525c85995523db3f3",
+          ".cargo/inspect-electron.cjs": "573efb2a075fd4efca232cfdda2ae6a5529ef4081d5ccbe8d3e2bc1ff8594c79",
+          ".cargo/inspect-hermes-cli.cjs": "c566f41dccc6ebb5f6694c9dd24064d8e415ea4a0d34566f69163d3b0a502dae",
+          ".cargo/inspect-installed-clients.ps1": "1555b0d95de548643969059ab1374d1cc968e44159a22ac7e668836cc6063341",
+          ".cargo/owner-principal-probe.ps1": "a9ec2c5a2c9837d8ee5192b4fcf28d1751ce315e2f34086fbac49cd51eef3b2f",
+          ".cargo/prepare-native.ps1": "ab3de675afb46fc59d577d514ce4195d1bbbe45a44f9e91d23cf90887a9bde5a",
+          ".cargo/scan-native-canaries.py": "8dff07cba84fd25ec32fd432a35857ca473e5500dbf2b55ce1d32d35b15722f8",
+          ".cargo/verify-installed-clients.ps1": "6f4c9c5548676f8cb83d8335b214690d7c045479afb10a464edc8ea75e0332f7",
+          ".github/workflows/windows-native.yml": "ab05c4953039226d06914e96a66c4a5b8301750df700602cb18154ff70a610d6",
+          "Cargo.lock": "2909ba4442f8a7e322eceabef486f8a29c553f6a20691f5843fa9ee3fb351ae4",
+          "Cargo.toml": "4a36c39faf40606286008fbb62cf6f7d63beb48015c58269162e114d22f78abf",
+          "build.rs": "8eb17bf45c9b98ec15cb1a19889c42882b3fe4196ade6459bfd5073f360b72a1",
+          "integrations/clients/hermes_cli.cjs": "d7620c0f447e116f673b993b89f536adcbd34c70d65bf62befea29811bc4db42",
+          "integrations/clients/hermes_results.cjs": "9e18a7e8ffd8e4ac4cd4e108d4ddf1310604ac97f9eebc8810194611f7dd66fa",
+          "integrations/clients/hermes_results.test.cjs": "c53349aeb686f94268a9bc2df1b7cb4fc6475d994da6065c6667344f82d6aee7",
+          "integrations/clients/lamprey_bootstrap.cjs": "f6b00425f018873d6fc8280495db4e7c5d7264678e04032fc18fbe45236a3728",
+          "integrations/clients/lamprey_chat.cjs": "66b05c969bcfecede27deef9e2768987c92c479cf5f3a17e5b85fbaea3ca7268",
+          "integrations/clients/lamprey_probe.cjs": "0eddb97ca2ed99a15fe513b719f33031b6824db8f48e1609c6a95e3cf6a93069",
+          "integrations/clients/live_cli.py": "8971f6e57f4516b4beba0c124b0cfb498275c7a31bd6c1234e4be0bff1f2157d",
+          "integrations/clients/prompt_budget.cjs": "498a8e05b892c1c0a557ffc698dcbc7f43d353cef37cb4a91ef8cda0d6840ea6",
+          "integrations/clients/prompt_budget.test.cjs": "248e7ca43097be2e25aa417a9c126b75c4f43bf1f07281845100f62115703b8f",
+          "src/api.rs": "c6ba7da0451269a04e38574ebeb1e24fe61e581d6c21b9a44ba3300c6e83a7ae",
+          "src/backup.rs": "f00bb323bd2fc5f84729c4ffd8f99bcbae148e4285a303ef94f7c3f9b0fd6ef2",
+          "src/capabilities.rs": "b2a0fc3616d5bf07da523d77826ce6e4f04b4e214c4f3ae8c8dafdf844d735b6",
+          "src/credentials.rs": "ace05a2480c5de41a3b8ff5ce4afec26014c06fe4579bca08490dfc932a57b4d",
+          "src/imports.rs": "c701b00559044f3fb8a4ecaed5357c089ca1c46620052870f13f8a67f7bdea7c",
+          "src/lib.rs": "16367810a310b715c735b222621b500a35e188a0a6998fb689411487179a59fb",
+          "src/lifecycle.rs": "280fdc99d92509c4aadc77ef4008c5d74a6aa78548853e4b5f40dcaa41ff87b4",
+          "src/main.rs": "ffa717d3818fa1e2944e278ac3bffc7b00d7f61c9674b3f4488579990fa3e31b",
+          "src/mcp.rs": "04a454be7d12321ec7baa61d94c17ede1b7ddbfd2eb12a73f18f9ad0ab3e559b",
+          "src/owner.rs": "6f4a627209924b696fec612333f4cdf436858555366b0b99179da5a56211a927",
+          "src/retrieval.rs": "afd385fb35f72ade2c3b93c82a2970f67f2536ed184554814ae54d8ad028735f",
+          "src/schema.rs": "38b8f66462d7dc8938e6b97e1979fc0d3aec1aed0cd12608c2f22e5efe27ebfd",
+          "src/schema_v1.sql": "62c7da764a66eb81be3324eb741c660a7c56598f80d4b59de011f7eac5ab431e",
+          "src/schema_v2.sql": "41550b33bb043a9a4016de80af6d25c99fb390ab955a7b677c5467dc1b14bc6c",
+          "src/schema_v3.sql": "e8a6f173425f97e3172ab30db5a3c3f0628d14dc496ca396db17d80df17fd240",
+          "src/schema_v4.sql": "c373faa46c691efae898265826b6f5487d4faac16db009a5e2452e3e787b13fd",
+          "src/schema_v5.sql": "307e5af7b6e910be7a1d965ae9ba49038a931e8ba3d14ae9af474aa728339bed",
+          "src/schema_v6.sql": "755c740e9ad0f728df4668f07d3353527d19dec5fb09db2157cbb7b0934b065e",
+          "src/schema_v7.sql": "2a1b61bc7c6adf6bf3c750c3b3fd3a80939571d00a33cf61c7bf5964d9a94a0d",
+          "src/windows_security.rs": "e54b657ac4d027383a9c054cc2cdde3a54e83e5cab7b4b1eb0786d544d961b7d",
+          "src/writer.rs": "a18de4f3e902d88091a698938eaaedad237f6bc823f252827dadad74394f93b2",
+          "src/writer_tests.rs": "3110c258116bbee7247b659dec2afb977ccaaca3e1be0d3374749ed59c450137",
+          "tests/api_capabilities.rs": "6dd974941e88d23d2c4ee4db5a7ecfdf4fc727fcbc9056661cae0f1bc60ddfc4",
+          "tests/encryption.rs": "d98035a8ecde9fadd18d02c5cbe99e779ab755aa2eb73359616b93f3eef70fc8",
+          "tests/owner_lifecycle.rs": "8f845175c183a0775d98b5fdecf5a77b6e32d331bc9a6359fb99a33ca4e7a6c8",
+          "tests/schema.rs": "4dc8e6c217560def4faf0d73f2a79e05c686743c2cbffa82bc5cc30ec248ec0b",
+          "tests/support/apps.rs": "b69bd096e1685c0c548b8f8b400c07fa37346f1372e9762ac51ff7938f8c0bb3",
+          "tests/support/backup.rs": "1d862df5fa4fdc83f5cb13787b5b0e0bff294dd67e7033d9ea7602031c8fa0fb",
+          "tests/support/hermes.rs": "19bd4fbdc6f16ea9922a21e3b703dcf63fd1492574eb12800c7fbb5bf338e705",
+          "tests/support/imports.rs": "f806147c26cbf06804b4f3ea2bc7aeefbeff55580d190f73bc7316eaa2c1096e",
+          "tests/support/lamprey.rs": "8198498e5a9571c4eb1d35712bd01d528f29efc04817b7d1bed753cd7722f912",
+          "tests/support/lifecycle.rs": "5333ff68595cf29c7c741d1dffc2362bfb3132113fd3a2dd817a670fe22825c2",
+          "tests/support/mcp.rs": "02836788b7d85563dec0dfa18d2215cce7afa3b10c9940699c182331127a8ea9",
+          "xtask/Cargo.lock": "fbd9aa7678363510fe593cb108cabdad3d12f078de7302a8a4023d78d928e928",
+          "xtask/Cargo.toml": "3c56553b6e2443c28c659f1f1b18df36eb583475202ebebe0b5706fc49f9f357",
+          "xtask/native-builder/Cargo.lock": "11e14128caf3dec373927ad5bcb771867856a89d5a6a6752514e22abf4c97bda",
+          "xtask/native-builder/Cargo.toml": "aa88450cffdc47d430df5037dbd76f8e6b996ac2bdb57deb3c2910e95181d526",
+          "xtask/native-builder/build.rs": "c6796b1671edf06c696968ed256dbe85c9f5e6c18fc0cae9d698bfb10919c9fd",
+          "xtask/native-builder/src/main.rs": "da1d383a162e3a5a00c73b6e9f26bca9cecc4a9f00051fe0c2d4f72cddd5c6ee",
+          "xtask/src/lib.rs": "05feb1999d90937941b00db5c94fcea8919a9de0c2f54f9e917fec9ab9025ed8",
+          "xtask/src/limits.rs": "05e13bcd50b103ac0daf28982aa4633395f9296aa7abe582ceb1e14f66458eb8",
+          "xtask/src/main.rs": "01b64e6baf6f89123478c7274e62e62ac79d11e2196cf9b044b82a41db5c883c",
+          "xtask/tests/contracts.rs": "abe81a6e82e90477165df2b16c2aef22fc378311fe05667b6121311791157fa4"
+        }
+      },
+      "product_sha256": "d8ce5ecdde7e409ab06a20a72e64c2f97b3c8ba178548f9c4a2de062e7efeb26",
+      "runner_sha256": "1b66c1f587e9cb394e0fa5ba0e954d43167e4327ffc187bd68b10ad83c914b5d",
+      "commands": [
+        {
+          "label": "format",
+          "arguments": [
+            "fmt",
+            "--check"
+          ],
+          "elapsed_ms": 666,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "build",
+          "arguments": [
+            "build",
+            "--release",
+            "--locked"
+          ],
+          "elapsed_ms": 62304,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "clippy",
+          "arguments": [
+            "clippy",
+            "--release",
+            "--locked",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "elapsed_ms": 4813,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "tests",
+          "arguments": [
+            "test",
+            "--release",
+            "--locked",
+            "--",
+            "--test-threads=1"
+          ],
+          "elapsed_ms": 140411,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "harness-format",
+          "arguments": [
+            "fmt",
+            "--manifest-path",
+            "xtask/Cargo.toml",
+            "--check"
+          ],
+          "elapsed_ms": 225,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "harness-clippy",
+          "arguments": [
+            "clippy",
+            "--manifest-path",
+            "xtask/Cargo.toml",
+            "--release",
+            "--locked",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "elapsed_ms": 872,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "harness-tests",
+          "arguments": [
+            "test",
+            "--lib",
+            "--manifest-path",
+            "xtask/Cargo.toml",
+            "--release",
+            "--locked",
+            "--",
+            "--test-threads=1"
+          ],
+          "elapsed_ms": 1160,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "canary-scan",
+          "arguments": [
+            "-I",
+            "-B",
+            ".cargo/scan-native-canaries.py"
+          ],
+          "elapsed_ms": 26735,
+          "exit_code": 0,
+          "failure": null
+        }
+      ],
+      "scan_files": 5201,
+      "actual_lifecycle_proof": [
+        {
+          "fixture": "HOTR-07-72672-1788710851402292300",
+          "evidence": {
+            "accepted_writer_denial": 403,
+            "actual_bridges": 2,
+            "binary_sha256": "d8ce5ecdde7e409ab06a20a72e64c2f97b3c8ba178548f9c4a2de062e7efeb26",
+            "current_correction_revision": 2,
+            "history_requires_current_grant": true,
+            "restart_retains_policy": true,
+            "result": "PASS",
+            "same_bridge_grant_withdrawal": true,
+            "stale_revision_conflict": true,
+            "suppression_ids": 4
+          }
+        }
+      ]
+    },
+    {
+      "gate": "HOTR-14-85332-1788713354061792200",
+      "source": {
+        "commit": "a11d1a4e7ebba9f45ab8132bbad9ece3c63ca837",
+        "dirty": true,
+        "native_sha256": {
+          "libcrypto.lib": "a732e953ad89e07f8acfd1f656a598105724b3bfb739a4c89984cac10f136199",
+          "sqlcipher.lib": "6fc809b1a11e664fb348da594cd0b03a36e9c9046d7731c478725d8f51f532a7",
+          "sqlite3.c": "45c136615ae3ee8c366dbdde3d78f77c4a15b04ddf55d387b987e45d777b8a42"
+        },
+        "normalized_source_sha256": {
+          ".cargo/config.toml": "434a52b014edd006e7b6fa18301d903499fba0862aee92495b8dd95ca23eb365",
+          ".cargo/enter-prepared-native.ps1": "90c29f33ad82618d554fa7eb1af0d59746fbed6a502f5c7525c85995523db3f3",
+          ".cargo/inspect-electron.cjs": "573efb2a075fd4efca232cfdda2ae6a5529ef4081d5ccbe8d3e2bc1ff8594c79",
+          ".cargo/inspect-hermes-cli.cjs": "c566f41dccc6ebb5f6694c9dd24064d8e415ea4a0d34566f69163d3b0a502dae",
+          ".cargo/inspect-installed-clients.ps1": "1555b0d95de548643969059ab1374d1cc968e44159a22ac7e668836cc6063341",
+          ".cargo/owner-principal-probe.ps1": "a9ec2c5a2c9837d8ee5192b4fcf28d1751ce315e2f34086fbac49cd51eef3b2f",
+          ".cargo/prepare-native.ps1": "ab3de675afb46fc59d577d514ce4195d1bbbe45a44f9e91d23cf90887a9bde5a",
+          ".cargo/scan-native-canaries.py": "8dff07cba84fd25ec32fd432a35857ca473e5500dbf2b55ce1d32d35b15722f8",
+          ".cargo/verify-installed-clients.ps1": "6f4c9c5548676f8cb83d8335b214690d7c045479afb10a464edc8ea75e0332f7",
+          ".github/workflows/windows-native.yml": "ab05c4953039226d06914e96a66c4a5b8301750df700602cb18154ff70a610d6",
+          "Cargo.lock": "2909ba4442f8a7e322eceabef486f8a29c553f6a20691f5843fa9ee3fb351ae4",
+          "Cargo.toml": "4a36c39faf40606286008fbb62cf6f7d63beb48015c58269162e114d22f78abf",
+          "build.rs": "8eb17bf45c9b98ec15cb1a19889c42882b3fe4196ade6459bfd5073f360b72a1",
+          "integrations/clients/hermes_cli.cjs": "d7620c0f447e116f673b993b89f536adcbd34c70d65bf62befea29811bc4db42",
+          "integrations/clients/hermes_results.cjs": "9e18a7e8ffd8e4ac4cd4e108d4ddf1310604ac97f9eebc8810194611f7dd66fa",
+          "integrations/clients/hermes_results.test.cjs": "c53349aeb686f94268a9bc2df1b7cb4fc6475d994da6065c6667344f82d6aee7",
+          "integrations/clients/lamprey_bootstrap.cjs": "f6b00425f018873d6fc8280495db4e7c5d7264678e04032fc18fbe45236a3728",
+          "integrations/clients/lamprey_chat.cjs": "66b05c969bcfecede27deef9e2768987c92c479cf5f3a17e5b85fbaea3ca7268",
+          "integrations/clients/lamprey_probe.cjs": "0eddb97ca2ed99a15fe513b719f33031b6824db8f48e1609c6a95e3cf6a93069",
+          "integrations/clients/live_cli.py": "8971f6e57f4516b4beba0c124b0cfb498275c7a31bd6c1234e4be0bff1f2157d",
+          "integrations/clients/prompt_budget.cjs": "498a8e05b892c1c0a557ffc698dcbc7f43d353cef37cb4a91ef8cda0d6840ea6",
+          "integrations/clients/prompt_budget.test.cjs": "248e7ca43097be2e25aa417a9c126b75c4f43bf1f07281845100f62115703b8f",
+          "src/api.rs": "c6ba7da0451269a04e38574ebeb1e24fe61e581d6c21b9a44ba3300c6e83a7ae",
+          "src/backup.rs": "f00bb323bd2fc5f84729c4ffd8f99bcbae148e4285a303ef94f7c3f9b0fd6ef2",
+          "src/capabilities.rs": "b2a0fc3616d5bf07da523d77826ce6e4f04b4e214c4f3ae8c8dafdf844d735b6",
+          "src/credentials.rs": "ace05a2480c5de41a3b8ff5ce4afec26014c06fe4579bca08490dfc932a57b4d",
+          "src/imports.rs": "c701b00559044f3fb8a4ecaed5357c089ca1c46620052870f13f8a67f7bdea7c",
+          "src/lib.rs": "16367810a310b715c735b222621b500a35e188a0a6998fb689411487179a59fb",
+          "src/lifecycle.rs": "280fdc99d92509c4aadc77ef4008c5d74a6aa78548853e4b5f40dcaa41ff87b4",
+          "src/main.rs": "ffa717d3818fa1e2944e278ac3bffc7b00d7f61c9674b3f4488579990fa3e31b",
+          "src/mcp.rs": "04a454be7d12321ec7baa61d94c17ede1b7ddbfd2eb12a73f18f9ad0ab3e559b",
+          "src/owner.rs": "6f4a627209924b696fec612333f4cdf436858555366b0b99179da5a56211a927",
+          "src/retrieval.rs": "afd385fb35f72ade2c3b93c82a2970f67f2536ed184554814ae54d8ad028735f",
+          "src/schema.rs": "38b8f66462d7dc8938e6b97e1979fc0d3aec1aed0cd12608c2f22e5efe27ebfd",
+          "src/schema_v1.sql": "62c7da764a66eb81be3324eb741c660a7c56598f80d4b59de011f7eac5ab431e",
+          "src/schema_v2.sql": "41550b33bb043a9a4016de80af6d25c99fb390ab955a7b677c5467dc1b14bc6c",
+          "src/schema_v3.sql": "e8a6f173425f97e3172ab30db5a3c3f0628d14dc496ca396db17d80df17fd240",
+          "src/schema_v4.sql": "c373faa46c691efae898265826b6f5487d4faac16db009a5e2452e3e787b13fd",
+          "src/schema_v5.sql": "307e5af7b6e910be7a1d965ae9ba49038a931e8ba3d14ae9af474aa728339bed",
+          "src/schema_v6.sql": "755c740e9ad0f728df4668f07d3353527d19dec5fb09db2157cbb7b0934b065e",
+          "src/schema_v7.sql": "2a1b61bc7c6adf6bf3c750c3b3fd3a80939571d00a33cf61c7bf5964d9a94a0d",
+          "src/windows_security.rs": "e54b657ac4d027383a9c054cc2cdde3a54e83e5cab7b4b1eb0786d544d961b7d",
+          "src/writer.rs": "a18de4f3e902d88091a698938eaaedad237f6bc823f252827dadad74394f93b2",
+          "src/writer_tests.rs": "3110c258116bbee7247b659dec2afb977ccaaca3e1be0d3374749ed59c450137",
+          "tests/api_capabilities.rs": "6dd974941e88d23d2c4ee4db5a7ecfdf4fc727fcbc9056661cae0f1bc60ddfc4",
+          "tests/encryption.rs": "d98035a8ecde9fadd18d02c5cbe99e779ab755aa2eb73359616b93f3eef70fc8",
+          "tests/owner_lifecycle.rs": "8f845175c183a0775d98b5fdecf5a77b6e32d331bc9a6359fb99a33ca4e7a6c8",
+          "tests/schema.rs": "4dc8e6c217560def4faf0d73f2a79e05c686743c2cbffa82bc5cc30ec248ec0b",
+          "tests/support/apps.rs": "b69bd096e1685c0c548b8f8b400c07fa37346f1372e9762ac51ff7938f8c0bb3",
+          "tests/support/backup.rs": "1d862df5fa4fdc83f5cb13787b5b0e0bff294dd67e7033d9ea7602031c8fa0fb",
+          "tests/support/hermes.rs": "19bd4fbdc6f16ea9922a21e3b703dcf63fd1492574eb12800c7fbb5bf338e705",
+          "tests/support/imports.rs": "f806147c26cbf06804b4f3ea2bc7aeefbeff55580d190f73bc7316eaa2c1096e",
+          "tests/support/lamprey.rs": "8198498e5a9571c4eb1d35712bd01d528f29efc04817b7d1bed753cd7722f912",
+          "tests/support/lifecycle.rs": "5333ff68595cf29c7c741d1dffc2362bfb3132113fd3a2dd817a670fe22825c2",
+          "tests/support/mcp.rs": "02836788b7d85563dec0dfa18d2215cce7afa3b10c9940699c182331127a8ea9",
+          "xtask/Cargo.lock": "fbd9aa7678363510fe593cb108cabdad3d12f078de7302a8a4023d78d928e928",
+          "xtask/Cargo.toml": "3c56553b6e2443c28c659f1f1b18df36eb583475202ebebe0b5706fc49f9f357",
+          "xtask/native-builder/Cargo.lock": "11e14128caf3dec373927ad5bcb771867856a89d5a6a6752514e22abf4c97bda",
+          "xtask/native-builder/Cargo.toml": "aa88450cffdc47d430df5037dbd76f8e6b996ac2bdb57deb3c2910e95181d526",
+          "xtask/native-builder/build.rs": "c6796b1671edf06c696968ed256dbe85c9f5e6c18fc0cae9d698bfb10919c9fd",
+          "xtask/native-builder/src/main.rs": "da1d383a162e3a5a00c73b6e9f26bca9cecc4a9f00051fe0c2d4f72cddd5c6ee",
+          "xtask/src/lib.rs": "05feb1999d90937941b00db5c94fcea8919a9de0c2f54f9e917fec9ab9025ed8",
+          "xtask/src/limits.rs": "05e13bcd50b103ac0daf28982aa4633395f9296aa7abe582ceb1e14f66458eb8",
+          "xtask/src/main.rs": "01b64e6baf6f89123478c7274e62e62ac79d11e2196cf9b044b82a41db5c883c",
+          "xtask/tests/contracts.rs": "abe81a6e82e90477165df2b16c2aef22fc378311fe05667b6121311791157fa4"
+        }
+      },
+      "product_sha256": "ec4aab64f85c0a9d9f23e54568092b9bace9daf649a8f9dddbf6377302c862df",
+      "runner_sha256": "1b66c1f587e9cb394e0fa5ba0e954d43167e4327ffc187bd68b10ad83c914b5d",
+      "commands": [
+        {
+          "label": "format",
+          "arguments": [
+            "fmt",
+            "--check"
+          ],
+          "elapsed_ms": 624,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "build",
+          "arguments": [
+            "build",
+            "--release",
+            "--locked"
+          ],
+          "elapsed_ms": 26165,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "clippy",
+          "arguments": [
+            "clippy",
+            "--release",
+            "--locked",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "elapsed_ms": 829,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "tests",
+          "arguments": [
+            "test",
+            "--release",
+            "--locked",
+            "--",
+            "--test-threads=1"
+          ],
+          "elapsed_ms": 100215,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "harness-format",
+          "arguments": [
+            "fmt",
+            "--manifest-path",
+            "xtask/Cargo.toml",
+            "--check"
+          ],
+          "elapsed_ms": 172,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "harness-clippy",
+          "arguments": [
+            "clippy",
+            "--manifest-path",
+            "xtask/Cargo.toml",
+            "--release",
+            "--locked",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "elapsed_ms": 284,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "harness-tests",
+          "arguments": [
+            "test",
+            "--lib",
+            "--manifest-path",
+            "xtask/Cargo.toml",
+            "--release",
+            "--locked",
+            "--",
+            "--test-threads=1"
+          ],
+          "elapsed_ms": 257,
+          "exit_code": 0,
+          "failure": null
+        },
+        {
+          "label": "canary-scan",
+          "arguments": [
+            "-I",
+            "-B",
+            ".cargo/scan-native-canaries.py"
+          ],
+          "elapsed_ms": 30603,
+          "exit_code": 0,
+          "failure": null
+        }
+      ],
+      "scan_files": 5442,
+      "actual_lifecycle_proof": [
+        {
+          "fixture": "HOTR-07-78416-1788713470101338000",
+          "evidence": {
+            "accepted_writer_denial": 403,
+            "actual_bridges": 2,
+            "binary_sha256": "ec4aab64f85c0a9d9f23e54568092b9bace9daf649a8f9dddbf6377302c862df",
+            "current_correction_revision": 2,
+            "history_requires_current_grant": true,
+            "restart_retains_policy": true,
+            "result": "PASS",
+            "same_bridge_grant_withdrawal": true,
+            "stale_revision_conflict": true,
+            "suppression_ids": 4
+          }
+        }
+      ]
+    }
+  ],
+  "actual_legacy_restore_proof": [
+    {
+      "fixture": "HOTR-07-31484-1788714373371806600",
+      "file": "HOTR-14-legacy-restore.json",
+      "evidence": {
+        "binary_sha256": "e2fab29f42d9dab48cd3de89d388c01b6be66b00473a23d07aadbd6101057c50",
+        "future_unsupported_and_mismatched_versions_refused_before_creation": true,
+        "legacy_credentials_denied": 401,
+        "new_clients_recall_original_revision": true,
+        "original_backups_unchanged": true,
+        "restored_schema_version": 7,
+        "result": "PASS",
+        "source_schema_versions": [
+          5,
+          6
+        ]
+      }
+    }
+  ],
+  "review": {
+    "initial": {
+      "agent_id": "/root/hotr14_review",
+      "requested_model": "gpt-5.6-sol",
+      "requested_effort": "high",
+      "observed_model": "unobservable",
+      "observed_effort": "unobservable",
+      "verdict": "fix-first",
+      "finding": "Current-version-only backup validation refused old backups before migration; repaired with new-copy migration and real legacy restore coverage."
+    },
+    "final": {
+      "agent_id": "/root/hotr14_final_review",
+      "requested_model": "gpt-5.6-sol",
+      "requested_effort": "high",
+      "observed_model": "unobservable",
+      "observed_effort": "unobservable",
+      "status": "completed",
+      "verdict": "ship",
+      "findings": [],
+      "reason": "Read-only review found no actionable blocker; source preservation, credential invalidation, new-copy migration, lifecycle policy and all 65 source hashes verified against the final gate."
+    }
+  }
+}

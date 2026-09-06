@@ -44,7 +44,11 @@ snapshot. It rejects sidecars, unsupported formats/schemas, bad size/hash, inval
 key, corrupt pages, foreign-key errors and watermark mismatch before creating its
 destination. It uses the same supported encrypted backup API to populate that
 new directory, verifies it, then permanently revokes every active client copied
-from the snapshot. The ordinary vault marker is written and flushed last.
+from the snapshot. Format-1 snapshots from schema 5 through the current schema
+are supported. Only the new copy is migrated to the current schema; original
+counts and audit watermark must remain intact. The report distinguishes the
+original watermark's schema from `restored_schema_version`. Integrity checks
+run again after migration. The ordinary vault marker is written and flushed last.
 
 Start the service against the new vault path and unlock using the backup
 passphrase. Enroll each intended client again with a new credential/profile.

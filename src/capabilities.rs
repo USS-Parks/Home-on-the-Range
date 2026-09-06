@@ -46,6 +46,8 @@ pub struct Accept {
 }
 
 pub(crate) enum Command {
+    Lifecycle(crate::lifecycle::Request),
+    Inspect(crate::lifecycle::Inspect),
     Import(crate::imports::Request),
     Backup(crate::backup::Request),
     #[cfg(test)]
@@ -136,6 +138,14 @@ pub(crate) fn authorize_write(
 }
 
 pub(crate) fn ensure_mutable(db: &Connection, record: &RecordInput) -> Result<(), WriteError> {
+    let exists: bool = db.query_row(
+        "SELECT EXISTS(SELECT 1 FROM records WHERE namespace=?1 AND id=?2)",
+        params![record.namespace, record.id],
+        |r| r.get(0),
+    )?;
+    if exists && !crate::retrieval::visible(db, &record.namespace, &record.id)? {
+        return Err(WriteError::Forbidden);
+    }
     let accepted:bool=db.query_row("SELECT EXISTS(SELECT 1 FROM revisions v JOIN records r ON r.namespace=v.namespace AND r.id=v.record_id AND r.current_revision=v.revision WHERE r.namespace=?1 AND r.id=?2 AND v.state='accepted')",params![record.namespace,record.id],|row|row.get(0))?;
     if accepted {
         Err(WriteError::Forbidden)
@@ -151,6 +161,8 @@ pub(crate) fn execute(
     stopped: &std::sync::atomic::AtomicBool,
 ) -> CommandResult {
     match command {
+        Command::Lifecycle(request) => crate::lifecycle::execute(db, request, deadline, stopped),
+        Command::Inspect(request) => crate::lifecycle::inspect(db, request),
         Command::Import(request) => crate::imports::execute(db, request, deadline, stopped),
         Command::Backup(request) => serde_json::to_value(
             crate::backup::create(db, request).map_err(|_| WriteError::PersistenceRejected)?,
@@ -203,9 +215,10 @@ pub(crate) fn execute(
             Ok(json!({"client_id":id,"revoked":true,"changed":changed==1}))
         }
         Command::Clients => {
-            let mut statement =
-                db.prepare("SELECT id,label,role,revoked FROM clients ORDER BY id LIMIT 50")?;
-            let rows=statement.query_map([],|row|Ok(json!({"client_id":row.get::<_,String>(0)?,"label":row.get::<_,String>(1)?,"role":row.get::<_,String>(2)?,"revoked":row.get::<_,bool>(3)?})))?.collect::<rusqlite::Result<Vec<_>>>()?;
+            let mut statement = db.prepare(
+                "SELECT id,label,role,revoked,grant_revision FROM clients ORDER BY id LIMIT 50",
+            )?;
+            let rows=statement.query_map([],|row|Ok(json!({"client_id":row.get::<_,String>(0)?,"label":row.get::<_,String>(1)?,"role":row.get::<_,String>(2)?,"revoked":row.get::<_,bool>(3)?,"grant_revision":row.get::<_,u32>(4)?})))?.collect::<rusqlite::Result<Vec<_>>>()?;
             Ok(json!({"clients":rows,"limit":50}))
         }
         Command::Get { hash, query } => {
@@ -214,9 +227,7 @@ pub(crate) fn execute(
             if !schema::valid_identifier(&query.id, false) || query.revision == Some(0) {
                 return Err(WriteError::InvalidRequest);
             }
-            if query.revision.is_none()
-                && !crate::retrieval::visible(db, &query.namespace, &query.id)?
-            {
+            if !crate::retrieval::visible(db, &query.namespace, &query.id)? {
                 return Err(WriteError::NotFound);
             }
             let record = schema::revision(db, &query.namespace, &query.id, query.revision)?

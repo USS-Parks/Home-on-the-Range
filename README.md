@@ -28,6 +28,7 @@ tested interfaces from detected installations and everyday-profile enrollment.
 - [Canonical PSPR](PLANNING/HOME-ON-THE-RANGE-PSPR.md)
 - [Local prototype quickstart](docs/QUICKSTART.md)
 - [Owner-selected imports and preview/commit workflow](docs/IMPORTS.md)
+- [Corrections, retention and permission changes](docs/CONTEXT-LIFECYCLE.md)
 - [M1 demonstration and evidence boundaries](docs/M1-DEMO.md)
 - [Development log](docs/DEVLOG.md)
 - [Verification ledger](docs/VERIFICATION.md)

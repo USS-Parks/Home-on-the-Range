@@ -55,7 +55,7 @@ fn valid_manifest(manifest: &Manifest) -> bool {
         |value: &str, length| value.len() == length && value.bytes().all(|b| b.is_ascii_hexdigit());
     manifest.format == 1
         && manifest.sqlcipher == "4.18.0"
-        && manifest.watermark.schema_version == schema::VERSION
+        && (5..=schema::VERSION).contains(&manifest.watermark.schema_version)
         && (1..=MAX_BYTES).contains(&manifest.bytes)
         && hex(&manifest.snapshot_id, 32)
         && hex(&manifest.ciphertext_sha256, 64)
@@ -131,12 +131,12 @@ fn watermark(db: &Connection) -> io::Result<Watermark> {
     })
 }
 
-fn integrity(db: &Connection, fts: bool) -> io::Result<()> {
+fn integrity(db: &Connection, fts: bool, expected_schema: u32) -> io::Result<()> {
     let version: u32 = db
         .query_row("PRAGMA user_version", [], |r| r.get(0))
         .map_err(|_| rejected())?;
     // Format 1 snapshots start with schema 5. Future schemas fail before creation.
-    if version != schema::VERSION {
+    if version != expected_schema || !(5..=schema::VERSION).contains(&version) {
         return Err(rejected());
     }
     if db
@@ -216,10 +216,15 @@ fn copy(source: &Connection, target: &mut Connection, deadline: Instant) -> io::
     }
 }
 
-fn checks_with_deadline(db: &Connection, deadline: Instant, fts: bool) -> io::Result<()> {
+fn checks_with_deadline(
+    db: &Connection,
+    deadline: Instant,
+    fts: bool,
+    expected_schema: u32,
+) -> io::Result<()> {
     db.progress_handler(1000, Some(move || Instant::now() >= deadline))
         .map_err(|_| rejected())?;
-    let result = integrity(db, fts);
+    let result = integrity(db, fts, expected_schema);
     db.progress_handler(0, None::<fn() -> bool>)
         .map_err(|_| rejected())?;
     result?;
@@ -270,7 +275,7 @@ pub(crate) fn create(source: &Connection, request: Request) -> io::Result<Manife
         .execute_batch("PRAGMA journal_mode=DELETE; PRAGMA synchronous=FULL;")
         .map_err(|_| rejected())?;
     copy(source, &mut target, deadline)?;
-    checks_with_deadline(&target, deadline, true)
+    checks_with_deadline(&target, deadline, true, schema::VERSION)
         .map_err(|_| io::Error::other("encrypted snapshot integrity rejected"))?;
     if watermark(&target)? != expected {
         return Err(rejected());
@@ -326,7 +331,7 @@ pub fn restore(backup: &Path, destination: &Path, key: &[u8]) -> io::Result<serd
         return Err(rejected());
     }
     let source = keyed_connection(&path, key, Some(true)).map_err(|_| rejected())?;
-    checks_with_deadline(&source, deadline, false)?;
+    checks_with_deadline(&source, deadline, false, manifest.watermark.schema_version)?;
     if watermark(&source)? != manifest.watermark {
         return Err(rejected());
     }
@@ -352,13 +357,28 @@ pub fn restore(backup: &Path, destination: &Path, key: &[u8]) -> io::Result<serd
     if active != 0 {
         return Err(rejected());
     }
-    checks_with_deadline(&target, deadline, true)?;
+    // Migrate only the verified new copy. The guarded backup stays read-only;
+    // credential revocation precedes migration and the final vault marker.
+    target
+        .progress_handler(1000, Some(move || Instant::now() >= deadline))
+        .map_err(|_| rejected())?;
+    let migrated = schema::migrate(&mut target).map_err(|_| rejected());
+    target
+        .progress_handler(0, None::<fn() -> bool>)
+        .map_err(|_| rejected())?;
+    migrated?;
+    let mut expected = manifest.watermark.clone();
+    expected.schema_version = schema::VERSION;
+    if watermark(&target)? != expected {
+        return Err(rejected());
+    }
+    checks_with_deadline(&target, deadline, true, schema::VERSION)?;
     target
         .execute_batch("PRAGMA journal_mode=DELETE;")
         .map_err(|_| rejected())?;
     drop(target);
     let _target_guard = closed_file(&directory.join("vault.db"))?;
-    let result = serde_json::json!({"snapshot_id":manifest.snapshot_id,"watermark":manifest.watermark,"clients_invalidated":invalidated,"active_clients":0,"reenrollment_required":true,"restored_key":"same passphrase as backup"});
+    let result = serde_json::json!({"snapshot_id":manifest.snapshot_id,"watermark":manifest.watermark,"restored_schema_version":schema::VERSION,"clients_invalidated":invalidated,"active_clients":0,"reenrollment_required":true,"restored_key":"same passphrase as backup"});
     json_file(&directory.join("restore.json"), &result)?;
     // The ordinary vault marker is the final commit point. Failed staging has none.
     let mut marker = security::create_file(&directory.join(".hotr-vault"))?;

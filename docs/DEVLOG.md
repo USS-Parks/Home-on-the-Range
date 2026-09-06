@@ -421,3 +421,74 @@ free. No existing user file or other application profile was deleted or replaced
 No real app was configured and no user vault or startup service was installed.
 Publish the passed MCP checkpoint, track its exact hosted run, then continue
 HOTR-11 encrypted backup/restore under full STS.
+
+## HOTR-10 hosted closeout — 2026-09-06 UTC
+
+Commit `51f0effef83cfabd71db29e2bc8f411850407e49` was verified on origin/main.
+Exact hosted Windows run 34001324657 passed at 2026-09-06T00:44:04Z, job
+101400601074. Full logs, status and the native artifact remain in the new
+`work/hotr-evidence/HOTR-10-hosted-34001324657/` directory. The artifact's manifest
+is under `windows-native-evidence/hotr-evidence/HOTR-03-7936-1788655025816636500/`.
+Hosted verification is separate from the local two-account and fifteen-minute
+load evidence. No named-application acceptance is implied.
+
+## HOTR-11 — encrypted snapshots and fresh recovery — 2026-09-06 UTC
+
+Local gate: PASS. `cargo xtask verify --prompt HOTR-11` retained complete evidence
+under `work/hotr-evidence/HOTR-11-79624-1788655280543162700/` and sanitized results
+in `docs/evidence/HOTR-11-backup.json` and `HOTR-11-recovery.json`.
+
+Owner-only `backup` copies the unlocked worker connection into an exclusively new
+SQLCipher database with a separately entered key. The native stepped online
+backup API, closed-file hash, integrity checks and numeric watermark define the
+completed snapshot. `restore` authenticates/checks a closed snapshot before
+creating a new destination, copies encrypted-to-encrypted, invalidates every
+copied active client, verifies integrity, and writes the ordinary vault marker
+last. Existing paths are refused; failed new staging is retained. REST/MCP gain
+no backup or filesystem operation. See `docs/BACKUP-AND-RESTORE.md` for bounds,
+uncertain transport outcomes and explicit owner switching/reenrollment.
+
+Changed source: `src/backup.rs`, owner/main/lib/capabilities dispatch, the shared
+API test's recovery module, real Windows console tests, gate registration and
+the native canary scanner. No schema or plaintext-storage fallback was added.
+
+The initial real-service test failed before snapshot schema creation. Direct
+native backup succeeded, isolating the failure to size preflight. Inspection of
+pinned SQLCipher source showed `page_size`/`cipher_page_size` returns TEXT when a
+codec is attached. Preflight now explicitly parses `cipher_page_size`; a native
+multi-step regression and the complete recovery flow pass. All initial focused
+and native diagnostic failure logs remain under `work/hotr-evidence/`.
+
+Final fixture `work/hotr-tests/HOTR-07-70192-1788655468301571300/` ran four clients
+writing 200 acknowledged mutations while a snapshot captured audit sequence 14,
+13 records and 14 revisions/receipts. Every final acknowledged ID was checked for
+presence exactly according to that watermark. Backup encryption used a different
+key. Accepted revision/source data and namespace/reader restrictions survived;
+all three old clients were denied and a newly enrolled reader succeeded. One
+old token had been revoked before backup and another only after backup.
+
+Wrong key, existing destination, modified ciphertext and truncation failed while
+preserving the active database/WAL and the original snapshot. Updated outer
+checksums did not make corrupted encrypted copies restorable. The ordinary
+console gate exercised actual ConPTY backup/restore prompts without passphrase
+echo. A malformed owner frame and a locked-vault backup were rejected.
+
+Release format/build, warnings-denied Clippy, all native/HTTP/MCP/schema/owner
+tests and harness checks passed. At 2026-09-06T00:45:47.4420395Z the actual distinct
+authenticated Windows account received error 5 on directory/database/marker/pipe,
+could not decrypt copied DPAPI ciphertext, and received zero application bytes at
+its fake endpoint. Owner state and vault hash remained intact; lock ended the key
+holder. The final scanner passed on 1,577 files across 15 native passing runs.
+
+Product SHA-256: `a83c6c5adc090bc227e3ebe82fbeca4493b22bac41aa3a43bb192af7392a3d68`.
+Runner SHA-256: `cd91a10bb59825506c1729f2dcdf4e5bd2d1189cf1cffcce02f10df651655ea3`.
+All 42 normalized source hashes match the passed candidate. Before publication,
+validate the staged versions against the same manifest and retain hook results.
+
+One canonical checkout, no linked worktrees. Retained build/cache, synthetic
+fixtures and evidence total approximately 3.783 GiB; free capacity is 320.19 GiB.
+They remain for approved ongoing tests; no discretionary cleanup occurred.
+No user vault, application profile, startup entry or other project was changed.
+Publish this passed prompt, then continue HOTR-12 actual Codex/Claude application
+proof, followed by Lamprey and the rest of full STS. Larger crash/fault/soak and
+deployment gates remain open.

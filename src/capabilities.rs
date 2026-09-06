@@ -46,6 +46,7 @@ pub struct Accept {
 }
 
 pub(crate) enum Command {
+    Backup(crate::backup::Request),
     #[cfg(test)]
     DeadlineProbe,
     Issue {
@@ -144,6 +145,10 @@ pub(crate) fn ensure_mutable(db: &Connection, record: &RecordInput) -> Result<()
 
 pub(crate) fn execute(db: &mut Connection, command: Command) -> CommandResult {
     match command {
+        Command::Backup(request) => serde_json::to_value(
+            crate::backup::create(db, request).map_err(|_| WriteError::PersistenceRejected)?,
+        )
+        .map_err(|_| WriteError::PersistenceRejected),
         #[cfg(test)]
         Command::DeadlineProbe => {
             let value:i64=db.query_row("WITH RECURSIVE span(x) AS (VALUES(0) UNION ALL SELECT x+1 FROM span WHERE x<1000000000) SELECT sum(x) FROM span",[],|r|r.get(0))?;

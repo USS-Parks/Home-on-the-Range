@@ -75,6 +75,16 @@ enum Operation {
         #[arg(long)]
         credential: PathBuf,
     },
+    /// Create an encrypted snapshot in a new directory through the owner pipe.
+    Backup {
+        path: PathBuf,
+        destination: PathBuf,
+    },
+    /// Validate a closed encrypted backup and restore into a new vault directory.
+    Restore {
+        backup: PathBuf,
+        destination: PathBuf,
+    },
 }
 
 fn password(prompt: &str) -> io::Result<Zeroizing<String>> {
@@ -95,6 +105,22 @@ async fn main() {
 
 async fn execute(operation: Operation) -> Result<(), Box<dyn std::error::Error>> {
     match operation {
+        Operation::Backup { path, destination } => {
+            let key = password("New backup passphrase: ")?;
+            let confirmation = password("Confirm backup passphrase: ")?;
+            if key.as_bytes() != confirmation.as_bytes() {
+                return Err(io::Error::other("passphrases do not match").into());
+            }
+            print_reply(hotr::owner::backup(&path, &destination, key.as_bytes()).await?)?;
+        }
+        Operation::Restore {
+            backup,
+            destination,
+        } => {
+            let key = password("Backup passphrase: ")?;
+            let result = hotr::backup::restore(&backup, &destination, key.as_bytes())?;
+            println!("{}", serde_json::to_string(&result)?);
+        }
         Operation::Mcp { credential } => {
             let result = hotr::mcp::run(&credential).await;
             if result.is_err() {

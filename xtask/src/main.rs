@@ -48,6 +48,7 @@ fn execute() -> io::Result<()> {
                     | "HOTR-08"
                     | "HOTR-09"
                     | "HOTR-10"
+                    | "HOTR-11"
                     | "HOTR-04-R2"
             ))
     {
@@ -228,6 +229,7 @@ fn execute() -> io::Result<()> {
                 | "HOTR-08"
                 | "HOTR-09"
                 | "HOTR-10"
+                | "HOTR-11"
                 | "HOTR-04-R2"
         ) {
             let boundary = run(

@@ -1,0 +1,27 @@
+{
+  "all_receipts_reconciled_to_snapshot_watermark": true,
+  "binary_sha256": "a83c6c5adc090bc227e3ebe82fbeca4493b22bac41aa3a43bb192af7392a3d68",
+  "concurrent_acknowledged_writes": 200,
+  "different_encryption_key": true,
+  "new_reader_reenrolled": true,
+  "original_vault_and_snapshot_preserved_on_bad_restore": true,
+  "rehashed_tamper_and_truncation_denied": true,
+  "restored_old_clients_denied": 3,
+  "result": "PASS",
+  "snapshot": {
+    "bytes": 143360,
+    "ciphertext_sha256": "d9ccab0e8840962d7a9bdf4b5f1b059d1f0a296de5d1cbb176caf2ceb07e9039",
+    "format": 1,
+    "snapshot_id": "55256e3ee8b28923e5230cdc4aa5ab90",
+    "sqlcipher": "4.18.0",
+    "watermark": {
+      "audit_sequence": 14,
+      "clients": 3,
+      "grants": 3,
+      "receipts": 14,
+      "records": 13,
+      "revisions": 14,
+      "schema_version": 5
+    }
+  }
+}

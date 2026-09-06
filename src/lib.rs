@@ -1,6 +1,7 @@
 //! Storage foundation. Service authorization is added by later approved prompts.
 
 pub mod api;
+pub mod backup;
 pub mod capabilities;
 pub mod credentials;
 pub mod mcp;

@@ -30,6 +30,9 @@ const BODY: &str = "HOTR07canary shared sourced roadmap 東京";
 #[path = "support/mcp.rs"]
 mod mcp_protocol;
 
+#[path = "support/backup.rs"]
+mod backup_recovery;
+
 fn local_client() -> reqwest::Client {
     reqwest::Client::builder()
         .no_proxy()

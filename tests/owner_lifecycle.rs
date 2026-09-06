@@ -444,6 +444,27 @@ async fn actual_windows_console_never_echoes_passphrases() {
         &["Vault passphrase:"],
     );
     assert!(unlocked.contains("unlocked"));
+    let snapshot = run.join("console-snapshot");
+    let backed_up = console_command(
+        &run,
+        "backup",
+        &["backup".as_ref(), vault.as_os_str(), snapshot.as_os_str()],
+        &["New backup passphrase:", "Confirm backup passphrase:"],
+    );
+    assert!(backed_up.contains("ciphertext_sha256"));
+    let restored = run.join("console-restored");
+    let recovered = console_command(
+        &run,
+        "restore",
+        &[
+            "restore".as_ref(),
+            snapshot.as_os_str(),
+            restored.as_os_str(),
+        ],
+        &["Backup passphrase:"],
+    );
+    assert!(recovered.contains("reenrollment_required"));
+    owner::validate(&restored).unwrap();
     owner::request(&vault, owner::LOCK, &[]).await.unwrap();
     server.wait_exit();
     fs::write(

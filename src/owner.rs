@@ -16,13 +16,14 @@ use tokio::{
 };
 use zeroize::Zeroizing;
 
-const MARKER: &[u8] = b"Home on the Range vault format 1\n";
+pub(crate) const MARKER: &[u8] = b"Home on the Range vault format 1\n";
 const DEADLINE: Duration = Duration::from_secs(5);
 const MAX_FRAME: usize = crate::api::MAX_REQUEST + 1;
 pub const STATUS: u8 = 1;
 pub const UNLOCK: u8 = 2;
 pub const LOCK: u8 = 3;
 pub const ADMIN: u8 = 4;
+pub const BACKUP: u8 = 5;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(
@@ -212,6 +213,11 @@ pub async fn admin(path: &Path, request: &AdminRequest) -> io::Result<Reply> {
     request_payload(path, ADMIN, &payload).await
 }
 
+pub async fn backup(path: &Path, destination: &Path, key: &[u8]) -> io::Result<Reply> {
+    let payload = crate::backup::encode(destination, key)?;
+    request_payload(path, BACKUP, &payload).await
+}
+
 async fn request_payload(path: &Path, operation: u8, payload: &[u8]) -> io::Result<Reply> {
     if payload.len() > crate::api::MAX_REQUEST {
         return Err(io::Error::other("owner payload too large"));
@@ -358,6 +364,29 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                             }
                             closing = true;
                             state(false, true, None)
+                        }
+                        BACKUP if connection.is_some() => {
+                            let handle = connection.as_ref().unwrap().handle();
+                            let result = match crate::backup::decode(&body[1..]) {
+                                Ok(request) => {
+                                    handle
+                                        .command(crate::capabilities::Command::Backup(request))
+                                        .await
+                                }
+                                Err(_) => Err(crate::writer::WriteError::InvalidRequest),
+                            };
+                            match result {
+                                Ok(data) => {
+                                    let mut reply = state(true, false, None);
+                                    reply.data = Some(data);
+                                    reply
+                                }
+                                Err(_) => state(
+                                    true,
+                                    false,
+                                    Some("backup rejected; any new incomplete files retained"),
+                                ),
+                            }
                         }
                         ADMIN if connection.is_some() => {
                             let command = crate::api::decode::<AdminRequest>(&body[1..]);

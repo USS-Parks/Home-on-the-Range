@@ -45,7 +45,7 @@ capability_runs = sorted((root / "work/hotr-tests").glob("HOTR-07-*"))
 for run in capability_runs:
     assert run.resolve().is_relative_to(root.resolve()), "capability test path escaped project"
     assert (run / "SYNTHETIC-ONLY").read_text().startswith("HOTR-07;"), "unowned capability run"
-for canary in ["HOTR-07-synthetic-key-866bc4ad", "HOTR07canary"]:
+for canary in ["HOTR-07-synthetic-key-866bc4ad", "HOTR07canary", "HOTR11BackupKey-8bcd49c1-different"]:
     patterns.extend([canary.encode(), canary.encode("utf-16-le")])
 overlap = max(map(len, patterns)) - 1
 for directory in [*runs, *owner_runs, *schema_runs, *writer_runs, *capability_runs, root / "work/hotr-build/tmp", root / "work/hotr-evidence"]:

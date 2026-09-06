@@ -2,7 +2,7 @@
 
 A Windows-first encrypted context vault being built for shared access by local AI applications through one service, HTTP, and MCP.
 
-**Status: full PSPR execution is active. HOTR-01–10 passed locally, including the official-SDK MCP bridge, encrypted keyword retrieval and the 10,000-record, 18,000-request, 15-minute prototype load. Search/write p95 measured 33/38 ms with no observed errors or lost acknowledged revisions. HOTR-09 passed its exact hosted Windows build; HOTR-10 hosted results are tracked separately. Encrypted backup, named app integrations, larger stress/soak campaigns, and packaging remain required. The product is not yet installed or deployment-approved.**
+**Status: full PSPR execution is active. HOTR-01–11 passed locally, including encrypted backup/restore, the official-SDK MCP bridge, encrypted keyword retrieval and the 10,000-record, 18,000-request, 15-minute prototype load. Search/write p95 measured 33/38 ms with no observed errors or lost acknowledged revisions. HOTR-09 and HOTR-10 passed their exact hosted Windows builds; HOTR-11 hosted results are tracked separately. Named app integrations, larger stress/soak campaigns, and packaging remain required. The product is not yet installed or deployment-approved.**
 
 The first usable milestone is an encrypted vault with versioned context, scoped application credentials, exact/keyword retrieval, two demonstrated client integrations, and tested encrypted backup recovery. Later milestones add local semantic retrieval, management, fault testing, and packaging.
 
@@ -19,6 +19,7 @@ The first usable milestone is an encrypted vault with versioned context, scoped 
 - [Local API and protected client examples](docs/REST-API.md)
 - [Encrypted retrieval and measured prototype workload](docs/RETRIEVAL.md)
 - [MCP tools and project connection template](docs/MCP.md)
+- [Encrypted backup and fresh-path recovery](docs/BACKUP-AND-RESTORE.md)
 
 Repository: https://github.com/USS-Parks/Home-on-the-Range
 

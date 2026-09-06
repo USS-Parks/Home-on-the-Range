@@ -7,12 +7,13 @@ type is not authorization to accept a fact.
 
 ## Schema and history
 
-The encrypted database uses SQLite `user_version=4`. Version 0 is the HOTR-04
+The encrypted database uses SQLite `user_version=5`. Version 0 is the HOTR-04
 container with its `hotr_vault` format marker. Migration 1 adds namespaces,
 record identities, and revisions. Migration 2 adds revision source references,
 tags, and relations. Migration 3 adds mutation audit events and durable retry
 receipts. Migration 4 adds hashed clients, permanent revocation, and exact
-namespace grants. Needed migrations run in one immediate transaction on an
+namespace grants. Migration 5 adds the encrypted current FTS5 index and a
+visibility envelope for retrieval filtering. Needed migrations run in one immediate transaction on an
 older vault. Existing version-1 identities and complete revision history survive
 the later migrations. Unsupported future versions fail before writable open.
 

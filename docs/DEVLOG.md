@@ -258,3 +258,80 @@ historical private observations remain unchanged. Source and sanitized evidence
 continue to main; no private vault/credential content is included. This explicit
 user choice supersedes the prior private default. The visibility correction is
 documentation only; the exact code verification run above remains required.
+
+### HOTR-07/08 and HOTR-06-R1 hosted acceptance
+
+The exact code commit `b4fe15bd19d439cb34a5522d99c119d29ab2dc16` passed Windows
+run 33998187706, job 101392266139, completed 2026-09-05T23:35:13Z. Downloaded
+artifact manifest confirms PASS and the same source commit. Full hosted output
+and artifact are retained under `work/hotr-evidence/HOTR-07-08-hosted-33998187706/`
+and its adjacent watch/log files. Fresh-root transaction tests, actual HTTP
+roles/limits, native encryption, owner/ConPTY, schema and harness controls passed.
+The real separate-account DPAPI/pipe/TCP proof remains explicitly local. The
+user's public-visibility documentation commit is
+`876521aff04fd353350dc85bf58939cc30982320`, verified on origin/main; only Markdown
+changed from the tested code. No duplicate native workflow was required for that
+documentation-only correction. HOTR-09 may now proceed under full STS.
+
+## 2026-09-05 local / 2026-09-06 UTC — HOTR-09 — Encrypted retrieval and prototype load
+
+Full local gate PASS: `work/hotr-evidence/HOTR-09-80236-1788651975924143000/`.
+Sanitized source manifest `docs/evidence/HOTR-09-retrieval.json` and complete
+numerical result `docs/evidence/HOTR-09-prototype-load.json`. Product SHA-256
+`55cf95cbf94b7679b8dcb1cced4aa64ca4895d8a0b981d7551cc75af129c722f`;
+runner SHA-256 `14c828f9a97efb6e592e01d24a3a6dd3a948a62bdbf98f84660c447481d992e1`.
+
+Schema 5 adds encrypted FTS5 and visibility metadata. Each revision updates its
+derived index atomically with provenance, audit and retry receipt; injected audit
+failure rolls back the index too. Exact get/search/list/count use a common current
+visibility view; explicit authorized history preserves older/retired revisions.
+Literal bounded queries, fixed exact-ID/source boosts, stable ordering, pagination,
+whole sourced records and complete-response byte/token budgets are implemented.
+No global BM25 statistics influence one namespace's ordering. Retirement metadata
+is seeded only in stopped synthetic fixtures; owner lifecycle operations remain
+HOTR-14 and no contributor route exposes those changes.
+
+Database command progress handlers enforce the queued deadline and owner stop
+flag. An actual long SQLite query is interrupted and the same worker subsequently
+handles its next command. Diagnostic SQL exists only in the test binary. Real
+HTTP tests cover current versus old terms, exact path/ID boosts, expired/tombstoned/
+superseded filtering, pagination, history, hidden-namespace denials, quotes,
+operators, malformed limits, revocation and budget omissions. Initial focused
+compilation corrected SQL COUNT extraction to SQLite's signed integer type before
+the final gate. No gate assertion was waived.
+
+The mandatory prototype campaign seeded 10,000 1–4 KiB records through four
+bounded real API clients across ten namespaces, then used eight independently
+credentialed clients at 20 requests/second for 900.017 seconds. All 18,000 requests
+completed: 3,600 writes, 7,200 keyword queries, 3,600 gets and 3,600 counts. Keyword
+p50/p95/p99 were 22.172/32.957/257.133 ms; write 20.993/38.458/326.709 ms.
+Maximum keyword/write latencies were 1,080.844/1,194.625 ms and remain in the report.
+Latency includes scheduled-arrival delay; no samples or failures were dropped.
+Seeding took 158.809 seconds; first post-seed query was 26.047 ms, not cold-cache.
+
+After lock/process exit, the independent encrypted read reconciled all 10,000
+current revisions and 13,600 durable receipts with zero acknowledgment mismatches,
+duplicates, unexpected errors or correctness violations. SQLite and FTS integrity
+passed. The timed hot write set is 2,000 identities; this result is not a 100k load
+or four-hour soak claim. Raw fixture and minute progress remain under
+`work/hotr-tests/HOTR-07-67272-1788652127852627800/`; the shared helper retains its
+earlier prefix, while its load reports explicitly identify HOTR-09.
+
+Release format/build, warnings-denied all-target Clippy, native encryption,
+transactions/crash/replay, migrations, HTTP/owner/ConPTY and harness contracts all
+passed. The actual separate authenticated Windows principal at
+2026-09-05T23:48:43.9844121Z received error 5 for directory/database/marker/pipe;
+copied DPAPI ciphertext was rejected and its fake TCP endpoint received zero
+application bytes. Owner state/vault hashes stayed unchanged and lock exited the
+key holder. The final storage/temp/log scan checked 997 files across 13 passing
+native runs, with no canary plaintext. Generated client tokens were separately
+scanned against all managed files in each actual API fixture.
+
+All 38 normalized staged source hashes must match the passing manifest before
+commit. All eight original baseline copies match. One canonical checkout, no
+linked worktrees; approximately 3.125 GiB of retained build/cache, synthetic data,
+evidence and baselines, with 323.22 GiB free at closeout. They remain for ongoing
+approved verification; no existing user file, application profile or OS setting
+was changed or deleted. Public visibility was reverified per the user's choice.
+Next: publish this focused checkpoint, track its exact hosted run separately, and
+continue HOTR-10 under full STS.

@@ -192,6 +192,15 @@ async fn atomic_revisions_replay_and_principal_scoping() {
     assert_eq!(count(&db, "write_receipts"), 3);
     assert_eq!(count(&db, "mutation_audit"), 3);
     assert_eq!(
+        db.query_row(
+            "SELECT count(*) FROM record_fts WHERE namespace='project/test' AND id='audit-fail'",
+            [],
+            |row| row.get::<_, i64>(0)
+        )
+        .unwrap(),
+        0
+    );
+    assert_eq!(
         db.query_row("PRAGMA integrity_check", [], |row| row.get::<_, String>(0))
             .unwrap(),
         "ok"
@@ -204,6 +213,38 @@ type PausedHook = (
     mpsc::Receiver<()>,
     mpsc::SyncSender<()>,
 );
+
+#[tokio::test(flavor = "current_thread")]
+async fn native_query_deadline_interrupts_and_worker_recovers() {
+    let run = run_dir();
+    fixture(&run);
+    let writer = Writer::start(connection(&run)).unwrap();
+    let (reply, receive) = oneshot::channel();
+    let start = Instant::now();
+    writer
+        .handle()
+        .sender
+        .try_send(Message::Command {
+            command: crate::capabilities::Command::DeadlineProbe,
+            reply,
+            deadline: start + Duration::from_millis(50),
+        })
+        .unwrap();
+    let result = tokio::time::timeout(Duration::from_secs(2), receive)
+        .await
+        .unwrap()
+        .unwrap();
+    assert_eq!(result, Err(WriteError::PersistenceRejected));
+    assert!(start.elapsed() < Duration::from_secs(2));
+    assert!(
+        writer
+            .handle()
+            .command(crate::capabilities::Command::Clients)
+            .await
+            .is_ok()
+    );
+    writer.shutdown().await.unwrap();
+}
 fn pause_hook() -> PausedHook {
     let (ready_send, ready) = mpsc::sync_channel(1);
     let (release, receive) = mpsc::sync_channel(1);

@@ -283,7 +283,20 @@ impl Writer {
                             {
                                 let _ = reply.send(Err(WriteError::Stopped));
                             } else {
-                                let result = crate::capabilities::execute(&mut connection, command);
+                                let result = (|| {
+                                    let stop = flag.clone();
+                                    connection.progress_handler(
+                                        1000,
+                                        Some(move || {
+                                            Instant::now() >= deadline
+                                                || stop.load(Ordering::SeqCst)
+                                        }),
+                                    )?;
+                                    let result =
+                                        crate::capabilities::execute(&mut connection, command);
+                                    connection.progress_handler(0, None::<fn() -> bool>)?;
+                                    result
+                                })();
                                 let _ = reply.send(result);
                             }
                             if !connection.is_autocommit() {
@@ -468,6 +481,7 @@ fn apply(
             params![record.namespace, record.id, revision],
         )?;
     }
+    crate::retrieval::reindex(&tx, record)?;
     tx.execute("INSERT INTO mutation_audit(principal,namespace,record_id,revision,operation,committed_at_ms) VALUES(?1,?2,?3,?4,?5,?6)",params![principal,record.namespace,record.id,revision,if current.is_some(){"revise"}else{"create"},now])?;
     let audit_sequence = tx.last_insert_rowid();
     tx.execute(

@@ -1,6 +1,6 @@
 # Verification ledger
 
-HOTR-01–06 local gates have passed. HOTR-04-R2 passed its exact hosted repair gate. HOTR-06's fresh hosted fixture failure is retained under R1; HOTR-07/08 are active as a focused capability/REST bundle. The shared context service is not installed or accepted; hosted CI is tracked separately.
+HOTR-01–09 local gates have passed. HOTR-04-R2 and the HOTR-07/08 bundle with HOTR-06-R1 passed their exact hosted Windows gates. HOTR-09 includes the complete 15-minute prototype workload and post-exit durability checks. The shared context service is not installed or accepted; hosted CI is tracked separately.
 
 | Gate | Required evidence | Status |
 |---|---|---|
@@ -13,9 +13,10 @@ HOTR-01–06 local gates have passed. HOTR-04-R2 passed its exact hosted repair 
 | HOTR-04-R2 | Bounded actual pipe-slot retirement, 4,096 reconnects, retained client overlap, silent wrong-key errors, full owner/two-account/encryption gate, hosted run | PASS locally and hosted at `eeddaedbd8d92b8fca1220156179d13f21253245` — [repair evidence](evidence/HOTR-04-R2-pipe.json); [exact hosted run 33995345800](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33995345800) |
 | HOTR-05 | Versioned encrypted records, migrations preserving history, Unicode/byte limits, relation constraints, opaque sources, future closed/WAL files untouched | PASS locally — [final combined evidence](evidence/HOTR-05-and-04-R1.json); [earlier schema checkpoint](evidence/HOTR-05-schema.json) retained before the ACL repair |
 | HOTR-06 | Atomic revisions/audit/receipts, concurrent winner, principal-scoped replay, bounded queue, cancellation/unknown outcomes, actual crash/ack replay, repeated owner boundary | PASS locally at `edf926ce8b5d29d75dc6e147b42217e4799fd8af` — [transaction evidence](evidence/HOTR-06-transactions.json); [hosted run 33996469717](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33996469717) FAIL creating the fresh fixture root; see R1 |
-| HOTR-06-R1 | Create the validated absent synthetic fixture root before unit tests; exact fresh hosted pass | PASS locally in the combined gate; fresh hosted acceptance pending |
-| HOTR-07/08 | Actual HTTP role/namespace/operation matrix, DPAPI, separate-account denial, revoke on existing connection, typed limits, safe client, overload and deadlines | PASS locally — [combined evidence](evidence/HOTR-07-08-capabilities-rest.json); exact hosted acceptance pending |
-| M1 / HOTR-01–12 | Actual encrypted Windows service, scoped access, keyword retrieval, two real clients, restored encrypted backup | In progress; capabilities/REST active; search, MCP, backup and real apps remain |
+| HOTR-06-R1 | Create the validated absent synthetic fixture root before unit tests; exact fresh hosted pass | PASS locally and on exact fresh [Windows run 33998187706](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33998187706) |
+| HOTR-07/08 | Actual HTTP role/namespace/operation matrix, DPAPI, separate-account denial, revoke on existing connection, typed limits, safe client, overload and deadlines | PASS locally and hosted at `b4fe15bd19d439cb34a5522d99c119d29ab2dc16` — [combined evidence](evidence/HOTR-07-08-capabilities-rest.json); [Windows run](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/33998187706); separate-account proof is local |
+| HOTR-09 | Scoped encrypted FTS/current/history/count/list, literal queries and budgets, native query deadlines, 10k records/8 clients/20 requests per second for 15 minutes, independent durable reconciliation and canaries | PASS locally — [source-bound gate](evidence/HOTR-09-retrieval.json), [measured load](evidence/HOTR-09-prototype-load.json); exact hosted result recorded after publication |
+| M1 / HOTR-01–12 | Actual encrypted Windows service, scoped access, keyword retrieval, two real clients, restored encrypted backup | In progress; MCP, backup and real applications remain |
 | M2 / HOTR-13–18 | Selected imports, correction consistency, local embeddings, hybrid retrieval evaluation, management UI | Not started |
 | M3 / HOTR-19–22 | Auditing, key rotation, Windows lifecycle, controlled daily-use comparison | Not started |
 | M4 / HOTR-23–32 | Security, malformed inputs, races, crashes, storage faults, model faults, scale, soak, dependency review, repairs | Not started |

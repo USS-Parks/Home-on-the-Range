@@ -1,0 +1,43 @@
+{
+  "acknowledgment_mismatches": 0,
+  "binary_sha256": "55cf95cbf94b7679b8dcb1cced4aa64ca4895d8a0b981d7551cc75af129c722f",
+  "clients": 8,
+  "completed_requests": 18000,
+  "correctness_violations": 0,
+  "durable_receipts": 13600,
+  "duration_seconds": 900.0167846,
+  "first_query_after_seed_ms": 26.0471,
+  "first_query_is_os_cache_cold": false,
+  "fts_integrity": true,
+  "integrity": true,
+  "keyword": {
+    "count": 7200,
+    "max_ms": 1080.844,
+    "p50_ms": 22.172,
+    "p95_ms": 32.957,
+    "p99_ms": 257.133
+  },
+  "latency_policy": "scheduled arrival through complete response, including client scheduling delay; failures included",
+  "namespaces": 10,
+  "other_reads": {
+    "count": 7200,
+    "max_ms": 384.736,
+    "p50_ms": 17.632,
+    "p95_ms": 26.045,
+    "p99_ms": 33.125
+  },
+  "prompt": "HOTR-09",
+  "records": 10000,
+  "result": "PASS",
+  "scheduled_requests": 18000,
+  "seed": 47821,
+  "seed_elapsed_ms": 158809,
+  "unexpected_errors": 0,
+  "write": {
+    "count": 3600,
+    "max_ms": 1194.625,
+    "p50_ms": 20.993,
+    "p95_ms": 38.458,
+    "p99_ms": 326.709
+  }
+}

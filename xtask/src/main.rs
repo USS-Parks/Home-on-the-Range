@@ -46,6 +46,7 @@ fn execute() -> io::Result<()> {
                     | "HOTR-06"
                     | "HOTR-07"
                     | "HOTR-08"
+                    | "HOTR-09"
                     | "HOTR-04-R2"
             ))
     {
@@ -219,7 +220,7 @@ fn execute() -> io::Result<()> {
         }
         if matches!(
             prompt,
-            "HOTR-04" | "HOTR-05" | "HOTR-06" | "HOTR-07" | "HOTR-08" | "HOTR-04-R2"
+            "HOTR-04" | "HOTR-05" | "HOTR-06" | "HOTR-07" | "HOTR-08" | "HOTR-09" | "HOTR-04-R2"
         ) {
             let boundary = run(
                 &guard,
@@ -243,6 +244,30 @@ fn execute() -> io::Result<()> {
             outcomes.push(boundary);
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["owner-boundary"])?;
+        }
+        if prompt == "HOTR-09" {
+            let load = run(
+                &guard,
+                &directory,
+                "prototype-load",
+                &cargo,
+                &[
+                    "test",
+                    "--release",
+                    "--locked",
+                    "--test",
+                    "api_capabilities",
+                    "prototype_10k_load_15_minutes",
+                    "--",
+                    "--ignored",
+                    "--nocapture",
+                ],
+                Duration::from_secs(1800),
+            )?;
+            let pass = load.ensure_pass();
+            outcomes.push(load);
+            pass?;
+            hotr_xtask::ensure_required(&outcomes, &["prototype-load"])?;
         }
         let scan = run(
             &guard,

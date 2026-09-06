@@ -206,7 +206,13 @@ async fn dispatch(state: ApiState, request: Request<Body>) -> Response {
     let path = request.uri().path().to_owned();
     if !matches!(
         (method.as_str(), path.as_str()),
-        ("GET", "/v1/status") | ("POST", "/v1/records") | ("POST", "/v1/records/get")
+        ("GET", "/v1/status")
+            | ("POST", "/v1/records")
+            | ("POST", "/v1/records/get")
+            | ("POST", "/v1/search")
+            | ("POST", "/v1/records/list")
+            | ("POST", "/v1/records/count")
+            | ("POST", "/v1/records/history")
     ) {
         return error(StatusCode::NOT_FOUND, "not_found");
     }
@@ -238,6 +244,22 @@ async fn dispatch(state: ApiState, request: Request<Body>) -> Response {
         Err(_) => return error(StatusCode::PAYLOAD_TOO_LARGE, "request_limit"),
     };
     let result = match path.as_str() {
+        "/v1/search" => match decode(&body) {
+            Ok(query) => writer.command(Command::Search { hash, query }).await,
+            Err(error) => Err(error),
+        },
+        "/v1/records/list" => match decode(&body) {
+            Ok(query) => writer.command(Command::List { hash, query }).await,
+            Err(error) => Err(error),
+        },
+        "/v1/records/count" => match decode(&body) {
+            Ok(query) => writer.command(Command::Count { hash, query }).await,
+            Err(error) => Err(error),
+        },
+        "/v1/records/history" => match decode(&body) {
+            Ok(query) => writer.command(Command::History { hash, query }).await,
+            Err(error) => Err(error),
+        },
         "/v1/status" => {
             if !body.is_empty() {
                 return error(StatusCode::BAD_REQUEST, "invalid_request");

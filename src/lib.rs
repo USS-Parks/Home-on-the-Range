@@ -4,6 +4,7 @@ pub mod api;
 pub mod capabilities;
 pub mod credentials;
 pub mod owner;
+pub mod retrieval;
 pub mod schema;
 pub mod windows_security;
 pub mod writer;

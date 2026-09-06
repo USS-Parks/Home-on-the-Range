@@ -1,8 +1,9 @@
 # Owner lifecycle and key boundary
 
-HOTR-04 supplies the Windows owner CLI. It does not yet supply context records,
-application tokens, REST operations, MCP, or a startup service. Those remain in
-the approved sequential roster.
+HOTR-04 supplies the Windows owner CLI. HOTR-05–08 add versioned records,
+serialized transactions, scoped credentials, and REST operations; see
+ACCESS-CONTROL.md and REST-API.md. MCP and startup installation remain later
+prompts in the approved sequential roster.
 
 ## Owner commands
 
@@ -37,9 +38,9 @@ opening the database.
 ## Process and IPC boundary
 
 Every start is locked. Status exposes lifecycle metadata only. The process
-reserves a loopback port and an owner-specific Windows named pipe. An occupied
-port or duplicate pipe prevents startup. The reserved TCP listener has no API
-until HOTR-08.
+owns a loopback port and an owner-specific Windows named pipe. An occupied
+port or duplicate pipe prevents startup. Since HOTR-08 the TCP listener serves
+the scoped API, returning locked until the owner unlocks.
 
 Vault directories have a protected ACL granting full control to their creating
 user and SYSTEM, with child inheritance. The database and format marker also
@@ -50,7 +51,9 @@ The service impersonates a pipe client only long enough to read its token SID,
 reverts synchronously, and rejects a different identity. No impersonation spans
 an asynchronous operation.
 
-Frames are limited to 1025 bytes with five-second read and reply deadlines.
+Unlock frames remain limited to 1025 bytes. Since HOTR-07, typed owner
+administration frames permit at most 256 KiB of JSON plus the operation byte;
+reply frames are at most 1 MiB. Frame read/reply deadlines remain five seconds.
 Incorrect unlock attempts return one generic error and incur a 500 ms delay.
 One request is processed while one pipe connection can wait. The service keeps
 a successor instance available to avoid a disconnect/reconnect race. A hung
@@ -66,7 +69,8 @@ another unlock. No background service or auto-unlock credential is installed.
 These controls separate Windows identities. They do not isolate hostile
 programs sharing the owner's account, privileged administrators, or SYSTEM.
 The implementation does not claim forensic erasure of OS paging, crash dumps,
-or physical RAM. Application capability controls are the next distinct layer.
+or physical RAM. The distinct application capability layer is documented in
+ACCESS-CONTROL.md.
 
 ## Reproduce the live gate
 
@@ -88,6 +92,12 @@ timeout, or same-account token is not accepted as evidence. It publishes a new
 receipt atomically in that synthetic run without writing vault data. The owner
 test checks that the live vault remained unlocked and unchanged, then locks it
 and confirms process exit.
+
+Since HOTR-07/08 the same probe also attempts to decrypt copied DPAPI ciphertext
+under the second account. It then opens a synthetic loopback listener as that
+account; the production client must connect but send zero application bytes
+before rejecting its server identity. Neither a missing connection nor a timeout
+counts as this proof. The probe closes only its own listener and client.
 
 On this host, the existing Codex sandbox account is a separate authenticated
 principal. Selecting the system `cmd.exe` runner makes that account usable;

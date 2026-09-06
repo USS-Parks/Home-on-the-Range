@@ -46,12 +46,42 @@ pub struct Accept {
 }
 
 pub(crate) enum Command {
-    Issue { request: NewClient, port: u16 },
-    Revoke { id: String },
+    #[cfg(test)]
+    DeadlineProbe,
+    Issue {
+        request: NewClient,
+        port: u16,
+    },
+    Revoke {
+        id: String,
+    },
     Clients,
-    Get { hash: [u8; 32], query: Lookup },
-    Status { hash: [u8; 32] },
-    AcceptedInput { request: Accept },
+    Get {
+        hash: [u8; 32],
+        query: Lookup,
+    },
+    Status {
+        hash: [u8; 32],
+    },
+    Search {
+        hash: [u8; 32],
+        query: crate::retrieval::Search,
+    },
+    List {
+        hash: [u8; 32],
+        query: crate::retrieval::Page,
+    },
+    Count {
+        hash: [u8; 32],
+        query: crate::retrieval::Count,
+    },
+    History {
+        hash: [u8; 32],
+        query: crate::retrieval::History,
+    },
+    AcceptedInput {
+        request: Accept,
+    },
 }
 pub(crate) type CommandResult = Result<Value, WriteError>;
 
@@ -114,6 +144,31 @@ pub(crate) fn ensure_mutable(db: &Connection, record: &RecordInput) -> Result<()
 
 pub(crate) fn execute(db: &mut Connection, command: Command) -> CommandResult {
     match command {
+        #[cfg(test)]
+        Command::DeadlineProbe => {
+            let value:i64=db.query_row("WITH RECURSIVE span(x) AS (VALUES(0) UNION ALL SELECT x+1 FROM span WHERE x<1000000000) SELECT sum(x) FROM span",[],|r|r.get(0))?;
+            Ok(json!(value))
+        }
+        Command::Search { hash, query } => {
+            let (id, _) = identity(db, &hash)?;
+            grant(db, &id, &query.page.namespace)?;
+            crate::retrieval::search(db, query)
+        }
+        Command::List { hash, query } => {
+            let (id, _) = identity(db, &hash)?;
+            grant(db, &id, &query.namespace)?;
+            crate::retrieval::list(db, query)
+        }
+        Command::Count { hash, query } => {
+            let (id, _) = identity(db, &hash)?;
+            grant(db, &id, &query.namespace)?;
+            crate::retrieval::count(db, query)
+        }
+        Command::History { hash, query } => {
+            let (id, _) = identity(db, &hash)?;
+            grant(db, &id, &query.page.namespace)?;
+            crate::retrieval::history(db, query)
+        }
         Command::Issue { request, port } => issue(db, request, port),
         Command::Revoke { id } => {
             if !schema::valid_identifier(&id, false) {
@@ -146,6 +201,11 @@ pub(crate) fn execute(db: &mut Connection, command: Command) -> CommandResult {
             grant(db, &id, &query.namespace)?;
             if !schema::valid_identifier(&query.id, false) || query.revision == Some(0) {
                 return Err(WriteError::InvalidRequest);
+            }
+            if query.revision.is_none()
+                && !crate::retrieval::visible(db, &query.namespace, &query.id)?
+            {
+                return Err(WriteError::NotFound);
             }
             let record = schema::revision(db, &query.namespace, &query.id, query.revision)?
                 .ok_or(WriteError::NotFound)?;

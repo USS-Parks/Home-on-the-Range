@@ -86,6 +86,7 @@ invalid request, 401 unknown/revoked credential, 403 denied grant/role/Host/Orig
 415 JSON required, 429 overload, 503 locked, and 504 outcome unknown. HTTP parser
 errors can close before an application JSON response exists.
 
-Search, MCP, backups, named app integrations, semantic retrieval, packaging, and
+HOTR-09 adds search/list/count/history with context budgets; see RETRIEVAL.md.
+MCP, backups, named app integrations, semantic retrieval, packaging, and
 non-Windows support are later PSPR gates. This API does not automatically attach
 itself to existing applications or authorize private-context provider calls.

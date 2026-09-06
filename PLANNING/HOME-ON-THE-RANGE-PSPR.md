@@ -1,5 +1,7 @@
 # Home on the Range — Canonical Plan / Sequential Prompt Roster
 
+Current override (2026-09-06): the owner deferred remaining HOTR-12 compatibility and further Lamprey/plugin work and directed execution to HOTR-13. See `HOTR-13-RESUMPTION-2026-09-06.md`. Earlier next-HOTR-12B statements below are historical. Full STS continues.
+
 Current execution instruction: the owner resumed all pertinent application
 integrations and pre-approved the permissions necessary to complete the project.
 The earlier Lamprey deferral below is superseded by
@@ -685,3 +687,6 @@ Local preparation also read installed agentmemory architecture/configuration ski
 | 2026-09-05 | Preservation exception approved | User explicitly approved the bounded project write proposal; original project files snapshotted before edits; outside-scope files remain protected |
 
 Record the user's approved prompt range and any resource/stack amendments here before executing the first prompt. Do not backfill approval that was never given.
+
+
+HOTR-13 local completion (2026-09-06): full native gate `HOTR-13-68176-1788708184429672500` PASS, including the three actual import acceptance tests. See `../docs/VERIFICATION.md` for workflow/evidence. Publication/hosted verification remain separate. HOTR-14 is the next canonical prompt; the owner-directed HOTR-12 compatibility/Lamprey deferral remains in force.

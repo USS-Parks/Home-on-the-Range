@@ -897,3 +897,21 @@ and complete synthetic failure/success evidence; free space 296,945,201,152 byte
 Hermes integration, its necessary monitor repair, evidence/workflow documents,
 the current compatibility matrix, and Lamprey's exact hosted closeout. Publish
 to main, record the resulting SHA/hosted run, and continue HOTR-12B.
+
+
+## HOTR-13 — owner-selected import; approved resumption
+
+The owner explicitly deferred remaining HOTR-12 compatibility and further Lamprey/plugin work and directed the next canonical prompt. Follow `PLANNING/HOTR-13-RESUMPTION-2026-09-06.md`; the earlier instruction to continue HOTR-12B is superseded.
+
+The passed Hermes checkpoint was committed and pushed to public main as `5f6c6481af2892ad7da5ba499e7efc74cf8b4eac`. Exact Windows run `34041363996` was in progress at the latest check; no hosted PASS yet.
+
+HOTR-13 adds explicit bounded UTF-8 text, Markdown and typed JSON imports through the owner channel. Default preview binds source hashes and current revisions to a vault-specific digest; commit reparses and verifies the exact batch, creates proposed records and stores its durable receipt atomically with revisions, audit and FTS. Repeated source imports preserve subsequent acceptance/corrections. Synthetic native tests exercise CLI, actual owner service, restart, stale previews, malformed data, persistence rollback, ID collisions, path limits and an actual Windows junction. Implementation is in progress; gates and publication remain pending. No personal files have been imported.
+
+Initial HOTR-13 attempts retained: the verifier first refused the unregistered prompt before starting its gate. After allowlist registration, `HOTR-13-87380-1788708083643005200` failed to build because the URL type was referenced through a dev-only HTTP dependency. A patch-preparation mismatch caused an unchanged repeat, `HOTR-13-86504-1788708148787170900`, to retain the same failure. The fix uses the existing locked URL 2.5.8 parser directly; no native dependency version changed. The bounded gate `HOTR-13-68176-1788708184429672500` is in progress. Release build and strict product Clippy have passed at this checkpoint.
+
+
+HOTR-13 full local gate PASS: `HOTR-13-68176-1788708184429672500`. All 27 product tests, six runner tests, both format/strict-Clippy gates, release build and the 4,347-file canary scan passed. The three new native tests used actual CLI/service processes and a real Windows junction. Source hashes stayed unchanged throughout the gate. The sanitized [evidence](evidence/HOTR-13.json) names exact fixture IDs and checks. Product SHA-256: `cf7d2c077b6387229da7ff2cbb99020ae3f46aeda3cdeb29b6f30d318602259a`; runner SHA-256: `7e0b866c1b027db837e2fb35ae4f5afd3d7fefc58f23fd7d28b9f7cea239fc36`.
+
+Read-only closeout matched all 62 runtime/test/build source hashes and all eight preserved original baselines. One canonical main checkout; no linked worktrees, no unpublished commits before this prompt publication. Retained generated state: 4,435,000,055 bytes (about 4.13 GiB), for native cache reuse and synthetic evidence. Free space: 310,093,770,752 bytes (about 288.8 GiB). No pre-existing files were deleted, no personal content was imported, and no provider prompts were run. The new junction fixture alone was removed nonrecursively after verifying it was test-owned; its external-to-selection synthetic target remained intact. Small reviewed edit drafts and exact preceding-source backups are retained in the task workspace.
+
+Hermes exact hosted Windows run `34041363996` completed successfully for `5f6c6481af2892ad7da5ba499e7efc74cf8b4eac`, closing that checkpoint. HOTR-13 is locally passed; stage/hash verification, focused commit, push, remote SHA and exact hosted result are recorded during publication. The next canonical prompt is HOTR-14. Remaining HOTR-12 app integrations and further Lamprey/plugin work stay deferred.

@@ -1,5 +1,7 @@
 # Application compatibility
 
+Current owner instruction: defer remaining HOTR-12 integration work, further Lamprey/plugin work and everyday-profile enrollment; continue at HOTR-13. The inventory below is retained as evidence, not an active app queue. See [the resumption record](../PLANNING/HOTR-13-RESUMPTION-2026-09-06.md).
+
 Snapshot: 2026-09-06 UTC. `VERIFIED LIVE` describes the named interface in a
 protected synthetic test profile. It does not mean the owner's everyday profile
 has been enrolled. The common gate, exact published commit and hosted result are
@@ -11,7 +13,7 @@ recorded separately in VERIFICATION. Existing app settings remain preserved.
 | Claude Code 2.1.220 | VERIFIED LIVE | Independent client in HOTR-12's shared-memory sequence |
 | Lamprey 0.32.0 desktop | VERIFIED LIVE | Six-turn acceptance, model switch and cancellation/recovery; published `344b7a0`, exact Windows CI PASS |
 | Hermes Agent 0.21.0 CLI | VERIFIED LIVE | Final three-turn native MCP save/correct/restart/search/revoke and common gate PASS; exact publication/hosted closeout tracked in VERIFICATION |
-| Qwen Desktop 1.0.3 | DETECTED | Installed code exposes native MCP configuration and tool-call IPC; next live target |
+| Qwen Desktop 1.0.3 | DETECTED | Installed code exposes native MCP configuration and tool-call IPC; live acceptance deferred |
 | Qwen Code | DOCUMENTED | Not detected on PATH; assess supported installation/local-provider route separately |
 | Local Qwen 3:4b | DETECTED | Existing Ollama model listed; inference/tool cycle not yet verified |
 | OpenCode 1.18.22 | DETECTED | Installed V1 release; use its V1 MCP schema |
@@ -37,7 +39,7 @@ recorded separately in VERIFICATION. Existing app settings remain preserved.
 | Linux/container service | DOCUMENTED | Windows credential/IPC code is not portable proof; later OS gate required |
 | macOS service | DOCUMENTED | Native macOS environment and keychain/IPC/client proof required |
 
-Everyday-profile enrollment is pending for all rows. Installation will use a
+Everyday-profile enrollment is deferred for all rows. Future installation requires a
 real owner-created vault and distinct application credentials, preserving
 existing configurations in protected backups and adding only HOTR entries.
 The synthetic test vaults and their public test passphrases are not production

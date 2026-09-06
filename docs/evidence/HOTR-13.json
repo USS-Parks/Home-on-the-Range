@@ -1,0 +1,257 @@
+{
+  "prompt": "HOTR-13",
+  "result": "PASS locally; publication and exact hosted result tracked separately",
+  "gate": "HOTR-13-68176-1788708184429672500",
+  "source": {
+    "commit": "5f6c6481af2892ad7da5ba499e7efc74cf8b4eac",
+    "dirty": true,
+    "native_sha256": {
+      "libcrypto.lib": "a732e953ad89e07f8acfd1f656a598105724b3bfb739a4c89984cac10f136199",
+      "sqlcipher.lib": "6fc809b1a11e664fb348da594cd0b03a36e9c9046d7731c478725d8f51f532a7",
+      "sqlite3.c": "45c136615ae3ee8c366dbdde3d78f77c4a15b04ddf55d387b987e45d777b8a42"
+    },
+    "normalized_source_sha256": {
+      ".cargo/config.toml": "434a52b014edd006e7b6fa18301d903499fba0862aee92495b8dd95ca23eb365",
+      ".cargo/enter-prepared-native.ps1": "90c29f33ad82618d554fa7eb1af0d59746fbed6a502f5c7525c85995523db3f3",
+      ".cargo/inspect-electron.cjs": "573efb2a075fd4efca232cfdda2ae6a5529ef4081d5ccbe8d3e2bc1ff8594c79",
+      ".cargo/inspect-hermes-cli.cjs": "c566f41dccc6ebb5f6694c9dd24064d8e415ea4a0d34566f69163d3b0a502dae",
+      ".cargo/inspect-installed-clients.ps1": "1555b0d95de548643969059ab1374d1cc968e44159a22ac7e668836cc6063341",
+      ".cargo/owner-principal-probe.ps1": "a9ec2c5a2c9837d8ee5192b4fcf28d1751ce315e2f34086fbac49cd51eef3b2f",
+      ".cargo/prepare-native.ps1": "ab3de675afb46fc59d577d514ce4195d1bbbe45a44f9e91d23cf90887a9bde5a",
+      ".cargo/scan-native-canaries.py": "8dff07cba84fd25ec32fd432a35857ca473e5500dbf2b55ce1d32d35b15722f8",
+      ".cargo/verify-installed-clients.ps1": "7efac11055efcb86cee2bcf70d93ef6163ef2535fba7121527c8881cc7ad0d95",
+      ".github/workflows/windows-native.yml": "ab05c4953039226d06914e96a66c4a5b8301750df700602cb18154ff70a610d6",
+      "Cargo.lock": "2909ba4442f8a7e322eceabef486f8a29c553f6a20691f5843fa9ee3fb351ae4",
+      "Cargo.toml": "4a36c39faf40606286008fbb62cf6f7d63beb48015c58269162e114d22f78abf",
+      "build.rs": "8eb17bf45c9b98ec15cb1a19889c42882b3fe4196ade6459bfd5073f360b72a1",
+      "integrations/clients/hermes_cli.cjs": "d7620c0f447e116f673b993b89f536adcbd34c70d65bf62befea29811bc4db42",
+      "integrations/clients/hermes_results.cjs": "9e18a7e8ffd8e4ac4cd4e108d4ddf1310604ac97f9eebc8810194611f7dd66fa",
+      "integrations/clients/hermes_results.test.cjs": "c53349aeb686f94268a9bc2df1b7cb4fc6475d994da6065c6667344f82d6aee7",
+      "integrations/clients/lamprey_bootstrap.cjs": "f6b00425f018873d6fc8280495db4e7c5d7264678e04032fc18fbe45236a3728",
+      "integrations/clients/lamprey_chat.cjs": "66b05c969bcfecede27deef9e2768987c92c479cf5f3a17e5b85fbaea3ca7268",
+      "integrations/clients/lamprey_probe.cjs": "0eddb97ca2ed99a15fe513b719f33031b6824db8f48e1609c6a95e3cf6a93069",
+      "integrations/clients/live_cli.py": "8971f6e57f4516b4beba0c124b0cfb498275c7a31bd6c1234e4be0bff1f2157d",
+      "integrations/clients/prompt_budget.cjs": "498a8e05b892c1c0a557ffc698dcbc7f43d353cef37cb4a91ef8cda0d6840ea6",
+      "integrations/clients/prompt_budget.test.cjs": "248e7ca43097be2e25aa417a9c126b75c4f43bf1f07281845100f62115703b8f",
+      "src/api.rs": "c6ba7da0451269a04e38574ebeb1e24fe61e581d6c21b9a44ba3300c6e83a7ae",
+      "src/backup.rs": "f00bb323bd2fc5f84729c4ffd8f99bcbae148e4285a303ef94f7c3f9b0fd6ef2",
+      "src/capabilities.rs": "49706c13cfdca2980cb5d5d9846ba461b382f618fc16dff0a263e9ae11cde4da",
+      "src/credentials.rs": "ace05a2480c5de41a3b8ff5ce4afec26014c06fe4579bca08490dfc932a57b4d",
+      "src/imports.rs": "c701b00559044f3fb8a4ecaed5357c089ca1c46620052870f13f8a67f7bdea7c",
+      "src/lib.rs": "ec67cedbf2f8ebb2564a03981ce7cead905ab51d027386c5dc30207013c78457",
+      "src/main.rs": "882d193ad064bbd7f580970297429fecb1df46d0f13181ca737f864dd5467789",
+      "src/mcp.rs": "04a454be7d12321ec7baa61d94c17ede1b7ddbfd2eb12a73f18f9ad0ab3e559b",
+      "src/owner.rs": "86d902abe100f08cd188a61d2af2d323789b56668ec492a2ae6dd7fc0ca5d078",
+      "src/retrieval.rs": "b18d5c9cf40e4adce19dcd08985c0969e75d1f54d0fff69e555e7fc0cd11bb29",
+      "src/schema.rs": "97dfaf58f2201d1b620e2af1dde16b6771d23bcabe060b9059c34225562e28ba",
+      "src/schema_v1.sql": "62c7da764a66eb81be3324eb741c660a7c56598f80d4b59de011f7eac5ab431e",
+      "src/schema_v2.sql": "41550b33bb043a9a4016de80af6d25c99fb390ab955a7b677c5467dc1b14bc6c",
+      "src/schema_v3.sql": "e8a6f173425f97e3172ab30db5a3c3f0628d14dc496ca396db17d80df17fd240",
+      "src/schema_v4.sql": "c373faa46c691efae898265826b6f5487d4faac16db009a5e2452e3e787b13fd",
+      "src/schema_v5.sql": "307e5af7b6e910be7a1d965ae9ba49038a931e8ba3d14ae9af474aa728339bed",
+      "src/schema_v6.sql": "755c740e9ad0f728df4668f07d3353527d19dec5fb09db2157cbb7b0934b065e",
+      "src/windows_security.rs": "e54b657ac4d027383a9c054cc2cdde3a54e83e5cab7b4b1eb0786d544d961b7d",
+      "src/writer.rs": "a18de4f3e902d88091a698938eaaedad237f6bc823f252827dadad74394f93b2",
+      "src/writer_tests.rs": "3110c258116bbee7247b659dec2afb977ccaaca3e1be0d3374749ed59c450137",
+      "tests/api_capabilities.rs": "21afbefcce108fca98efcfbfadaf3269c5f59bd2e87a0b9942c252a999e30ae9",
+      "tests/encryption.rs": "d98035a8ecde9fadd18d02c5cbe99e779ab755aa2eb73359616b93f3eef70fc8",
+      "tests/owner_lifecycle.rs": "9e59d688fc347306395f6b43dfa2798551f47c2dee41103c0937e4aa35534f0d",
+      "tests/schema.rs": "4f6ab61275660e1cbbf5952cd171654c5a005fb47c6effb8dbd8dd2e2aff8bba",
+      "tests/support/apps.rs": "b69bd096e1685c0c548b8f8b400c07fa37346f1372e9762ac51ff7938f8c0bb3",
+      "tests/support/backup.rs": "1d862df5fa4fdc83f5cb13787b5b0e0bff294dd67e7033d9ea7602031c8fa0fb",
+      "tests/support/hermes.rs": "df949147845e60a3abd7e2085ef56dee49452dff743a1584c5f343fa2876ff83",
+      "tests/support/imports.rs": "f806147c26cbf06804b4f3ea2bc7aeefbeff55580d190f73bc7316eaa2c1096e",
+      "tests/support/lamprey.rs": "8198498e5a9571c4eb1d35712bd01d528f29efc04817b7d1bed753cd7722f912",
+      "tests/support/mcp.rs": "c7ad3b71450f202b749ab65c45e4b2cc41ad709cdf2f825936b907825475649e",
+      "xtask/Cargo.lock": "fbd9aa7678363510fe593cb108cabdad3d12f078de7302a8a4023d78d928e928",
+      "xtask/Cargo.toml": "3c56553b6e2443c28c659f1f1b18df36eb583475202ebebe0b5706fc49f9f357",
+      "xtask/native-builder/Cargo.lock": "11e14128caf3dec373927ad5bcb771867856a89d5a6a6752514e22abf4c97bda",
+      "xtask/native-builder/Cargo.toml": "aa88450cffdc47d430df5037dbd76f8e6b996ac2bdb57deb3c2910e95181d526",
+      "xtask/native-builder/build.rs": "c6796b1671edf06c696968ed256dbe85c9f5e6c18fc0cae9d698bfb10919c9fd",
+      "xtask/native-builder/src/main.rs": "da1d383a162e3a5a00c73b6e9f26bca9cecc4a9f00051fe0c2d4f72cddd5c6ee",
+      "xtask/src/lib.rs": "ba2e8680b72428fd90f9418a4227cfbea0338bd55a8ede9fca53488c8d428bd6",
+      "xtask/src/limits.rs": "05e13bcd50b103ac0daf28982aa4633395f9296aa7abe582ceb1e14f66458eb8",
+      "xtask/src/main.rs": "e1656395bbaa680d08f4397281dce9151a7f5eb44ff406b6e7553927ec4a6c5d",
+      "xtask/tests/contracts.rs": "abe81a6e82e90477165df2b16c2aef22fc378311fe05667b6121311791157fa4"
+    }
+  },
+  "product_sha256": "cf7d2c077b6387229da7ff2cbb99020ae3f46aeda3cdeb29b6f30d318602259a",
+  "runner_sha256": "7e0b866c1b027db837e2fb35ae4f5afd3d7fefc58f23fd7d28b9f7cea239fc36",
+  "commands": [
+    {
+      "label": "format",
+      "arguments": [
+        "fmt",
+        "--check"
+      ],
+      "elapsed_ms": 686,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "build",
+      "arguments": [
+        "build",
+        "--release",
+        "--locked"
+      ],
+      "elapsed_ms": 60430,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "clippy",
+      "arguments": [
+        "clippy",
+        "--release",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_ms": 7114,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "tests",
+      "arguments": [
+        "test",
+        "--release",
+        "--locked",
+        "--",
+        "--test-threads=1"
+      ],
+      "elapsed_ms": 134484,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "harness-format",
+      "arguments": [
+        "fmt",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--check"
+      ],
+      "elapsed_ms": 291,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "harness-clippy",
+      "arguments": [
+        "clippy",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--release",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_ms": 1010,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "harness-tests",
+      "arguments": [
+        "test",
+        "--lib",
+        "--manifest-path",
+        "xtask/Cargo.toml",
+        "--release",
+        "--locked",
+        "--",
+        "--test-threads=1"
+      ],
+      "elapsed_ms": 1267,
+      "exit_code": 0,
+      "failure": null
+    },
+    {
+      "label": "canary-scan",
+      "arguments": [
+        "-I",
+        "-B",
+        ".cargo/scan-native-canaries.py"
+      ],
+      "elapsed_ms": 46491,
+      "exit_code": 0,
+      "failure": null
+    }
+  ],
+  "product_tests_passed": 27,
+  "runner_tests_passed": 6,
+  "scan_files": 4347,
+  "actual_import_proof": [
+    {
+      "fixture": "HOTR-07-78436-1788708372163782500",
+      "file": "import-rollback.json",
+      "evidence": {
+        "result": "PASS",
+        "partial_writes": 0,
+        "receipt_rollback": true,
+        "fts_rollback": true,
+        "cross_vault_digest_refused": true,
+        "collision_refused": true
+      }
+    },
+    {
+      "fixture": "HOTR-07-78436-1788708374452510200",
+      "file": "imports.json",
+      "evidence": {
+        "binary_sha256": "cf7d2c077b6387229da7ff2cbb99020ae3f46aeda3cdeb29b6f30d318602259a",
+        "duplicate_inserts": 0,
+        "fts_integrity": "ok",
+        "malformed_and_forged_input_refused": true,
+        "preview_matches_records": true,
+        "proposed_on_import": true,
+        "records": 4,
+        "restart_receipt_identical": true,
+        "result": "PASS",
+        "sources_preserved": true,
+        "stale_file_and_revision_refused": true
+      }
+    },
+    {
+      "fixture": "HOTR-07-78436-1788708376607501600",
+      "file": "import-paths.json",
+      "evidence": {
+        "result": "PASS",
+        "actual_junction_escape_refused": true,
+        "junction_root_refused": true,
+        "outside_target_preserved": true,
+        "traversal_unc_device_ads_refused": true,
+        "bounded_formats_utf8_and_size": true,
+        "concurrent_writer_refused": true
+      }
+    }
+  ],
+  "limits": {
+    "files": 16,
+    "records": 64,
+    "raw_bytes": 131072,
+    "record_body_bytes": 65536,
+    "owner_frame_bytes": 262144
+  },
+  "preservation": {
+    "original_baselines_verified": 8,
+    "selected_sources_unchanged": true,
+    "preexisting_files_deleted": 0,
+    "personal_imports": 0,
+    "provider_prompts": 0,
+    "registered_worktrees": 1,
+    "generated_bytes": 4435000055
+  },
+  "limitations": [
+    "Windows local fixed/removable drives only",
+    "Exact source-file deduplication; file changes create new proposed IDs",
+    "Remaining HOTR-12 compatibility and active-profile enrollment deferred by owner",
+    "Schema migration and shared-writer regressions tested; previous app-model workflows not repeated",
+    "No semantic index, full stress/soak or packaged deployment claim"
+  ]
+}

@@ -80,6 +80,7 @@ impl Guard {
                 | "HOTR-10"
                 | "HOTR-11"
                 | "HOTR-12"
+                | "HOTR-13"
                 | "HOTR-12-LAMPREY"
                 | "HOTR-12-LAMPREY-SMOKE"
                 | "HOTR-12-LAMPREY-PREFLIGHT"

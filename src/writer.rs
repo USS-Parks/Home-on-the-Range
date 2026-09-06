@@ -292,8 +292,12 @@ impl Writer {
                                                 || stop.load(Ordering::SeqCst)
                                         }),
                                     )?;
-                                    let result =
-                                        crate::capabilities::execute(&mut connection, command);
+                                    let result = crate::capabilities::execute(
+                                        &mut connection,
+                                        command,
+                                        deadline,
+                                        &flag,
+                                    );
                                     connection.progress_handler(0, None::<fn() -> bool>)?;
                                     result
                                 })();
@@ -432,58 +436,7 @@ fn apply(
         .as_millis()
         .try_into()
         .map_err(|_| WriteError::PersistenceRejected)?;
-    if current.is_none() {
-        tx.execute(
-            "INSERT OR IGNORE INTO namespaces VALUES(?1)",
-            [&record.namespace],
-        )?;
-        tx.execute(
-            "INSERT INTO records VALUES(?1,?2,1)",
-            params![record.namespace, record.id],
-        )?;
-    }
-    let kind = serde_json::to_value(record.kind).map_err(|_| WriteError::InvalidRequest)?;
-    let state = serde_json::to_value(record.state).map_err(|_| WriteError::InvalidRequest)?;
-    tx.execute(
-        "INSERT INTO revisions VALUES(?1,?2,?3,?4,?5,?6,?7)",
-        params![
-            record.namespace,
-            record.id,
-            revision,
-            kind.as_str().ok_or(WriteError::InvalidRequest)?,
-            record.body,
-            state.as_str().ok_or(WriteError::InvalidRequest)?,
-            now
-        ],
-    )?;
-    for (ordinal, source) in record.sources.iter().enumerate() {
-        tx.execute(
-            "INSERT INTO revision_sources VALUES(?1,?2,?3,?4,?5,?6)",
-            params![
-                record.namespace,
-                record.id,
-                revision,
-                ordinal as u32,
-                source.reference,
-                source.label
-            ],
-        )?;
-    }
-    for (ordinal, tag) in record.tags.iter().enumerate() {
-        tx.execute(
-            "INSERT INTO revision_tags VALUES(?1,?2,?3,?4,?5)",
-            params![record.namespace, record.id, revision, ordinal as u32, tag],
-        )?;
-    }
-    if current.is_some() {
-        tx.execute(
-            "UPDATE records SET current_revision=?3 WHERE namespace=?1 AND id=?2",
-            params![record.namespace, record.id, revision],
-        )?;
-    }
-    crate::retrieval::reindex(&tx, record)?;
-    tx.execute("INSERT INTO mutation_audit(principal,namespace,record_id,revision,operation,committed_at_ms) VALUES(?1,?2,?3,?4,?5,?6)",params![principal,record.namespace,record.id,revision,if current.is_some(){"revise"}else{"create"},now])?;
-    let audit_sequence = tx.last_insert_rowid();
+    let audit_sequence = append_revision(&tx, &principal, record, current, revision, now)?;
     tx.execute(
         "INSERT INTO write_receipts VALUES(?1,?2,?3,?4,?5,?6,?7,?8)",
         params![
@@ -536,3 +489,67 @@ fn apply(
 #[cfg(test)]
 #[path = "writer_tests.rs"]
 mod tests;
+
+/// Storage seam shared by individual writes and atomic owner imports.
+pub(crate) fn append_revision(
+    tx: &rusqlite::Transaction<'_>,
+    principal: &str,
+    record: &RecordInput,
+    current: Option<u32>,
+    revision: u32,
+    now: i64,
+) -> std::result::Result<i64, WriteError> {
+    if current.is_none() {
+        tx.execute(
+            "INSERT OR IGNORE INTO namespaces VALUES(?1)",
+            [&record.namespace],
+        )?;
+        tx.execute(
+            "INSERT INTO records VALUES(?1,?2,1)",
+            params![record.namespace, record.id],
+        )?;
+    }
+    let kind = serde_json::to_value(record.kind).map_err(|_| WriteError::InvalidRequest)?;
+    let state = serde_json::to_value(record.state).map_err(|_| WriteError::InvalidRequest)?;
+    tx.execute(
+        "INSERT INTO revisions VALUES(?1,?2,?3,?4,?5,?6,?7)",
+        params![
+            record.namespace,
+            record.id,
+            revision,
+            kind.as_str().ok_or(WriteError::InvalidRequest)?,
+            record.body,
+            state.as_str().ok_or(WriteError::InvalidRequest)?,
+            now
+        ],
+    )?;
+    for (ordinal, source) in record.sources.iter().enumerate() {
+        tx.execute(
+            "INSERT INTO revision_sources VALUES(?1,?2,?3,?4,?5,?6)",
+            params![
+                record.namespace,
+                record.id,
+                revision,
+                ordinal as u32,
+                source.reference,
+                source.label
+            ],
+        )?;
+    }
+    for (ordinal, tag) in record.tags.iter().enumerate() {
+        tx.execute(
+            "INSERT INTO revision_tags VALUES(?1,?2,?3,?4,?5)",
+            params![record.namespace, record.id, revision, ordinal as u32, tag],
+        )?;
+    }
+    if current.is_some() {
+        tx.execute(
+            "UPDATE records SET current_revision=?3 WHERE namespace=?1 AND id=?2",
+            params![record.namespace, record.id, revision],
+        )?;
+    }
+    crate::retrieval::reindex(tx, record)?;
+    tx.execute("INSERT INTO mutation_audit(principal,namespace,record_id,revision,operation,committed_at_ms) VALUES(?1,?2,?3,?4,?5,?6)",params![principal,record.namespace,record.id,revision,if current.is_some(){"revise"}else{"create"},now])?;
+    let audit_sequence = tx.last_insert_rowid();
+    Ok(audit_sequence)
+}

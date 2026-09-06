@@ -1,5 +1,7 @@
 # Verification ledger
 
+Current execution: HOTR-13 passed its full local gate; exact publication/hosted status is tracked separately. Remaining HOTR-12 compatibility and further Lamprey/plugin work are deferred by the owner; their missing evidence is not marked passed.
+
 HOTR-01–12 local gates have passed, including the actual Codex CLI and Claude Code shared-memory workflow. Installed Lamprey acceptance is published with exact Windows CI PASS. HOTR-12A's final Hermes and common gates passed, including the HOTR-12A-R1 monitor repair. These results accept the tested isolated-profile workflows; everyday installation, the remaining compatibility roster, semantic retrieval and later STS gates remain open. Hosted evidence is tracked separately.
 
 | Gate | Required evidence | Status |
@@ -90,3 +92,14 @@ received revision 3. The earlier owner timeout remains retained with cause
 unestablished. The subsequent scanner timeout is addressed by HOTR-12A-R1;
 neither failed manifest was relabeled. Publication and exact hosted verification
 follow this local acceptance. Everyday-profile enrollment remains pending.
+
+
+## HOTR-13 — owner-selected imports
+
+Local PASS on `HOTR-13-68176-1788708184429672500`: 27 product tests and six runner tests, both format/strict-Clippy checks, release build and canary scan of 4,347 files. The [source-bound evidence](evidence/HOTR-13.json) includes 62 source hashes, native/binary hashes and three actual import fixture reports.
+
+The actual CLI and owner service proved exact preview/committed-record agreement, proposed state and provenance, no duplicate inserts, owner acceptance preservation, identical restart receipts, stale-file/revision rejection, malformed/hash/collision rejection, cross-vault digest refusal, and atomic revision/audit/receipt/FTS rollback under a forced storage failure. Actual Windows path tests refused a junction escape and a junction root, plus traversal, UNC, device, alternate-stream, format/size/UTF-8 and concurrent-writer cases. Original selected files and the junction target retained their bytes.
+
+The reused owner channel, encryption, schema migration, backup/restore, HTTP/MCP permissions, cancellation and lifecycle regression tests passed. Separate-account and model-driven app workflows retain their prior evidence; they were not rerun or relabeled as fresh HOTR-13 proof. No personal imports or cloud calls were made. Full stress/soak and later roster gates remain outstanding.
+
+Hermes publication `5f6c6481af2892ad7da5ba499e7efc74cf8b4eac` has exact [Windows CI PASS](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34041363996). HOTR-13 publication and exact hosted result follow its passed local gate; do not infer hosted success from this local evidence.

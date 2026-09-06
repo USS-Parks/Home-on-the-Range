@@ -15,6 +15,18 @@ struct Cli {
 #[derive(Subcommand)]
 enum Operation {
     NativeInfo,
+    /// Preview owner-selected files, then commit with the returned preview digest.
+    Import {
+        path: PathBuf,
+        #[arg(long)]
+        root: PathBuf,
+        #[arg(long = "file", required = true)]
+        files: Vec<PathBuf>,
+        #[arg(long)]
+        namespace: String,
+        #[arg(long)]
+        commit: Option<String>,
+    },
     Create {
         path: PathBuf,
     },
@@ -105,6 +117,22 @@ async fn main() {
 
 async fn execute(operation: Operation) -> Result<(), Box<dyn std::error::Error>> {
     match operation {
+        Operation::Import {
+            path,
+            root,
+            files,
+            namespace,
+            commit,
+        } => {
+            let batch = hotr::imports::prepare(&root, &files, &namespace)?;
+            print_reply(
+                hotr::owner::admin(
+                    &path,
+                    &hotr::owner::AdminRequest::Import(hotr::imports::Request { batch, commit }),
+                )
+                .await?,
+            )?;
+        }
         Operation::Backup { path, destination } => {
             let key = password("New backup passphrase: ")?;
             let confirmation = password("Confirm backup passphrase: ")?;

@@ -42,6 +42,9 @@ mod installed_lamprey;
 #[path = "support/hermes.rs"]
 mod installed_hermes;
 
+#[path = "support/imports.rs"]
+mod owner_imports;
+
 fn local_client() -> reqwest::Client {
     reqwest::Client::builder()
         .no_proxy()

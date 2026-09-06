@@ -1,5 +1,7 @@
 # Home on the Range working agreements
 
+Current override (2026-09-06): the owner deferred remaining HOTR-12 compatibility and further Lamprey/plugin work and directed execution to HOTR-13. See `PLANNING/HOTR-13-RESUMPTION-2026-09-06.md`. Earlier next-HOTR-12B statements below are historical. Full STS continues.
+
 ## Current authorization (2026-09-05)
 
 Latest owner instruction: complete all pertinent installed-app integrations;

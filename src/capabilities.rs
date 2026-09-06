@@ -46,6 +46,7 @@ pub struct Accept {
 }
 
 pub(crate) enum Command {
+    Import(crate::imports::Request),
     Backup(crate::backup::Request),
     #[cfg(test)]
     DeadlineProbe,
@@ -143,8 +144,14 @@ pub(crate) fn ensure_mutable(db: &Connection, record: &RecordInput) -> Result<()
     }
 }
 
-pub(crate) fn execute(db: &mut Connection, command: Command) -> CommandResult {
+pub(crate) fn execute(
+    db: &mut Connection,
+    command: Command,
+    deadline: std::time::Instant,
+    stopped: &std::sync::atomic::AtomicBool,
+) -> CommandResult {
     match command {
+        Command::Import(request) => crate::imports::execute(db, request, deadline, stopped),
         Command::Backup(request) => serde_json::to_value(
             crate::backup::create(db, request).map_err(|_| WriteError::PersistenceRejected)?,
         )

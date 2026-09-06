@@ -2,7 +2,7 @@
 
 A Windows-first encrypted context vault being built for shared access by local AI applications through one service, HTTP, and MCP.
 
-**Status: full PSPR execution is active. Codex CLI 0.153.4, Claude Code 2.1.220, Lamprey 0.32.0 and Hermes 0.21.0 have actual application proof in isolated profiles. Lamprey is published with exact Windows CI PASS. Hermes's final common and app gates passed; exact publication/hosted status is tracked in VERIFICATION. Qwen is next. Everyday-profile enrollment, the remaining compatibility roster, semantic retrieval, larger stress/soak campaigns and packaging remain open. The product is not yet installed or deployment-approved.**
+**Status: full PSPR execution has reached HOTR-13, owner-selected imports, with its full local gate passed. Exact publication/hosted results are tracked in VERIFICATION. The owner deferred remaining HOTR-12 app integrations and further Lamprey/plugin work. Codex CLI, Claude Code, Lamprey and Hermes retain their actual isolated-profile proof. Everyday enrollment is deferred; semantic retrieval, larger stress/soak campaigns and packaging remain open. The product is not yet installed or deployment-approved.**
 
 The earlier 10,000-record, 18,000-request prototype workload measured search/write p95 of 33/38 ms with no observed errors or lost acknowledged revisions. See the verification ledger for the tested versions and workload; this is not the later scale or soak campaign.
 
@@ -27,6 +27,7 @@ tested interfaces from detected installations and everyday-profile enrollment.
 
 - [Canonical PSPR](PLANNING/HOME-ON-THE-RANGE-PSPR.md)
 - [Local prototype quickstart](docs/QUICKSTART.md)
+- [Owner-selected imports and preview/commit workflow](docs/IMPORTS.md)
 - [M1 demonstration and evidence boundaries](docs/M1-DEMO.md)
 - [Development log](docs/DEVLOG.md)
 - [Verification ledger](docs/VERIFICATION.md)

@@ -1,5 +1,13 @@
 # Home on the Range — Canonical Plan / Sequential Prompt Roster
 
+Current execution instruction: the owner resumed all pertinent application
+integrations and pre-approved the permissions necessary to complete the project.
+The earlier Lamprey deferral below is superseded by
+[the recorded resumption](HOTR-COMPATIBILITY-RESUMPTION-APPROVED-2026-09-06.md).
+HOTR-12-LAMPREY's final six-turn installed-app acceptance and common checks
+have passed; publication is in progress before HOTR-12A. This is not an all-apps or
+active-profile installation completion claim.
+
 Version: 1.0, 2026-09-05
 
 Status: **APPROVED FOR FULL STS — EXECUTION ACTIVE**

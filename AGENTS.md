@@ -2,6 +2,14 @@
 
 ## Current authorization (2026-09-05)
 
+Latest owner instruction: complete all pertinent installed-app integrations;
+all necessary project permissions are pre-approved. Read
+`PLANNING/HOTR-COMPATIBILITY-RESUMPTION-APPROVED-2026-09-06.md`. The Lamprey
+deferral and pending 72-prompt budget question are superseded. Necessary HOTR
+app-configuration additions are authorized with protected original backups and
+concurrent-edit checks; preserve other settings and user data. Do not repeat
+approval questions for this scope. Sequential prompt gates still apply.
+
 Full STS is approved. Read `PLANNING/HOTR-BOUNDED-WRITES-APPROVED-2026-09-05.md` and its referenced scope, `PLANNING/HOTR-STS-APPROVAL-AND-COMPATIBILITY-2026-09-05.md`, and `PLANNING/HOTR-LAMPREY-HARNESS-INTEGRATION-2026-09-05.md` with the PSPR. Normal project source edits, bounded build/synthetic-test writes, and commits/pushes to main are authorized. The user explicitly confirmed PUBLIC repository visibility on 2026-09-05: "No, I changed it to public, it's fine." Preserve that choice. Existing user data, other applications' profiles, discretionary cleanup, and deletion of pre-existing files remain excluded. Earlier pending-approval and private-visibility statements describe superseded historical states.
 
 ## Authority and authorization

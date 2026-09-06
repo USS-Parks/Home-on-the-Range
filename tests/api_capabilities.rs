@@ -36,6 +36,9 @@ mod backup_recovery;
 #[path = "support/apps.rs"]
 mod installed_apps;
 
+#[path = "support/lamprey.rs"]
+mod installed_lamprey;
+
 fn local_client() -> reqwest::Client {
     reqwest::Client::builder()
         .no_proxy()

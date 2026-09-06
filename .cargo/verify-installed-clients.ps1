@@ -1,0 +1,19 @@
+param([ValidateSet('lamprey-preflight', 'lamprey-smoke', 'lamprey-acceptance', 'native', 'inspect')][string]$Mode = 'lamprey-acceptance', [ValidateSet('metadata','hermes','hermes-help','desktop','build','evidence')][string]$Section = 'metadata')
+$ErrorActionPreference = 'Stop'
+$repository = Split-Path $PSScriptRoot -Parent
+Set-Location -LiteralPath $repository
+if ($Mode -eq 'inspect') {
+    & (Join-Path $PSScriptRoot 'inspect-installed-clients.ps1') -Section $Section
+    exit $LASTEXITCODE
+}
+. (Join-Path $PSScriptRoot 'enter-prepared-native.ps1')
+$env:HOTR_RUN_LAMPREY = '1'
+$env:HOTR_BOUNDED_LAMPREY = '1'
+$env:HOTR_LAMPREY_EXE = Join-Path $env:LOCALAPPDATA 'Programs/Lamprey/Lamprey.exe'
+$env:HOTR_LAMPREY_SOURCE = Join-Path $env:USERPROFILE 'Documents/Claude/Lamprey Harness'
+if ($Mode -eq 'native') {
+    cargo xtask verify --prompt HOTR-03
+} else {
+    cargo xtask $Mode
+}
+exit $LASTEXITCODE

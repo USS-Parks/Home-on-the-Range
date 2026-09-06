@@ -695,3 +695,61 @@ dirty; there were no unpublished commits before this closeout. Approximately
 3.87 GiB of generated state is retained for evidence and later continuation.
 The immutable original baselines remain preserved. Final closeout verifies
 the new documentation commit on remote main and the deferred source hashes.
+
+## HOTR-12-LAMPREY resumed under full compatibility authorization — 2026-09-06 UTC
+
+The owner resumed all pertinent installed-app integrations and explicitly
+pre-approved the necessary project permissions. The Lamprey deferral and the
+pending compatibility-budget question are superseded by
+`PLANNING/HOTR-COMPATIBILITY-RESUMPTION-APPROVED-2026-09-06.md`. Execution remains
+sequential, with passed prompt commits on public main and no deletion of user
+files or replacement of existing application profiles.
+
+The retained inline-schema repair is exercised through the actual installed
+Lamprey 0.32.0 application. A durable shared budget reserves each synthetic
+prompt before inference, including failures. Its tests verify the shared
+72-prompt limit, per-application ceilings, retained failed reservations, corrupt
+ledger rejection and confinement to project work. The original M1 allowance
+is unchanged. Six compatibility prompts have been consumed at this checkpoint.
+
+Installed-app acceptance PASS:
+`HOTR-12-LAMPREY-75412-1788665111194096200`, application fixture
+`HOTR-07-74104-1788665251180908500`. Actual tool events prove create/recall/revise,
+owner acceptance, service restart, an Opus 5 to Sonnet 5 conversation switch,
+cancellation and recovery, forbidden-namespace 403 and revoked-credential 401.
+An independent reader still retrieves accepted revision 3. This proof uses a
+protected synthetic profile; the owner's active Lamprey profile is not enrolled.
+
+Common gate `HOTR-03-40840-1788666049692772100` FAILED the existing MCP idle
+initialization deadline test. Five other API integration tests passed, as did
+the release build, strict product Clippy and eleven library tests. The retained
+idle bridge stderr shows rejection after about 19 seconds, beyond the test's
+18-second bound. The production 15-second initialization timeout and test bound
+have not been relaxed. A complete unchanged-test rerun is in progress; this
+entry does not claim the common gate, publication or entire roster passed.
+
+The prepared-native environment helper avoids rebuilding SQLCipher/OpenSSL
+for every client probe. It validates existing inputs and compiler timestamps,
+uses the same bounded project cache and enters the installed x64 MSVC shell.
+The first helper attempt referenced a nonexistent optional toolchain file;
+that reference was removed before the next gate. No native library was replaced
+by that environment-only repair. Failure evidence and original baselines remain.
+
+The complete common rerun `HOTR-03-78452-1788676083262650400` PASS: 24 product
+tests and five verification-runner tests; both formatting and strict Clippy
+gates; release build; negative assertion/timeout/log-flood controls; and final
+canary scan. Source and native-library snapshots matched at gate start/end.
+The unchanged idle-MCP test passed; its rejection log was written about 15,037
+ms after fixture stderr creation. This observation does not establish the cause
+of the earlier timing overrun, which remains retained. The tested common-gate
+binary was `977fa9b73f902511755729bd586d4e6227c1a31fba695c4f9fe21aa3a1f3a814`.
+Final installed-Lamprey acceptance PASS:
+`HOTR-12-LAMPREY-77184-1788676590328991300`, actual fixture
+`HOTR-07-79188-1788676737638771600`. Six more successful prompts bring the shared
+compatibility counter to 12 of 72 and Lamprey to its 12-prompt ceiling. The
+application exited normally. The final app binary is
+`0c4f87449f254bbe0cc46cdbfed1ecd0841f1e2a4c6d313ac4716e7a0fceeb16`.
+Both gates have identical normalized source and native-library hash maps;
+the separate executable hashes are retained in the sanitized source evidence.
+Current source files match that evidence. Commit and exact hosted verification
+follow; active-profile enrollment and remaining app prompts are still open.

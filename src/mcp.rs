@@ -51,7 +51,13 @@ fn definition<T: schemars::JsonSchema>(
     description: &'static str,
     read: bool,
 ) -> Tool {
-    let schema = schemars::schema_for!(T);
+    // Some clients drop otherwise valid tools containing local $ref links.
+    // These request types are finite: inline their schemas without changing
+    // the server's typed deserialization or authorization contract.
+    let schema = schemars::generate::SchemaSettings::default()
+        .with(|settings| settings.inline_subschemas = true)
+        .into_generator()
+        .into_root_schema_for::<T>();
     let object = serde_json::to_value(schema)
         .expect("static tool schema")
         .as_object()
@@ -322,5 +328,66 @@ pub async fn run(credential: &Path) -> io::Result<()> {
         Err(io::Error::other("transport rejected"))
     } else {
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod schema_tests {
+    use super::*;
+
+    fn portable(value: &Value) {
+        match value {
+            Value::Object(fields) => {
+                for (key, value) in fields {
+                    assert!(!["$ref", "oneOf", "anyOf", "allOf"].contains(&key.as_str()));
+                    portable(value);
+                }
+            }
+            Value::Array(values) => values.iter().for_each(portable),
+            _ => (),
+        }
+    }
+
+    #[test]
+    fn inlined_tool_schemas_preserve_request_constraints() {
+        let tools = tools();
+        assert_eq!(tools.len(), 5);
+        for tool in &tools {
+            let schema = serde_json::to_value(&tool.input_schema).unwrap();
+            portable(&schema);
+            assert_eq!(schema["type"], "object");
+            assert_eq!(schema["additionalProperties"], false);
+        }
+        let write = serde_json::to_value(&tools[3].input_schema).unwrap();
+        let record = &write["properties"]["record"];
+        assert_eq!(record["additionalProperties"], false);
+        assert_eq!(
+            record["properties"]["kind"]["enum"],
+            json!([
+                "fact",
+                "preference",
+                "decision",
+                "procedure",
+                "roadmap",
+                "note"
+            ])
+        );
+        assert_eq!(
+            record["properties"]["state"]["enum"],
+            json!(["proposed", "accepted"])
+        );
+        assert_eq!(
+            record["properties"]["sources"]["items"]["additionalProperties"],
+            false
+        );
+        assert_eq!(
+            write["properties"]["expected_revision"]["type"],
+            json!(["integer", "null"])
+        );
+        let search = serde_json::to_value(&tools[1].input_schema).unwrap();
+        assert_eq!(
+            search["properties"]["page"]["required"],
+            json!(["namespace"])
+        );
     }
 }

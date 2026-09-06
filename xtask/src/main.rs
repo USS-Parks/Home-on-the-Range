@@ -15,6 +15,15 @@ fn main() {
 
 fn execute() -> io::Result<()> {
     let args: Vec<String> = std::env::args().skip(1).collect();
+    if args.as_slice() == ["lamprey-smoke"] {
+        return lamprey_check("smoke");
+    }
+    if args.as_slice() == ["lamprey-preflight"] {
+        return lamprey_check("preflight");
+    }
+    if args.as_slice() == ["lamprey-acceptance"] {
+        return lamprey_check("acceptance");
+    }
     if args.first().map(String::as_str) == Some("fixture") {
         match args.get(1).map(String::as_str) {
             Some("assertion") => {
@@ -354,5 +363,76 @@ fn execute() -> io::Result<()> {
         if result.is_ok() { "PASS" } else { "FAIL" }
     );
     println!("Evidence: {}", directory.display());
+    result
+}
+
+fn lamprey_check(mode: &str) -> io::Result<()> {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .unwrap()
+        .to_owned();
+    let guard = Guard::new(&root)?;
+    let cpu_rate = limits::install_job_limits()?;
+    let smoke = mode == "smoke";
+    let prompt = if mode == "acceptance" {
+        "HOTR-12-LAMPREY"
+    } else if smoke {
+        "HOTR-12-LAMPREY-SMOKE"
+    } else {
+        "HOTR-12-LAMPREY-PREFLIGHT"
+    };
+    let directory = guard.new_run(prompt)?;
+    let source = hotr_xtask::snapshot(&guard)?;
+    let budget_test = run(
+        &guard,
+        &directory,
+        "prompt-budget",
+        Path::new("node"),
+        &["--test", "integrations/clients/prompt_budget.test.cjs"],
+        Duration::from_secs(30),
+    )?;
+    budget_test.ensure_pass()?;
+    let test = if mode == "acceptance" {
+        "actual_lamprey_acceptance"
+    } else if smoke {
+        "actual_lamprey_smoke"
+    } else {
+        "installed_lamprey_preflight"
+    };
+    let outcome = run(
+        &guard,
+        &directory,
+        "installed-lamprey-smoke",
+        Path::new("cargo"),
+        &[
+            "test",
+            "--release",
+            "--locked",
+            "--test",
+            "api_capabilities",
+            test,
+            "--",
+            "--ignored",
+            "--nocapture",
+        ],
+        Duration::from_secs(if mode == "acceptance" { 1500 } else { 360 }),
+    )?;
+    let result = outcome.ensure_pass().and_then(|()| {
+        if hotr_xtask::snapshot(&guard)? == source {
+            Ok(())
+        } else {
+            Err(io::Error::other("source changed during smoke test"))
+        }
+    });
+    write_new(
+        &directory.join("manifest.json"),
+        &serde_json::to_vec_pretty(&serde_json::json!({
+            "prompt":prompt, "result":if result.is_ok(){"PASS"}else{"FAIL"},
+        "scope":if mode == "acceptance" { "Actual installed Lamprey save, recall, correction, owner acceptance, restart, selected-model switch, cancellation, recovery, forbidden namespace and revocation; independent scoped reader" } else if smoke { "One actual-app save/recall/correction/forbidden-scope smoke; full Lamprey prompt remains open" } else { "Installed application connection and schema preflight only; zero model prompts; full Lamprey gate remains open" },
+        "source":source, "commands":[budget_test,outcome], "cpu_rate_per_10000":cpu_rate, "memory_limit_bytes":limits::MEMORY_BYTES,
+            "product_sha256":hash(&root.join("work/hotr-build/target/release/hotr.exe"))?, "runner_sha256":hash(&std::env::current_exe()?)?
+        }))?,
+    )?;
+    println!("Lamprey smoke evidence: {}", directory.display());
     result
 }

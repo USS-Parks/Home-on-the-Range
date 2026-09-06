@@ -51,3 +51,25 @@ owner**, superseding its earlier in-progress priority. Its unfinished code is
 preserved locally and excluded from the HOTR-12 documentation closeout. No
 Lamprey completion or full STS acceptance is implied. See the
 [authorized deferral](../PLANNING/HOTR-12-CLOSEOUT-AND-LAMPREY-DEFERRAL-2026-09-06.md).
+
+Resumption update, 2026-09-06 UTC: the owner's subsequent full compatibility
+authorization supersedes that deferral. Installed Lamprey 0.32.0 passed its
+six-prompt actual-application acceptance, including owner acceptance, restart,
+model switch, cancellation/recovery, namespace denial and revocation. See
+[sanitized app evidence](evidence/HOTR-12-LAMPREY-clients.json) and the
+[integration workflow](LAMPREY-INTEGRATION.md). The first common gate failed the
+existing idle MCP deadline test; its complete failure is retained locally as
+`HOTR-03-40840-1788666049692772100`. The unchanged-test common rerun, final binary
+app verification and exact publication remain in progress. Active-profile
+enrollment and the remaining application rows are not yet complete.
+
+Final local closeout: common gate `HOTR-03-78452-1788676083262650400` PASS
+(24 product tests, five runner tests, both formatting/Clippy gates, negative
+controls and 3,415-file canary scan). Final actual Lamprey acceptance
+`HOTR-12-LAMPREY-77184-1788676590328991300` PASS, with six successful synthetic
+prompts and normal application exit. Both gates used identical source and
+native-library hash maps. [Published source evidence](evidence/HOTR-12-LAMPREY-source.json)
+records those maps and the distinct executable hashes; current files match.
+The original timing failure remains retained and its cause is not established;
+the unchanged deadline test passed at approximately 15.04 seconds in the rerun.
+Hosted verification and active-profile enrollment remain separate gates.

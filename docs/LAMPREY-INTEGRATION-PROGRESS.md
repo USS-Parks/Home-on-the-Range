@@ -109,3 +109,12 @@ Lamprey changes are uncommitted. Approximately 4,155,751,885 bytes of generated
 state are retained (3.87 GiB), with 341,009,088,512 bytes free at inventory.
 No discretionary cleanup or existing-file deletion. The owner-selected
 personal-file question is still unanswered; no personal material was imported.
+# Superseding execution update — 2026-09-06 UTC
+
+The owner resumed all application integrations and approved the necessary
+permissions and shared compatibility prompt budget. The deferred checkpoint
+below is historical. Actual installed Lamprey's six-turn acceptance now passes;
+the common gate and final app rerun now also pass. The earlier idle-MCP timing
+failure remains retained without a claimed root cause. Current evidence and status are in `DEVLOG.md`, `VERIFICATION.md`
+and `evidence/HOTR-12-LAMPREY-clients.json`. No active-profile enrollment is
+claimed. Preserve the earlier failures and checkpoints below.

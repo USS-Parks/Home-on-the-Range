@@ -80,6 +80,9 @@ impl Guard {
                 | "HOTR-10"
                 | "HOTR-11"
                 | "HOTR-12"
+                | "HOTR-12-LAMPREY"
+                | "HOTR-12-LAMPREY-SMOKE"
+                | "HOTR-12-LAMPREY-PREFLIGHT"
                 | "HOTR-04-R2"
                 | "HOTR-03-fault"
         ) {
@@ -195,7 +198,7 @@ pub fn snapshot(guard: &Guard) -> io::Result<SourceSnapshot> {
         let path = Path::new(name);
         if !matches!(
             path.extension().and_then(|s| s.to_str()),
-            Some("rs" | "sql" | "toml" | "lock" | "py" | "ps1" | "yml")
+            Some("rs" | "sql" | "toml" | "lock" | "py" | "ps1" | "yml" | "cjs" | "js")
         ) {
             continue;
         }

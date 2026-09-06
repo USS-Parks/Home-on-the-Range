@@ -122,3 +122,6 @@ Final repaired HOTR-14 local gate `HOTR-14-84644-1788714278331656100` PASS: 29 p
 
 
 Fresh independent ASTRA REVIEW returned `ship` with no findings after the repaired gate. Parent staged-source, preserved-baseline and document-link checks also PASS. HOTR-14 is locally accepted for main publication; exact hosted CI remains pending until observed.
+
+
+HOTR-14 publication closeout: implementation commit `5ed982f2ecf35ca8ffac937038d9972375d7406e` passed the final local gate `HOTR-14-84644-1788714278331656100` and fresh independent review (`ship`). All 65 normalized source hashes match the passed gate. This documentation-only closeout records the implementation SHA; it does not change runtime sources. Non-force main publication and the exact hosted result are tracked separately. One canonical checkout is retained, with no linked worktrees; approximately 4.18 GiB of generated cache/evidence is retained. No cleanup or personal import occurred. Continue the approved roster at HOTR-15.

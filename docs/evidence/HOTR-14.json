@@ -691,5 +691,10 @@
       "findings": [],
       "reason": "Read-only review found no actionable blocker; source preservation, credential invalidation, new-copy migration, lifecycle policy and all 65 source hashes verified against the final gate."
     }
+  },
+  "publication": {
+    "implementation_commit": "5ed982f2ecf35ca8ffac937038d9972375d7406e",
+    "branch": "main",
+    "hosted_verification": "PENDING exact published-head run"
   }
 }

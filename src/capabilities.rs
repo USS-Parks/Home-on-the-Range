@@ -46,6 +46,11 @@ pub struct Accept {
 }
 
 pub(crate) enum Command {
+    Viewer {
+        runtime: std::sync::Arc<crate::viewer::Runtime>,
+        hash: [u8; 32],
+        query: crate::viewer::Read,
+    },
     EmbeddingConfigure(crate::embedding::Configure),
     EmbeddingStatus,
     EmbeddingNext,
@@ -176,6 +181,11 @@ pub(crate) fn execute(
     stopped: &std::sync::atomic::AtomicBool,
 ) -> CommandResult {
     match command {
+        Command::Viewer {
+            runtime,
+            hash,
+            query,
+        } => runtime.read(db, &hash, query),
         Command::EmbeddingConfigure(request) => {
             crate::embedding::configure(db, request, deadline, stopped)
         }

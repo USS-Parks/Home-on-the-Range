@@ -1,6 +1,6 @@
 # Verification ledger
 
-Current execution: HOTR-14 passed its full local gate, independent review, main publication and exact hosted Windows run `34048039160` at `d1903b7dbf708d7c9caf919350e0cf2769f1ec8b`. HOTR-15 local semantic indexing passed its local gate and independent review and is published at `e2efb97ab86e17967800991459d904ede79d8ab2`; exact hosted [Windows run `34049617780`](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34049617780) passed. HOTR-16 passed its full local gate; fresh independent review returned ship; publication is pending. Remaining HOTR-12 compatibility and further Lamprey/plugin work stay deferred by the owner.
+Current execution: HOTR-14–17 passed local gates, independent reviews, main publication and exact hosted Windows verification. HOTR-18 passed full local gate `HOTR-18-91104-1788724083416365000`; fresh review and publication are pending. Remaining HOTR-12 compatibility and further Lamprey/plugin work stay owner-deferred.
 
 HOTR-01–12 local gates have passed, including the actual Codex CLI and Claude Code shared-memory workflow. Installed Lamprey acceptance is published with exact Windows CI PASS. HOTR-12A's final Hermes and common gates passed, including the HOTR-12A-R1 monitor repair. These results accept the tested isolated-profile workflows; everyday installation, the remaining compatibility roster, semantic retrieval and later STS gates remain open. Hosted evidence is tracked separately.
 
@@ -26,7 +26,7 @@ HOTR-01–12 local gates have passed, including the actual Codex CLI and Claude 
 | HOTR-12-LAMPREY | Actual Lamprey memory flow, model switch, cancellation/recovery, restart and denial | PASS locally and on exact Windows run 34017610460 at `344b7a0a1ae37efe18ca19ca8b768d85e0b2788b` |
 | HOTR-12A / HOTR-12A-R1 | Actual Hermes native MCP flow and nonblocking resource-monitor repair | Final local common/app gates PASS; [source-bound evidence](evidence/HOTR-12A-clients.json), [actual tool results](evidence/HOTR-12A-application.json); exact publication/hosted closeout follows |
 | HOTR-12B–12K | Remaining individual applications, provider/runtime routes and cross-client consistency | Deferred by the owner; not established by the four completed app proofs |
-| M2 / HOTR-13–18 | Selected imports, correction consistency, local embeddings, hybrid retrieval evaluation, management UI | HOTR-13–15 local gates passed; HOTR-16 local gate passed; publication and HOTR-17–18 pending |
+| M2 / HOTR-13–18 | Selected imports, correction consistency, local embeddings, hybrid retrieval evaluation, management UI | HOTR-13–17 accepted and published; HOTR-18 full local/browser gate PASS; fresh review and publication pending |
 | M3 / HOTR-19–22 | Auditing, key rotation, Windows lifecycle, controlled daily-use comparison | Not started |
 | M4 / HOTR-23–32 | Security, malformed inputs, races, crashes, storage faults, model faults, scale, soak, dependency review, repairs | Not started |
 | M5 / HOTR-33–36 | Packaging, clean installation, hosted builds, deployability decision | Not started |
@@ -162,3 +162,22 @@ API-EQUIVALENT COST RECEIPT: unavailable. No observed parent/delegate token tele
 
 
 HOTR-17 implementation commit `5524505c9128b4d794b151de764929e3084d7fa5` contains the source accepted by full gate `HOTR-17-86548-1788720435627956200` and fresh independent `ship` review. This documentation-only closeout records its SHA; all 79 runtime/source/input hashes remain unchanged. Non-force main publication and exact hosted verification follow. The single canonical checkout retains approximately 5.49 GiB of shared cache/model/synthetic evidence and 298,479 bytes of rejected corpus drafts; no cleanup or new worktree. HOTR-18 is next.
+
+
+HOTR-17 exact published main `af906f7e06378f5988ef3b334f36cf88cc79d9cf` passed hosted Windows run [34053823911](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34053823911). Its frozen-corpus quality and installed-model proof remain separately bound to the local gate. HOTR-18 verification is in progress.
+
+
+## HOTR-18 — complete local gate PASS
+
+Gate `HOTR-18-91104-1788724083416365000` passed all 12 commands: release format/build/strict Clippy; 52 ordinary product tests; six harness tests; actual installed embedding/hybrid plus frozen retrieval evaluation; 34 installed-Chrome assertions; and the final plaintext scan. The scan covered 10,724 files and 355 distinct patterns in 15,481 ms, below the unchanged 60-second limit. Browser 151.0.7922.172 ran headless in a new marked profile; all eight exchanged codes/tokens were absent in UTF-8 and UTF-16LE across 208 files (12,420,958 bytes).
+
+Parent matched all 85 source/input hashes and both binaries, recomputed all 288 search observations and 24 direct gets against frozen labels plus lifecycle-derived revisions, and matched the pinned model manifest/four blobs after inference. Held-out paraphrase Recall@5 remains 24/24 hybrid versus 0/24 literal-keyword, with zero prohibited or wrong-revision hits. Current and historical sources, conflict comparison, hidden-record metadata, client grants/revocation, index and process-scoped backup status are covered. [Sanitized evidence](evidence/HOTR-18.json) binds all six raw reports.
+
+All eight original baselines match. One canonical checkout, no linked worktrees or unpublished commits before this prompt; 6,049,477,809 generated bytes and 299,426,983,936 free bytes were measured. Shared build/model cache and all synthetic evidence, including rejected browser profiles, remain retained. No deletion or new worktree. Fresh independent read-only review precedes publication; full STS and deployment remain incomplete.
+
+
+Fresh independent ASTRA REVIEW `/root/hotr18_final_review` returned `ship` with no findings. The reviewer independently matched all 85 current/staged input hashes, both binaries, six raw reports and five pinned model files; recomputed all 288 search observations and 24 direct gets; and inspected actual browser screenshots and retained failed gates. Requested reviewer `gpt-5.6-sol / high`; actual settings, enforced isolation and token usage are unobservable. Parent accepts HOTR-18 for authorized main publication. The exact published Windows CI gate remains pending until observed.
+
+Latest owner direction: finish HOTR-18, commit and push all in-scope session work to main, then standby until further instruction. HOTR-19 implementation has not started; the preliminary read-only audit design is parked. HOTR-12 compatibility and further Lamprey/plugin work remain deferred.
+
+API-EQUIVALENT COST RECEIPT: unavailable. Native tools expose no observed parent/delegate token usage; no cost or savings estimate is supported.

@@ -60,6 +60,9 @@ mod local_embedding;
 #[path = "support/retrieval_eval.rs"]
 mod retrieval_eval;
 
+#[path = "support/viewer.rs"]
+mod owner_viewer;
+
 fn local_client() -> reqwest::Client {
     reqwest::Client::builder()
         .no_proxy()

@@ -70,6 +70,7 @@ fn execute() -> io::Result<()> {
                     | "HOTR-15"
                     | "HOTR-16"
                     | "HOTR-17"
+                    | "HOTR-18"
                     | "HOTR-04-R2"
             ))
     {
@@ -325,7 +326,7 @@ fn execute() -> io::Result<()> {
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["prototype-load"])?;
         }
-        if matches!(prompt, "HOTR-15" | "HOTR-16" | "HOTR-17") {
+        if matches!(prompt, "HOTR-15" | "HOTR-16" | "HOTR-17" | "HOTR-18") {
             let inference = run(
                 &guard,
                 &directory,
@@ -349,7 +350,7 @@ fn execute() -> io::Result<()> {
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["local-embedding"])?;
         }
-        if matches!(prompt, "HOTR-16" | "HOTR-17") {
+        if matches!(prompt, "HOTR-16" | "HOTR-17" | "HOTR-18") {
             let hybrid = run(
                 &guard,
                 &directory,
@@ -373,7 +374,7 @@ fn execute() -> io::Result<()> {
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["local-hybrid"])?;
         }
-        if prompt == "HOTR-17" {
+        if matches!(prompt, "HOTR-17" | "HOTR-18") {
             let evaluation = run(
                 &guard,
                 &directory,
@@ -396,6 +397,39 @@ fn execute() -> io::Result<()> {
             outcomes.push(evaluation);
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["retrieval-evaluation"])?;
+        }
+        if prompt == "HOTR-18" {
+            let browser = run(
+                &guard,
+                &directory,
+                "owner-browser",
+                &cargo,
+                &[
+                    "test",
+                    "--release",
+                    "--locked",
+                    "--test",
+                    "api_capabilities",
+                    "owner_viewer::hotr18_actual_owner_viewer_browser",
+                    "--",
+                    "--ignored",
+                    "--exact",
+                    "--test-threads=1",
+                ],
+                Duration::from_secs(600),
+            )?;
+            let pass = browser.ensure_pass();
+            outcomes.push(browser);
+            pass?;
+            hotr_xtask::ensure_required(&outcomes, &["owner-browser"])?;
+            let log = std::fs::read_to_string(directory.join("owner-browser.txt"))?;
+            if !log.contains("running 1 test")
+                || !log.contains("test result: ok. 1 passed; 0 failed;")
+            {
+                return Err(io::Error::other(
+                    "exact actual-browser fixture did not run once",
+                ));
+            }
         }
         let scan = run(
             &guard,

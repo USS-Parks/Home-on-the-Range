@@ -1070,3 +1070,50 @@ API-EQUIVALENT COST RECEIPT: unavailable. No observed parent/delegate token tele
 
 
 HOTR-17 implementation commit `5524505c9128b4d794b151de764929e3084d7fa5` contains the source accepted by full gate `HOTR-17-86548-1788720435627956200` and fresh independent `ship` review. This documentation-only closeout records its SHA; all 79 runtime/source/input hashes remain unchanged. Non-force main publication and exact hosted verification follow. The single canonical checkout retains approximately 5.49 GiB of shared cache/model/synthetic evidence and 298,479 bytes of rejected corpus drafts; no cleanup or new worktree. HOTR-18 is next.
+
+
+## HOTR-18 — owner viewer in progress
+
+HOTR-17 implementation `5524505c9128b4d794b151de764929e3084d7fa5` and closeout `af906f7e06378f5988ef3b334f36cf88cc79d9cf` are published on main; exact local/remote SHA equality and clean status verified. Hosted Windows run 34053823911 is separately in progress. HOTR-18 reuses the owner named pipe, bounded HTTP/writer queue, literal retrieval, lifecycle inspection and index status. New work is an ephemeral owner-approved browser session, typed owner-only reads and static read-only UI; privileged changes stay on the owner CLI. There are no cookies or browser credential stores. The owner exchanges a one-time code for a page-memory token; exact host/origin/fetch-site/custom-header checks apply only to viewer routes. One active session, expiry, reapproval and lock revoke access; the UI clears private content when hidden or navigated away. Backup status reports only completed attempts observed during this service process; it does not verify external backups or infer historical status.
+
+Requested native routes: boundary design Terra/high, static UI Sol/high, actual installed-Chrome fixture Terra/high. Parent owns server integration, verification and acceptance. Realized model/effort and token usage are unobservable. All development and tests remain within authorized source and synthetic fixture paths; no personal imports, profile changes, deletions or new worktrees. No HOTR-18 gate has passed yet.
+
+
+HOTR-18 compile-only preflight rejected three raw-header fixture formats that tried to display Zeroizing<String> directly, plus one unused fixture binding. The runtime modules compiled; the fixture delegate is correcting the string borrowing. Parent static review also found missing login custom-header enforcement, unknown-date formatting, object watermark rendering and response-body cancellation gaps in the first UI draft. These are being repaired before any browser acceptance. Complete compiler diagnostics are retained in the task tool output; no gate PASS is claimed. Parent review rejected the initial browser script before execution because standalone Chrome --version could use a default profile; the fixture now must read the version from its owned isolated browser process.
+
+
+HOTR-18 focused session test and strict release Clippy PASS after the fixture formatting repairs. Parent added clearing for hidden pagination counters. Parent rejected several draft browser assertions that could pass without observing the intended event (origin-filtered request inventory, nonempty loading text, and absent ignored runner) and required exact content/status checks plus an actual launcher. The registered browser command now uses the exact test path and requires one executed passing test, so a missing filter cannot become a PASS. No browser has been launched during these preflight checks.
+
+
+HOTR-17 exact published main `af906f7e06378f5988ef3b334f36cf88cc79d9cf` passed hosted Windows run [34053823911](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34053823911). Its frozen-corpus quality and installed-model proof remain separately bound to the local gate. HOTR-18 verification is in progress.
+
+
+HOTR-18 first full gate `HOTR-18-90272-1788722601738454400` retained FAIL at actual browser acceptance; native format/build/strict Clippy, ordinary tests, runner tests, installed embedding/hybrid and frozen retrieval evaluation all passed first. Parent repaired a case-sensitive title assertion and a keyboard-scroll timing assertion in the browser fixture. The next focused run reached the controlled delayed-response scenario and failed there; it is being diagnosed with content-free status metadata. Dynamic one-time codes and viewer tokens are now included in fixture/profile disk scans; the distinct synthetic backup passphrase is included in the global canary scan. Failed fixtures are retained, never relabeled as PASS. Parent visually inspected the synthetic long-text search screenshot.
+
+
+The strengthened HOTR-18 credential scan found one-time codes in Chrome Login Data.stats.username_value, despite autocomplete=off. A metadata-only SQLite inspection confirmed four 64-character values and no saved-login rows; no credential values were printed. Parent changed the field to the actual one-time-code autocomplete semantic and name, which Chromium uses to distinguish OTP fields. The same actual-browser scan will verify the fix; no browser settings or personal profiles are changed. The earlier controlled replay failure was a correct 403 origin_rejected caused by Playwright replay metadata; explicit same-origin replay headers repaired that synthetic transport scenario.
+
+
+HOTR-18 focused installed-Chrome acceptance passed after the one-time-code metadata repair: `work/hotr-tests/HOTR-07-66796-1788723498423477400/HOTR-18-browser.json`, Chrome 151.0.7922.172, headless isolated profile, 34 assertions. All eight exchanged codes/tokens were absent in UTF-8 and UTF-16LE across 208 retained fixture/profile files (11,335,934 bytes). Required checks include logout with a held actual authorized response, expiry with captured-token server rejection, back navigation, owner lock, exact 65,536-byte Unicode content, and foreign-origin denial. Full source-bound gate and fresh independent review remain required before publication.
+
+
+HOTR-18 second full gate `HOTR-18-72748-1788723563043754900` passed 52 ordinary product tests, six harness tests, three installed-model/evaluation fixtures and all 34 actual-browser assertions, but the final retained-fixture canary scan hit its unchanged 60-second ceiling. No plaintext match was reported. Parent is replacing repeated full-window literal scans with distinct-prefix indexing plus exact full-pattern confirmation, retaining all prior fixtures, all patterns and cross-chunk overlap. Positive and negative controls cover the actual UTF-8/UTF-16 pattern set before scanning. This failed manifest remains retained; full gate is rerun after the scanner repair.
+
+
+The repaired read-only scanner passed all 10,067 retained files and 36 completed encryption runs, without deleting fixtures, dropping patterns or raising its ceiling. Full gate is now rerun on the final 85-input source snapshot. An automatic approval review rejected a combined broad cargo fmt command; the safe verification-only command was accepted and format checks pass without rewriting source.
+
+
+## HOTR-18 — complete local gate PASS
+
+Gate `HOTR-18-91104-1788724083416365000` passed all 12 commands: release format/build/strict Clippy; 52 ordinary product tests; six harness tests; actual installed embedding/hybrid plus frozen retrieval evaluation; 34 installed-Chrome assertions; and the final plaintext scan. The scan covered 10,724 files and 355 distinct patterns in 15,481 ms, below the unchanged 60-second limit. Browser 151.0.7922.172 ran headless in a new marked profile; all eight exchanged codes/tokens were absent in UTF-8 and UTF-16LE across 208 files (12,420,958 bytes).
+
+Parent matched all 85 source/input hashes and both binaries, recomputed all 288 search observations and 24 direct gets against frozen labels plus lifecycle-derived revisions, and matched the pinned model manifest/four blobs after inference. Held-out paraphrase Recall@5 remains 24/24 hybrid versus 0/24 literal-keyword, with zero prohibited or wrong-revision hits. Current and historical sources, conflict comparison, hidden-record metadata, client grants/revocation, index and process-scoped backup status are covered. [Sanitized evidence](evidence/HOTR-18.json) binds all six raw reports.
+
+All eight original baselines match. One canonical checkout, no linked worktrees or unpublished commits before this prompt; 6,049,477,809 generated bytes and 299,426,983,936 free bytes were measured. Shared build/model cache and all synthetic evidence, including rejected browser profiles, remain retained. No deletion or new worktree. Fresh independent read-only review precedes publication; full STS and deployment remain incomplete.
+
+
+Fresh independent ASTRA REVIEW `/root/hotr18_final_review` returned `ship` with no findings. The reviewer independently matched all 85 current/staged input hashes, both binaries, six raw reports and five pinned model files; recomputed all 288 search observations and 24 direct gets; and inspected actual browser screenshots and retained failed gates. Requested reviewer `gpt-5.6-sol / high`; actual settings, enforced isolation and token usage are unobservable. Parent accepts HOTR-18 for authorized main publication. The exact published Windows CI gate remains pending until observed.
+
+Latest owner direction: finish HOTR-18, commit and push all in-scope session work to main, then standby until further instruction. HOTR-19 implementation has not started; the preliminary read-only audit design is parked. HOTR-12 compatibility and further Lamprey/plugin work remain deferred.
+
+API-EQUIVALENT COST RECEIPT: unavailable. Native tools expose no observed parent/delegate token usage; no cost or savings estimate is supported.

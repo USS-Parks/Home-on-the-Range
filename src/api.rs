@@ -1,4 +1,4 @@
-//! Loopback application API. Owner operations are absent from this transport.
+//! Loopback app API plus a separately authenticated, read-only owner viewer.
 use crate::{
     capabilities::{Command, Lookup},
     credentials,
@@ -35,6 +35,7 @@ pub(crate) type SharedWriter = Arc<RwLock<Option<WriterHandle>>>;
 struct ApiState {
     writer: SharedWriter,
     hybrid: Arc<crate::hybrid_runtime::Runtime>,
+    viewer: Arc<crate::viewer::Runtime>,
     host: String,
     requests: Arc<Semaphore>,
 }
@@ -43,6 +44,7 @@ pub(crate) async fn run(
     listener: TcpListener,
     writer: SharedWriter,
     hybrid: Arc<crate::hybrid_runtime::Runtime>,
+    viewer: Arc<crate::viewer::Runtime>,
 ) -> io::Result<()> {
     let address = listener.local_addr()?;
     if address.ip() != std::net::IpAddr::V4(Ipv4Addr::LOCALHOST) {
@@ -51,6 +53,7 @@ pub(crate) async fn run(
     let state = ApiState {
         writer,
         hybrid,
+        viewer,
         host: address.to_string(),
         requests: Arc::new(Semaphore::new(MAX_ACTIVE_REQUESTS)),
     };
@@ -79,7 +82,7 @@ pub(crate) async fn run(
     }
 }
 
-fn response(status: StatusCode, value: Value) -> Response {
+pub(crate) fn response(status: StatusCode, value: Value) -> Response {
     match serde_json::to_vec(&value) {
         Ok(bytes) if bytes.len() <= MAX_RESPONSE => {
             (status, [(header::CONTENT_TYPE, "application/json")], bytes).into_response()
@@ -92,11 +95,11 @@ fn response(status: StatusCode, value: Value) -> Response {
             .into_response(),
     }
 }
-fn error(status: StatusCode, code: &str) -> Response {
+pub(crate) fn error(status: StatusCode, code: &str) -> Response {
     response(status, json!({"error":{"code":code}}))
 }
 
-fn service_error(value: WriteError) -> Response {
+pub(crate) fn service_error(value: WriteError) -> Response {
     let (status, code) = match value {
         WriteError::InvalidRequest => (StatusCode::BAD_REQUEST, "invalid_request"),
         WriteError::RevisionConflict => (StatusCode::CONFLICT, "revision_conflict"),
@@ -148,6 +151,7 @@ pub(crate) fn decode<T: DeserializeOwned>(body: &[u8]) -> Result<T, WriteError> 
 }
 
 async fn endpoint(State(state): State<ApiState>, request: Request) -> Response {
+    let viewer = request.uri().path() == "/viewer" || request.uri().path().starts_with("/viewer/");
     let mut result = match timeout(Duration::from_secs(10), dispatch(state, request)).await {
         Ok(result) => result,
         Err(_) => error(StatusCode::GATEWAY_TIMEOUT, "outcome_unknown"),
@@ -163,6 +167,9 @@ async fn endpoint(State(state): State<ApiState>, request: Request) -> Response {
         header::REFERRER_POLICY,
         HeaderValue::from_static("no-referrer"),
     );
+    if viewer {
+        crate::viewer::headers(&mut result);
+    }
     if result.status() == StatusCode::GATEWAY_TIMEOUT {
         result
             .headers_mut()
@@ -178,14 +185,20 @@ async fn dispatch(state: ApiState, request: Request<Body>) -> Response {
     {
         return error(StatusCode::FORBIDDEN, "host_rejected");
     }
-    if headers.contains_key(header::ORIGIN) {
-        return error(StatusCode::FORBIDDEN, "origin_rejected");
-    }
     if request.uri().scheme().is_some()
         || request.uri().query().is_some()
         || request.uri().path().len() > 1024
     {
         return error(StatusCode::BAD_REQUEST, "invalid_request");
+    }
+    if request.uri().path() == "/viewer" || request.uri().path().starts_with("/viewer/") {
+        let Ok(_permit) = state.requests.clone().try_acquire_owned() else {
+            return error(StatusCode::TOO_MANY_REQUESTS, "overloaded");
+        };
+        return crate::viewer::dispatch(state.viewer, state.writer, &state.host, request).await;
+    }
+    if headers.contains_key(header::ORIGIN) {
+        return error(StatusCode::FORBIDDEN, "origin_rejected");
     }
     if headers.get_all(header::AUTHORIZATION).iter().count() != 1 {
         return error(StatusCode::UNAUTHORIZED, "unauthorized");

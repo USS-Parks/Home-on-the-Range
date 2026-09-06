@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <title>Home on the Range — Owner viewer</title>
+    <link rel="stylesheet" href="/viewer/viewer.css">
+    <script src="/viewer/viewer.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+      <div class="brand-lockup">
+        <span class="brand-mark" aria-hidden="true">HR</span>
+        <div>
+          <p class="eyebrow">Local owner console</p>
+          <p class="site-title">Home on the Range</p>
+        </div>
+      </div>
+      <div class="session-tools">
+        <p id="session-status" class="session-status" aria-live="polite">No active viewer session</p>
+        <button id="logout-button" class="button button-quiet" type="button" hidden>End session</button>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section id="login-view" class="login-layout" aria-labelledby="login-title">
+        <div class="login-intro">
+          <p class="kicker">Read-only by design</p>
+          <h1 id="login-title">Inspect your local vault</h1>
+          <p class="lede">Search current records, examine revision history and conflicts, and check clients, indexing, and backups without changing vault data.</p>
+          <div class="security-note">
+            <h2>Your one-time session</h2>
+            <p>Run <code>hotr viewer-session &lt;vault&gt;</code> in a local terminal, then paste the one-time code here. The owner CLI can configure a lifetime from 5 to 600 seconds.</p>
+            <p>The code is sent in the request body and the input clears on submit. Credentials are not retained in URLs, cookies, browser storage, or rendered results.</p>
+          </div>
+        </div>
+
+        <form id="login-form" class="panel login-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">Owner approval</p>
+            <h2>Open a viewer session</h2>
+          </div>
+          <label for="login-code">One-time 64-character code</label>
+          <input id="login-code" name="one-time-code" type="password" inputmode="text" spellcheck="false" autocomplete="one-time-code" autocapitalize="off" required minlength="64" maxlength="64">
+          <p class="field-help">The field clears as soon as you submit it.</p>
+          <button class="button button-primary" type="submit">Open viewer</button>
+          <p id="login-error" class="form-message error-message" role="alert" hidden></p>
+        </form>
+      </section>
+
+      <section id="viewer-view" class="viewer-layout" aria-label="Vault viewer" hidden>
+        <nav class="section-nav" aria-label="Viewer sections">
+          <button class="nav-button" type="button" data-view="search" aria-current="page">Search</button>
+          <button class="nav-button" type="button" data-view="record">Record &amp; history</button>
+          <button class="nav-button" type="button" data-view="clients">Clients &amp; grants</button>
+          <button class="nav-button" type="button" data-view="index">Index health</button>
+          <button class="nav-button" type="button" data-view="backup">Backup status</button>
+        </nav>
+
+        <div id="workspace-status" class="workspace-status" role="status" aria-live="polite" aria-atomic="true"></div>
+
+        <section id="view-search" class="workspace" data-panel="search" aria-labelledby="search-title">
+          <div class="workspace-heading">
+            <div>
+              <p class="kicker">Current visible records</p>
+              <h1 id="search-title">Keyword search</h1>
+              <p>Search uses literal keywords. Browse lists the current visible records in a namespace. Neither action runs semantic search.</p>
+            </div>
+          </div>
+          <form id="search-form" class="panel query-panel">
+            <div class="field-grid">
+              <div class="field-group">
+                <label for="search-namespace">Namespace</label>
+                <input id="search-namespace" name="namespace" list="namespace-options" autocomplete="off" spellcheck="false" required>
+                <p class="field-help">Suggestions show up to 50 namespaces; you may enter another value.</p>
+              </div>
+              <div class="field-group field-grow">
+                <label for="search-query">Keywords</label>
+                <input id="search-query" name="query" type="search" autocomplete="off" spellcheck="false">
+              </div>
+            </div>
+            <div class="button-row">
+              <button class="button button-primary" type="submit">Search keywords</button>
+              <button id="list-button" class="button button-secondary" type="button">Browse current</button>
+            </div>
+          </form>
+          <datalist id="namespace-options"></datalist>
+          <div id="search-summary" class="result-summary"></div>
+          <div id="search-results" class="result-stack" aria-live="polite"></div>
+          <div id="search-pager" class="pager" hidden>
+            <button id="search-previous" class="button button-quiet" type="button">Previous</button>
+            <span id="search-page-label" class="page-label"></span>
+            <button id="search-next" class="button button-quiet" type="button">Next</button>
+          </div>
+        </section>
+
+        <section id="view-record" class="workspace" data-panel="record" aria-labelledby="record-title" hidden>
+          <div class="workspace-heading">
+            <div>
+              <p class="kicker">Retained metadata and full inspection</p>
+              <h1 id="record-title">Record &amp; history</h1>
+              <p>Browse retained IDs, including hidden records, then inspect one record, its source references, relations, policy, conflict comparison, and revisions.</p>
+            </div>
+          </div>
+
+          <section class="panel compact-panel" aria-labelledby="retained-title">
+            <div class="panel-heading split-heading">
+              <div>
+                <p class="eyebrow">Metadata only</p>
+                <h2 id="retained-title">Browse retained records</h2>
+              </div>
+              <span class="badge badge-neutral">Includes hidden</span>
+            </div>
+            <form id="retained-form" class="inline-form">
+              <div class="field-group field-grow">
+                <label for="retained-namespace">Namespace</label>
+                <input id="retained-namespace" name="namespace" list="namespace-options" autocomplete="off" spellcheck="false" required>
+              </div>
+              <button class="button button-secondary align-end" type="submit">Browse retained records</button>
+            </form>
+            <p class="field-help">This list exposes retained record metadata to the owner. Hidden entries are not current visible search results.</p>
+            <div id="retained-summary" class="result-summary"></div>
+            <div id="retained-results" class="result-stack"></div>
+            <div id="retained-pager" class="pager" hidden>
+              <button id="retained-previous" class="button button-quiet" type="button">Previous</button>
+              <span id="retained-page-label" class="page-label"></span>
+              <button id="retained-next" class="button button-quiet" type="button">Next</button>
+            </div>
+          </section>
+
+          <form id="inspect-form" class="panel query-panel">
+            <div class="field-grid three-fields">
+              <div class="field-group">
+                <label for="inspect-namespace">Namespace</label>
+                <input id="inspect-namespace" name="namespace" list="namespace-options" autocomplete="off" spellcheck="false" required>
+              </div>
+              <div class="field-group field-grow">
+                <label for="inspect-id">Record ID</label>
+                <input id="inspect-id" name="id" autocomplete="off" spellcheck="false" required>
+              </div>
+              <div class="field-group">
+                <label for="expected-revision">Expected revision</label>
+                <input id="expected-revision" name="expectedRevision" type="number" min="1" step="1" inputmode="numeric" placeholder="Optional">
+              </div>
+            </div>
+            <p class="field-help">Set an expected revision to compare it with the current revision and expose a conflict.</p>
+            <button class="button button-primary" type="submit">Inspect record</button>
+          </form>
+
+          <div id="inspect-results" class="result-stack" aria-live="polite"></div>
+          <section id="history-section" aria-labelledby="history-title" hidden>
+            <div class="subheading">
+              <h2 id="history-title">Revision history</h2>
+              <span id="history-summary" class="result-summary"></span>
+            </div>
+            <div id="history-results" class="result-stack"></div>
+            <div id="history-pager" class="pager" hidden>
+              <button id="history-previous" class="button button-quiet" type="button">Previous</button>
+              <span id="history-page-label" class="page-label"></span>
+              <button id="history-next" class="button button-quiet" type="button">Next</button>
+            </div>
+          </section>
+        </section>
+
+        <section id="view-clients" class="workspace" data-panel="clients" aria-labelledby="clients-title" hidden>
+          <div class="workspace-heading action-heading">
+            <div>
+              <p class="kicker">Access inventory</p>
+              <h1 id="clients-title">Clients &amp; grants</h1>
+              <p>Review client roles, revocation state, grant revision, and namespaces. Changes remain available only through the owner CLI.</p>
+            </div>
+            <button id="clients-refresh" class="button button-secondary" type="button">Refresh clients</button>
+          </div>
+          <div id="clients-summary" class="result-summary"></div>
+          <div id="clients-results" class="card-grid" aria-live="polite"></div>
+          <div id="clients-pager" class="pager" hidden>
+            <button id="clients-previous" class="button button-quiet" type="button">Previous</button>
+            <span id="clients-page-label" class="page-label"></span>
+            <button id="clients-next" class="button button-quiet" type="button">Next</button>
+          </div>
+        </section>
+
+        <section id="view-index" class="workspace" data-panel="index" aria-labelledby="index-title" hidden>
+          <div class="workspace-heading action-heading">
+            <div>
+              <p class="kicker">Local retrieval service</p>
+              <h1 id="index-title">Index health</h1>
+              <p>Inspect configuration, generation, coverage, pending work, and the latest failure without exposing privileged controls.</p>
+            </div>
+            <button id="index-refresh" class="button button-secondary" type="button">Refresh health</button>
+          </div>
+          <div id="index-results" class="result-stack" aria-live="polite"></div>
+        </section>
+
+        <section id="view-backup" class="workspace" data-panel="backup" aria-labelledby="backup-title" hidden>
+          <div class="workspace-heading action-heading">
+            <div>
+              <p class="kicker">Current service process</p>
+              <h1 id="backup-title">Backup status</h1>
+              <p>View what this running service process knows about backup attempts. This is status, not a restore test.</p>
+            </div>
+            <button id="backup-refresh" class="button button-secondary" type="button">Refresh status</button>
+          </div>
+          <div class="context-note">
+            <strong>Scope:</strong> Unknown means no backup attempt has completed in this service process. A historical successful receipt is not on-disk verification.
+          </div>
+          <div id="backup-results" class="result-stack" aria-live="polite"></div>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <p>Local, read-only owner viewer. Vault changes remain on the owner CLI.</p>
+    </footer>
+  </body>
+</html>

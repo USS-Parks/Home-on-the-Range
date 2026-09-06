@@ -1,0 +1,728 @@
+{
+  "prompt": "HOTR-18",
+  "result": "PASS",
+  "gate": "HOTR-18-91104-1788724083416365000",
+  "source": {
+    "commit": "af906f7e06378f5988ef3b334f36cf88cc79d9cf",
+    "dirty": true,
+    "native_sha256": {
+      "libcrypto.lib": "a732e953ad89e07f8acfd1f656a598105724b3bfb739a4c89984cac10f136199",
+      "sqlcipher.lib": "6fc809b1a11e664fb348da594cd0b03a36e9c9046d7731c478725d8f51f532a7",
+      "sqlite3.c": "45c136615ae3ee8c366dbdde3d78f77c4a15b04ddf55d387b987e45d777b8a42"
+    },
+    "normalized_source_sha256": {
+      ".cargo/config.toml": "434a52b014edd006e7b6fa18301d903499fba0862aee92495b8dd95ca23eb365",
+      ".cargo/enter-prepared-native.ps1": "90c29f33ad82618d554fa7eb1af0d59746fbed6a502f5c7525c85995523db3f3",
+      ".cargo/inspect-electron.cjs": "573efb2a075fd4efca232cfdda2ae6a5529ef4081d5ccbe8d3e2bc1ff8594c79",
+      ".cargo/inspect-hermes-cli.cjs": "c566f41dccc6ebb5f6694c9dd24064d8e415ea4a0d34566f69163d3b0a502dae",
+      ".cargo/inspect-installed-clients.ps1": "1555b0d95de548643969059ab1374d1cc968e44159a22ac7e668836cc6063341",
+      ".cargo/owner-principal-probe.ps1": "a9ec2c5a2c9837d8ee5192b4fcf28d1751ce315e2f34086fbac49cd51eef3b2f",
+      ".cargo/prepare-embedding.ps1": "b751aa98c2e39e9952d15e526a64b7e4071decc39c3edfeacf078535c08a483c",
+      ".cargo/prepare-native.ps1": "ab3de675afb46fc59d577d514ce4195d1bbbe45a44f9e91d23cf90887a9bde5a",
+      ".cargo/scan-native-canaries.py": "fb1549c586047c5eb048f55e6b8d96096fcea43cb611b421a966812b68e649f8",
+      ".cargo/verify-installed-clients.ps1": "9383023161b22012a45082216fa4bcb78daf4a01be18d41260d112023676b1f8",
+      ".github/workflows/windows-native.yml": "ab05c4953039226d06914e96a66c4a5b8301750df700602cb18154ff70a610d6",
+      "Cargo.lock": "2909ba4442f8a7e322eceabef486f8a29c553f6a20691f5843fa9ee3fb351ae4",
+      "Cargo.toml": "4a36c39faf40606286008fbb62cf6f7d63beb48015c58269162e114d22f78abf",
+      "build.rs": "8eb17bf45c9b98ec15cb1a19889c42882b3fe4196ade6459bfd5073f360b72a1",
+      "integrations/clients/hermes_cli.cjs": "d7620c0f447e116f673b993b89f536adcbd34c70d65bf62befea29811bc4db42",
+      "integrations/clients/hermes_results.cjs": "9e18a7e8ffd8e4ac4cd4e108d4ddf1310604ac97f9eebc8810194611f7dd66fa",
+      "integrations/clients/hermes_results.test.cjs": "c53349aeb686f94268a9bc2df1b7cb4fc6475d994da6065c6667344f82d6aee7",
+      "integrations/clients/lamprey_bootstrap.cjs": "f6b00425f018873d6fc8280495db4e7c5d7264678e04032fc18fbe45236a3728",
+      "integrations/clients/lamprey_chat.cjs": "66b05c969bcfecede27deef9e2768987c92c479cf5f3a17e5b85fbaea3ca7268",
+      "integrations/clients/lamprey_probe.cjs": "0eddb97ca2ed99a15fe513b719f33031b6824db8f48e1609c6a95e3cf6a93069",
+      "integrations/clients/live_cli.py": "8971f6e57f4516b4beba0c124b0cfb498275c7a31bd6c1234e4be0bff1f2157d",
+      "integrations/clients/prompt_budget.cjs": "498a8e05b892c1c0a557ffc698dcbc7f43d353cef37cb4a91ef8cda0d6840ea6",
+      "integrations/clients/prompt_budget.test.cjs": "248e7ca43097be2e25aa417a9c126b75c4f43bf1f07281845100f62115703b8f",
+      "src/api.rs": "b2086ca6864674f294b232144002a082b874a564d85a511ef8f4a5504064d698",
+      "src/backup.rs": "4b281e24c0049acd18ccec94d83038a2e57277c68246b21860df592b4137bae7",
+      "src/capabilities.rs": "6cee1c9ef4d56eb7281b4300e445d3b4f1d8432b034f9d9f5dd32bae6ded983b",
+      "src/credentials.rs": "ace05a2480c5de41a3b8ff5ce4afec26014c06fe4579bca08490dfc932a57b4d",
+      "src/embedding.rs": "4183b23bcce742c0d78a51e9443a9911fe92d2732e80fe18032c858f64bdc90f",
+      "src/embedding_tests.rs": "819c5684b7e1cf1f0647d6ac0f554e516848d4836910840019941cfbd013e18f",
+      "src/embedding_transport.rs": "112287e47601aa21bd4904751e0305c3eecd2b697cd374fced12c4181536efd9",
+      "src/hybrid.rs": "7c643a7e2aca17656da67582944bc37ad8634694009dde602e1aaa955e3a5d66",
+      "src/hybrid_runtime.rs": "58a29382ac27bd34b1d29123e73e333dd41af619a78674e49c53e762daa50ae1",
+      "src/imports.rs": "c701b00559044f3fb8a4ecaed5357c089ca1c46620052870f13f8a67f7bdea7c",
+      "src/lib.rs": "81ca74d3ba7729fbcc9649caeed1343b3afef40b88b775f9f19662b12b72296a",
+      "src/lifecycle.rs": "280fdc99d92509c4aadc77ef4008c5d74a6aa78548853e4b5f40dcaa41ff87b4",
+      "src/main.rs": "b60231378681e4642c67be2960c0901d634f2f9601cfb7b1c4240aba93cd5932",
+      "src/mcp.rs": "2d1393dce6694c666ff124a93ffac1e34310cb16422cb5c6e56f17c93bc7b289",
+      "src/owner.rs": "729640260b660e057742c7567ed44f01aa962e9df9de2f2eab844356cf988320",
+      "src/retrieval.rs": "fac183beded91f52566b38f54868da0491c493bab781713fa54a3de876c4c0bc",
+      "src/schema.rs": "57c4dcaf67c78de066dce6ab65829703950cb0a8f5aed7bafc8225a06f3064db",
+      "src/schema_v1.sql": "62c7da764a66eb81be3324eb741c660a7c56598f80d4b59de011f7eac5ab431e",
+      "src/schema_v2.sql": "41550b33bb043a9a4016de80af6d25c99fb390ab955a7b677c5467dc1b14bc6c",
+      "src/schema_v3.sql": "e8a6f173425f97e3172ab30db5a3c3f0628d14dc496ca396db17d80df17fd240",
+      "src/schema_v4.sql": "c373faa46c691efae898265826b6f5487d4faac16db009a5e2452e3e787b13fd",
+      "src/schema_v5.sql": "307e5af7b6e910be7a1d965ae9ba49038a931e8ba3d14ae9af474aa728339bed",
+      "src/schema_v6.sql": "755c740e9ad0f728df4668f07d3353527d19dec5fb09db2157cbb7b0934b065e",
+      "src/schema_v7.sql": "2a1b61bc7c6adf6bf3c750c3b3fd3a80939571d00a33cf61c7bf5964d9a94a0d",
+      "src/schema_v8.sql": "ffed1a559297b9966ab384cc607afa8decc65fc369bf2a39f851daad28b9e08e",
+      "src/viewer.rs": "1b469d3a4ef913660af3f10dd3588579fc77adedb71e903ebe52cca6a2b535fb",
+      "src/viewer/index.html": "b4b1e6f4ba89df4cea3e69e0e2cbeb30d54bd7c75e53299a7844872f8cb9c6f3",
+      "src/viewer/viewer.css": "5e4c469b17d935f1e9016d565cec90bb9b6185ba06bf58ee3aa109173ef2de71",
+      "src/viewer/viewer.js": "f0c15ab843ca31db1fcc0fd4f89305cfae86f180f408522e3ea9b0854b632521",
+      "src/windows_security.rs": "e54b657ac4d027383a9c054cc2cdde3a54e83e5cab7b4b1eb0786d544d961b7d",
+      "src/writer.rs": "a18de4f3e902d88091a698938eaaedad237f6bc823f252827dadad74394f93b2",
+      "src/writer_tests.rs": "3110c258116bbee7247b659dec2afb977ccaaca3e1be0d3374749ed59c450137",
+      "tests/api_capabilities.rs": "f8ba2181aaaafdd664b92aa4ab47c5843d5b1f95743c0538366a075436f1c88a",
+      "tests/encryption.rs": "d98035a8ecde9fadd18d02c5cbe99e779ab755aa2eb73359616b93f3eef70fc8",
+      "tests/fixtures/hotr17/corpus.json": "6b1d878b950d11fe15fa8af58faaa1106a58f14f3aaa5d9010a96ab0975aa74f",
+      "tests/fixtures/hotr17/freeze.json": "b743de3749ef866119199cd60c93ee9d1e1c511a025eb7d2c1952ef15acd81e1",
+      "tests/owner_lifecycle.rs": "8f845175c183a0775d98b5fdecf5a77b6e32d331bc9a6359fb99a33ca4e7a6c8",
+      "tests/schema.rs": "4dc8e6c217560def4faf0d73f2a79e05c686743c2cbffa82bc5cc30ec248ec0b",
+      "tests/support/apps.rs": "b69bd096e1685c0c548b8f8b400c07fa37346f1372e9762ac51ff7938f8c0bb3",
+      "tests/support/backup.rs": "d269fedf8e69fc6d5b517b8aa0cfb4153b1ade692b15baa7c72f70b78125ec59",
+      "tests/support/embedding.rs": "59a8cde32a012c1c896a89f89dd685c91c3e755643750a6a1d848bfebb74112d",
+      "tests/support/hermes.rs": "19bd4fbdc6f16ea9922a21e3b703dcf63fd1492574eb12800c7fbb5bf338e705",
+      "tests/support/hybrid.rs": "3418eae9850fb08f0ceec1d58039157e4c5797c0ff930ecf2cb562db333fb007",
+      "tests/support/hybrid_boundary.rs": "ab30dd1414c4828f640c3113624dcd9292d064388de3277f13044afa1a54df07",
+      "tests/support/hybrid_model.rs": "0aafd635f0cf22b723e04594a53afec3870af02754c489b61fcab4d59c31245c",
+      "tests/support/imports.rs": "f806147c26cbf06804b4f3ea2bc7aeefbeff55580d190f73bc7316eaa2c1096e",
+      "tests/support/lamprey.rs": "8198498e5a9571c4eb1d35712bd01d528f29efc04817b7d1bed753cd7722f912",
+      "tests/support/lifecycle.rs": "5333ff68595cf29c7c741d1dffc2362bfb3132113fd3a2dd817a670fe22825c2",
+      "tests/support/mcp.rs": "14fe3270043170ea29e9c8cb6ecd06851842047a79af8b169f9de229efe7ac1f",
+      "tests/support/retrieval_eval.rs": "6fcda25219b640aea4556bf5c15223786be9e7dd1b6a65aea1d2d9c97115df6e",
+      "tests/support/viewer.rs": "3a6d894fbad5d8e4b5b68f5ab85631b482e84969c9bb0404686845f30966d0be",
+      "tests/support/viewer_browser.cjs": "13d29e3c5023832920fdacb8cb1fbfa556ccb7d8086eb082e3bd8bd423f577d6",
+      "xtask/Cargo.lock": "fbd9aa7678363510fe593cb108cabdad3d12f078de7302a8a4023d78d928e928",
+      "xtask/Cargo.toml": "3c56553b6e2443c28c659f1f1b18df36eb583475202ebebe0b5706fc49f9f357",
+      "xtask/native-builder/Cargo.lock": "11e14128caf3dec373927ad5bcb771867856a89d5a6a6752514e22abf4c97bda",
+      "xtask/native-builder/Cargo.toml": "aa88450cffdc47d430df5037dbd76f8e6b996ac2bdb57deb3c2910e95181d526",
+      "xtask/native-builder/build.rs": "c6796b1671edf06c696968ed256dbe85c9f5e6c18fc0cae9d698bfb10919c9fd",
+      "xtask/native-builder/src/main.rs": "da1d383a162e3a5a00c73b6e9f26bca9cecc4a9f00051fe0c2d4f72cddd5c6ee",
+      "xtask/src/lib.rs": "f60057f009fbca4279141cba0a13ea2b4e649a0c166f3eb83b2dc353c86bec6b",
+      "xtask/src/limits.rs": "05e13bcd50b103ac0daf28982aa4633395f9296aa7abe582ceb1e14f66458eb8",
+      "xtask/src/main.rs": "fb081560073a67de6751b440417fee54006a6cd851055b4671b3901a50373a13",
+      "xtask/tests/contracts.rs": "abe81a6e82e90477165df2b16c2aef22fc378311fe05667b6121311791157fa4"
+    }
+  },
+  "product_sha256": "20bb2087365e35d8097fa080cc04d232b6df5550dcbed2cbec40945cece18fea",
+  "runner_sha256": "aae3e96b330713fd90cfb81f0bdf245124b36d83c0dae88cc59f34c0c756d666",
+  "commands": [
+    {
+      "label": "format",
+      "exit_code": 0,
+      "elapsed_ms": 734,
+      "failure": null
+    },
+    {
+      "label": "build",
+      "exit_code": 0,
+      "elapsed_ms": 24886,
+      "failure": null
+    },
+    {
+      "label": "clippy",
+      "exit_code": 0,
+      "elapsed_ms": 622,
+      "failure": null
+    },
+    {
+      "label": "tests",
+      "exit_code": 0,
+      "elapsed_ms": 150497,
+      "failure": null
+    },
+    {
+      "label": "harness-format",
+      "exit_code": 0,
+      "elapsed_ms": 194,
+      "failure": null
+    },
+    {
+      "label": "harness-clippy",
+      "exit_code": 0,
+      "elapsed_ms": 337,
+      "failure": null
+    },
+    {
+      "label": "harness-tests",
+      "exit_code": 0,
+      "elapsed_ms": 238,
+      "failure": null
+    },
+    {
+      "label": "local-embedding",
+      "exit_code": 0,
+      "elapsed_ms": 11401,
+      "failure": null
+    },
+    {
+      "label": "local-hybrid",
+      "exit_code": 0,
+      "elapsed_ms": 8564,
+      "failure": null
+    },
+    {
+      "label": "retrieval-evaluation",
+      "exit_code": 0,
+      "elapsed_ms": 36073,
+      "failure": null
+    },
+    {
+      "label": "owner-browser",
+      "exit_code": 0,
+      "elapsed_ms": 19853,
+      "failure": null
+    },
+    {
+      "label": "canary-scan",
+      "exit_code": 0,
+      "elapsed_ms": 15481,
+      "failure": null
+    }
+  ],
+  "ordinary_product_tests_passed": 52,
+  "runner_tests_passed": 6,
+  "actual_local_model_tests_passed": 3,
+  "browser_assertions_passed": 34,
+  "canary_scan": {
+    "files": 10724,
+    "distinct_patterns": 355,
+    "prefix_groups": 15,
+    "matcher_controls": "PASS",
+    "storage_temp_logs_canary_absent": true
+  },
+  "proofs": [
+    {
+      "local_evidence": "work/hotr-tests/HOTR-07-29188-1788724267115608100/HOTR-15-local-embedding.json",
+      "sha256": "db7f71f909a837784e1d94def1369f81c7be64697a888078b9526cd4e99efb3a",
+      "data": {
+        "binary_sha256": "20bb2087365e35d8097fa080cc04d232b6df5550dcbed2cbec40945cece18fea",
+        "dimensions": 768,
+        "indexed_records": 2,
+        "model": "nomic-embed-text:v1.5",
+        "model_blobs_verified": true,
+        "model_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+        "observed_peer": "127.0.0.1:62841",
+        "ollama_version": "0.32.6",
+        "owned_ollama_pid": 66264,
+        "project_model_cache": true,
+        "restart_did_not_reindex": true,
+        "restored_indexing_disabled": true,
+        "result": "PASS",
+        "revision_replaced": true
+      }
+    },
+    {
+      "local_evidence": "work/hotr-tests/HOTR-07-56508-1788724325022850200/HOTR-18-browser-launcher.json",
+      "sha256": "fda24445cf4b20abb606fe01877b5f7441a5010b4394cdc11b15d6fa4e490497",
+      "data": {
+        "assertions": 34,
+        "binary_sha256": "20bb2087365e35d8097fa080cc04d232b6df5550dcbed2cbec40945cece18fea",
+        "headless": true,
+        "installed_chrome": "151.0.7922.172",
+        "prompt": "HOTR-18",
+        "result": "PASS",
+        "screenshots": [
+          "HOTR-18-search.png",
+          "HOTR-18-final.png"
+        ]
+      }
+    },
+    {
+      "local_evidence": "work/hotr-tests/HOTR-07-56508-1788724325022850200/HOTR-18-browser.json",
+      "sha256": "eca486732da3ef2e2d18e9aeaa46829bd53f562d7a6194e908a610cfd2d9f9b6",
+      "data": {
+        "prompt": "HOTR-18",
+        "result": "PASS",
+        "browser": "151.0.7922.172",
+        "headless": true,
+        "installed_chrome_process": true,
+        "synthetic_profile": true,
+        "assertions": [
+          "login visible",
+          "static viewer loaded",
+          "static no-store",
+          "keyboard Enter exchanges owner code",
+          "no browser credential storage or cache",
+          "Tab navigation moves through viewer navigation",
+          "long Unicode data rendered",
+          "long record body is keyboard focusable",
+          "stored markup did not execute",
+          "exact maximum UTF-8 record is scrollable",
+          "keyboard scroll reaches long record text",
+          "expected revision conflict is rendered",
+          "history retains both revisions and plaintext source",
+          "stored source is plaintext not anchor",
+          "retained hidden record available to owner",
+          "clients navigation and read",
+          "index navigation and read",
+          "backup navigation and read",
+          "empty search state rendered",
+          "read error state rendered",
+          "unauthenticated browser read is denied",
+          "foreign origin browser CSRF blocked",
+          "controlled delayed response contains actual authorized context",
+          "logout clears DOM and controlled pending response cannot repaint",
+          "logout clears forms, data lists, pagers and private DOM",
+          "reload remains logged out",
+          "back navigation does not restore viewer content",
+          "expired captured viewer token is denied by service",
+          "expiry timer clears viewer DOM",
+          "pagehide clears session",
+          "locked service state clears viewer DOM",
+          "viewer page made no non-loopback requests",
+          "isolated profile marker retained",
+          "all exchanged viewer credentials absent from retained fixture and Chrome profile"
+        ],
+        "credential_disk_scan": {
+          "files": 208,
+          "bytes": 12420958,
+          "credentials": 8,
+          "utf8_utf16le_absent": true
+        }
+      }
+    },
+    {
+      "local_evidence": "work/hotr-tests/HOTR-07-58576-1788724250966727600/HOTR-18-viewer-http.json",
+      "sha256": "f5707ddffbe1cd0f5e6ac9d4c2b5a7e03572d1568da47ceecfcc6b9ec8c51311",
+      "data": {
+        "backup_status": "succeeded",
+        "binary_sha256": "20bb2087365e35d8097fa080cc04d232b6df5550dcbed2cbec40945cece18fea",
+        "csrf_host_and_duplicate_header_denials": true,
+        "owner_session_one_time": true,
+        "prompt": "HOTR-18",
+        "real_loopback_service": true,
+        "result": "PASS",
+        "static_security_headers": true,
+        "viewer_read_operations": 10,
+        "viewer_token_rejected_by_v1": true
+      }
+    },
+    {
+      "local_evidence": "work/hotr-tests/HOTR-07-70608-1788724288321648700/HOTR-17-evaluation.json",
+      "sha256": "f89e8a40f0eb66fd562841c1ecca8c15be5309864aef8494feadcf2f2b34423c",
+      "data": {
+        "prompt": "HOTR-17",
+        "result": "PASS",
+        "binary_sha256": "20bb2087365e35d8097fa080cc04d232b6df5550dcbed2cbec40945cece18fea",
+        "corpus": {
+          "frozen_before_evaluation": true,
+          "independent_reviewer": "/root/hotr17_labels_final",
+          "query_count": 144,
+          "record_count": 100,
+          "record_summary_sha256": "63014b4c4706e2d4c2e27fadc67e7c038c8e2681f3921a2f216305b9111c2654",
+          "schema": 1,
+          "seed": 47821,
+          "sha256": "6b1d878b950d11fe15fa8af58faaa1106a58f14f3aaa5d9010a96ab0975aa74f",
+          "source_labels_sha256": "4a01e695bd142e35410c16d6c639c65b77cd2d74aae5ece8003808790e031827"
+        },
+        "development": {
+          "categories": {
+            "conflict": {
+              "hybrid_recall_at_5": 1,
+              "lexical_recall_at_5": 0,
+              "query_count": 8
+            },
+            "exact_id": {
+              "hybrid_recall_at_5": 1,
+              "lexical_recall_at_5": 1,
+              "query_count": 16
+            },
+            "paraphrase": {
+              "hybrid_recall_at_5": 1,
+              "lexical_recall_at_5": 0,
+              "query_count": 48
+            },
+            "temporal": {
+              "hybrid_recall_at_5": 1,
+              "lexical_recall_at_5": 0,
+              "query_count": 12
+            }
+          },
+          "exact": {
+            "correct": 16,
+            "total": 16
+          },
+          "expected_query_count": 84,
+          "forbidden_or_integrity_hits": 0,
+          "latency": {
+            "hybrid": {
+              "count": 96,
+              "mean_us": 91463.78125,
+              "p50_us": 90891,
+              "p95_us": 119402
+            },
+            "lexical": {
+              "count": 96,
+              "mean_us": 2776.6770833333335,
+              "p50_us": 2865,
+              "p95_us": 3906
+            }
+          },
+          "mean_recall_at_5": {
+            "hybrid": 1,
+            "lexical": 0.19047619047619047
+          },
+          "no_answer": {
+            "candidate_return_rate": {
+              "hybrid": 1,
+              "lexical": 0
+            },
+            "false_positive_rate": null,
+            "false_positive_rate_applicable": false,
+            "threshold_pass": null
+          },
+          "paraphrase_comparison": {
+            "regressions": [],
+            "ties": [],
+            "wins": [
+              "dev-para-40",
+              "dev-para-44",
+              "dev-para-09",
+              "dev-para-02",
+              "dev-para-42",
+              "dev-para-18",
+              "dev-para-23",
+              "dev-para-16",
+              "dev-para-21",
+              "dev-para-47",
+              "dev-para-15",
+              "dev-para-38",
+              "dev-para-48",
+              "dev-para-45",
+              "dev-para-33",
+              "dev-para-32",
+              "dev-para-22",
+              "dev-para-31",
+              "dev-para-35",
+              "dev-para-34",
+              "dev-para-25",
+              "dev-para-37",
+              "dev-para-11",
+              "dev-para-17",
+              "dev-para-01",
+              "dev-para-04",
+              "dev-para-14",
+              "dev-para-46",
+              "dev-para-12",
+              "dev-para-28",
+              "dev-para-03",
+              "dev-para-26",
+              "dev-para-43",
+              "dev-para-29",
+              "dev-para-30",
+              "dev-para-05",
+              "dev-para-10",
+              "dev-para-20",
+              "dev-para-39",
+              "dev-para-36",
+              "dev-para-13",
+              "dev-para-08",
+              "dev-para-27",
+              "dev-para-19",
+              "dev-para-06",
+              "dev-para-07",
+              "dev-para-41",
+              "dev-para-24"
+            ]
+          },
+          "paraphrase_recall_at_5": {
+            "hybrid": 1,
+            "lexical": 0
+          },
+          "query_count": 96,
+          "query_hit_at_5": {
+            "hybrid": 1,
+            "lexical": 0.19047619047619047
+          },
+          "response_errors": 0,
+          "statuses": {
+            "hybrid:200": 92,
+            "hybrid:403": 4,
+            "lexical:200": 92,
+            "lexical:403": 4
+          },
+          "wrong_revision_hits": 0
+        },
+        "held_out": {
+          "categories": {
+            "conflict": {
+              "hybrid_recall_at_5": 1,
+              "lexical_recall_at_5": 0,
+              "query_count": 4
+            },
+            "exact_id": {
+              "hybrid_recall_at_5": 1,
+              "lexical_recall_at_5": 1,
+              "query_count": 8
+            },
+            "paraphrase": {
+              "hybrid_recall_at_5": 1,
+              "lexical_recall_at_5": 0,
+              "query_count": 24
+            },
+            "temporal": {
+              "hybrid_recall_at_5": 1,
+              "lexical_recall_at_5": 0,
+              "query_count": 6
+            }
+          },
+          "exact": {
+            "correct": 8,
+            "total": 8
+          },
+          "expected_query_count": 42,
+          "forbidden_or_integrity_hits": 0,
+          "latency": {
+            "hybrid": {
+              "count": 48,
+              "mean_us": 98169.27083333333,
+              "p50_us": 97270,
+              "p95_us": 122841
+            },
+            "lexical": {
+              "count": 48,
+              "mean_us": 3316.2916666666665,
+              "p50_us": 2918,
+              "p95_us": 4555
+            }
+          },
+          "mean_recall_at_5": {
+            "hybrid": 1,
+            "lexical": 0.19047619047619047
+          },
+          "no_answer": {
+            "candidate_return_rate": {
+              "hybrid": 1,
+              "lexical": 0
+            },
+            "false_positive_rate": null,
+            "false_positive_rate_applicable": false,
+            "threshold_pass": null
+          },
+          "paraphrase_comparison": {
+            "regressions": [],
+            "ties": [],
+            "wins": [
+              "held-para-24",
+              "held-para-01",
+              "held-para-12",
+              "held-para-23",
+              "held-para-06",
+              "held-para-07",
+              "held-para-04",
+              "held-para-20",
+              "held-para-19",
+              "held-para-10",
+              "held-para-22",
+              "held-para-08",
+              "held-para-14",
+              "held-para-03",
+              "held-para-02",
+              "held-para-11",
+              "held-para-17",
+              "held-para-16",
+              "held-para-13",
+              "held-para-21",
+              "held-para-15",
+              "held-para-09",
+              "held-para-18",
+              "held-para-05"
+            ]
+          },
+          "paraphrase_recall_at_5": {
+            "hybrid": 1,
+            "lexical": 0
+          },
+          "query_count": 48,
+          "query_hit_at_5": {
+            "hybrid": 1,
+            "lexical": 0.19047619047619047
+          },
+          "response_errors": 0,
+          "statuses": {
+            "hybrid:200": 46,
+            "hybrid:403": 2,
+            "lexical:200": 46,
+            "lexical:403": 2
+          },
+          "wrong_revision_hits": 0
+        },
+        "index": {
+          "duration_ms": 13831,
+          "expected_visible_records": 92,
+          "rows": 92,
+          "status": {
+            "dimensions": 768,
+            "enabled": true,
+            "failed": 0,
+            "generation": 1,
+            "indexed": 92,
+            "last_error": null,
+            "last_peer": "127.0.0.1:63000",
+            "max_attempts": 3,
+            "model": "nomic-embed-text:v1.5",
+            "model_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+            "pending": 0,
+            "port": 63000,
+            "visible": 92
+          },
+          "vector_bytes": 282624
+        },
+        "model": {
+          "cold_observed_peer": "127.0.0.1:63000",
+          "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+          "dimensions": 768,
+          "first_direct_embedding_cold_ms": 375,
+          "model_start_ms": 3440,
+          "name": "nomic-embed-text:v1.5",
+          "observed_peer": "127.0.0.1:63000",
+          "ollama_version": "0.32.6",
+          "owned_pid": 89892,
+          "unload_status": 200
+        },
+        "vault": {
+          "audit_valid": true,
+          "file_bytes_after_service_stop": 876544,
+          "integrity_check": "ok"
+        },
+        "measurement_notes": {
+          "cost_or_savings_claim": null,
+          "no_answer_abstention_feature": false,
+          "no_answer_threshold_claimed": false,
+          "potential_repeat_query_key_is_derived_only": true,
+          "query_or_body_text_in_report": false,
+          "query_vector_cache_hit_observable": false,
+          "runtime_control_telemetry_available": false
+        }
+      }
+    },
+    {
+      "local_evidence": "work/hotr-tests/HOTR-07-79712-1788724279189109900/HOTR-16-local-hybrid.json",
+      "sha256": "1cccf35e989fbc785e311e9f48d768e12a9341aa4c9ac62246c3edf74d61d341",
+      "data": {
+        "actual_mcp_processes": 2,
+        "authorized_namespace_records": 2,
+        "binary_sha256": "20bb2087365e35d8097fa080cc04d232b6df5550dcbed2cbec40945cece18fea",
+        "corrected_revision_both_clients": true,
+        "cross_namespace_denied": true,
+        "dimensions": 768,
+        "disabled_explicitly_lexical": true,
+        "http_hybrid": true,
+        "indexed_records": 3,
+        "mcp_context_pack": true,
+        "mcp_hybrid": true,
+        "model_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+        "observed_peer": "127.0.0.1:62912",
+        "ollama_version": "0.32.6",
+        "owned_ollama_pid": 87080,
+        "quality_gate": "HOTR-17 remains separate",
+        "result": "PASS",
+        "source_preserved": true
+      }
+    }
+  ],
+  "parent_recomputed": {
+    "search_responses": 288,
+    "direct_gets": 24,
+    "prohibited_hits": 0,
+    "wrong_revisions": 0,
+    "held_paraphrase_queries": 24,
+    "held_hybrid_recall": 24,
+    "held_lexical_recall": 0
+  },
+  "post_inference_model_hashes": {
+    "result": "PASS",
+    "manifest_sha256": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+    "blobs": [
+      {
+        "path": "work/hotr-models/blobs/sha256-31df23ea7daa448f9ccdbbcecce6c14689c8552222b80defd3830707c0139d4f",
+        "bytes": 420,
+        "sha256": "31df23ea7daa448f9ccdbbcecce6c14689c8552222b80defd3830707c0139d4f"
+      },
+      {
+        "path": "work/hotr-models/blobs/sha256-970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6",
+        "bytes": 274290656,
+        "sha256": "970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6"
+      },
+      {
+        "path": "work/hotr-models/blobs/sha256-c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "bytes": 11357,
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "work/hotr-models/blobs/sha256-ce4a164fc04605703b485251fe9f1a181688ba0eb6badb80cc6335c0de17ca0d",
+        "bytes": 17,
+        "sha256": "ce4a164fc04605703b485251fe9f1a181688ba0eb6badb80cc6335c0de17ca0d"
+      }
+    ]
+  },
+  "preservation": {
+    "original_baselines_verified": 8,
+    "registered_checkouts": 1,
+    "linked_worktrees": 0,
+    "generated_bytes": 6049477809,
+    "free_bytes": 299426983936,
+    "retained_reason": "One canonical checkout; shared build/model cache, synthetic evidence and failed isolated browser profiles retained; no cleanup or new worktree."
+  },
+  "orchestration": {
+    "parent_model": "unobservable",
+    "parent_effort": "unobservable",
+    "delegates": [
+      {
+        "id": "/root/hotr18_boundary_plan",
+        "requested_model": "gpt-5.6-terra",
+        "requested_effort": "high",
+        "status": "completed"
+      },
+      {
+        "id": "/root/hotr18_ui",
+        "requested_model": "gpt-5.6-sol",
+        "requested_effort": "high",
+        "status": "completed"
+      },
+      {
+        "id": "/root/hotr18_browser_tests",
+        "requested_model": "gpt-5.6-terra",
+        "requested_effort": "high",
+        "status": "completed"
+      },
+      {
+        "id": "/root/hotr18_final_review",
+        "requested_model": "gpt-5.6-sol",
+        "requested_effort": "high",
+        "status": "completed",
+        "verdict": "ship"
+      }
+    ],
+    "realized_settings": "unobservable",
+    "token_usage": "unavailable"
+  },
+  "review": {
+    "status": "ship",
+    "agent": "/root/hotr18_final_review",
+    "requested_model": "gpt-5.6-sol",
+    "requested_effort": "high",
+    "observed_settings": "unobservable",
+    "findings": [],
+    "checks": "85 current/staged normalized input hashes; two binaries; six raw reports; pinned model manifest and four blobs; 12 successful commands; 288 search observations; 24 direct gets; screenshots; retained failures"
+  },
+  "publication": {
+    "branch": "main",
+    "status": "pending authorized commit and push",
+    "hosted_status": "pending exact published head",
+    "next_action": "standby after HOTR-18 publication and verification; HOTR-19 implementation not started"
+  },
+  "retained_failures": [
+    {
+      "gate": "HOTR-18-90272-1788722601738454400",
+      "failure": "Browser fixture title assertion; repaired and reverified"
+    },
+    {
+      "gate": "HOTR-18-72748-1788723563043754900",
+      "failure": "Final canary scan timeout at 60 seconds; exact matching optimized without deleting evidence or changing ceiling"
+    }
+  ],
+  "limits": [
+    "Actual installed Chrome 151.0.7922.172 tested headless in an isolated synthetic profile; no everyday profile enrollment claim.",
+    "The code field required one-time-code semantics after Chrome persisted codes with autocomplete=off. Fresh profile scan passed; older browser behavior is outside this evidence.",
+    "Controlled delayed-response test replays an actual authorized response with explicit same-origin metadata because Playwright replay omitted browser metadata.",
+    "Backup observations cover the current service process only and do not verify external snapshot availability.",
+    "Same Windows user and OS remain trusted; no browser-extension, screenshot or operating-system secure-erasure guarantee.",
+    "Remaining HOTR-12/Lamprey compatibility stays deferred; auditing, rotation, scale/soak and deployment remain later prompts."
+  ]
+}

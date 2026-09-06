@@ -85,6 +85,7 @@ impl Guard {
                 | "HOTR-15"
                 | "HOTR-16"
                 | "HOTR-17"
+                | "HOTR-18"
                 | "HOTR-12-LAMPREY"
                 | "HOTR-12-LAMPREY-SMOKE"
                 | "HOTR-12-LAMPREY-PREFLIGHT"
@@ -217,7 +218,18 @@ pub fn snapshot(guard: &Guard) -> io::Result<SourceSnapshot> {
         let path = Path::new(name);
         let code = matches!(
             path.extension().and_then(|s| s.to_str()),
-            Some("rs" | "sql" | "toml" | "lock" | "py" | "ps1" | "yml" | "cjs" | "js")
+            Some(
+                "rs" | "sql"
+                    | "toml"
+                    | "lock"
+                    | "py"
+                    | "ps1"
+                    | "yml"
+                    | "cjs"
+                    | "js"
+                    | "html"
+                    | "css"
+            )
         );
         // Frozen evaluation inputs are executable gate inputs. Evidence JSON
         // remains outside this set so closeout cannot create circular hashes.

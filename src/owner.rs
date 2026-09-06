@@ -33,6 +33,7 @@ pub const BACKUP: u8 = 5;
     rename_all = "snake_case"
 )]
 pub enum AdminRequest {
+    ViewerSession { seconds: u32 },
     EmbeddingConfigure(crate::embedding::Configure),
     EmbeddingStatus,
     Lifecycle(crate::lifecycle::Request),
@@ -296,10 +297,12 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
     listener.set_nonblocking(true)?;
     let shared: crate::api::SharedWriter = std::sync::Arc::new(std::sync::RwLock::new(None));
     let hybrid = std::sync::Arc::new(crate::hybrid_runtime::Runtime::new());
+    let viewer = std::sync::Arc::new(crate::viewer::Runtime::new());
     let mut http = tokio::spawn(crate::api::run(
         tokio::net::TcpListener::from_std(listener)?,
         shared.clone(),
         hybrid.clone(),
+        viewer.clone(),
     ));
     println!(
         "{}",
@@ -366,6 +369,7 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                             }
                         }
                         LOCK if body.len() == 1 => {
+                            viewer.clear().map_err(io::Error::other)?;
                             hybrid.pause().map_err(io::Error::other)?;
                             *shared
                                 .write()
@@ -389,6 +393,9 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                                 }
                                 Err(_) => Err(crate::writer::WriteError::InvalidRequest),
                             };
+                            viewer
+                                .backup_result(result.as_ref().ok())
+                                .map_err(io::Error::other)?;
                             match result {
                                 Ok(data) => {
                                     let mut reply = state(true, false, None);
@@ -414,7 +421,9 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                                 worker.stop().await;
                             }
                             let result = match command {
-                                Ok(command) => admin_dispatch(&handle, command, port).await,
+                                Ok(command) => {
+                                    admin_dispatch(&handle, command, port, &viewer).await
+                                }
                                 Err(error) => Err(error),
                             };
                             if reconfigure {
@@ -465,9 +474,11 @@ async fn admin_dispatch(
     handle: &crate::writer::WriterHandle,
     request: AdminRequest,
     port: u16,
+    viewer: &crate::viewer::Runtime,
 ) -> crate::capabilities::CommandResult {
     use crate::capabilities::Command;
     match request {
+        AdminRequest::ViewerSession { seconds } => viewer.approve(seconds, port),
         AdminRequest::EmbeddingConfigure(request) => {
             handle.command(Command::EmbeddingConfigure(request)).await
         }

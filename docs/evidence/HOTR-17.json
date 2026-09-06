@@ -14655,8 +14655,11 @@
   "publication": {
     "branch": "main",
     "implementation_commit": "5524505c9128b4d794b151de764929e3084d7fa5",
-    "status": "LOCAL_COMMIT_ACCEPTED_PUBLICATION_PENDING",
-    "hosted_status": "PENDING"
+    "main_commit": "af906f7e06378f5988ef3b334f36cf88cc79d9cf",
+    "status": "PUBLISHED_SHA_VERIFIED",
+    "hosted_status": "PASS",
+    "hosted_run": 34053823911,
+    "hosted_url": "https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34053823911"
   },
   "pre_freeze_reviews": [
     {

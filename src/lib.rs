@@ -14,6 +14,7 @@ pub mod mcp;
 pub mod owner;
 pub mod retrieval;
 pub mod schema;
+mod viewer;
 pub mod windows_security;
 pub mod writer;
 

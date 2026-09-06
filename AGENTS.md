@@ -1,5 +1,7 @@
 # Home on the Range working agreements
 
+Latest owner instruction (2026-09-06): after HOTR-18 is completed, commit and push all in-scope session work to main, verify publication and the exact hosted gate, then standby until further instruction. HOTR-19 implementation must not start. Its read-only preliminary design is parked. This stopping point supersedes the earlier continuation timing below; existing HOTR-12/Lamprey deferrals and data-preservation requirements remain in force.
+
 Current resumption (2026-09-06): the owner resumed the same trajectory after the app restart and explicitly invoked `astra-advisor:orchestration`. Finish HOTR-14 parent verification, fresh read-only review and main publication, then continue the approved roster from HOTR-15. The requested skill authorizes bounded native subagent routing/review and supersedes the earlier no-proactive-subagent rule for this session. Preserve the deferred HOTR-12/Lamprey scope.
 
 Current standby instruction (2026-09-06): finish the current HOTR-14 verification/publication checkpoint, then stop so the owner can restart the app with the astra-advisor plug-in. HOTR-15 is next but must not start until the owner resumes. Earlier full-STS authorization remains in force; the current request controls execution timing.

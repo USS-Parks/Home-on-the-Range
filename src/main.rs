@@ -14,6 +14,12 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Operation {
+    /// Approve one read-only browser session. Keep its one-time code private.
+    ViewerSession {
+        path: PathBuf,
+        #[arg(long, default_value_t = 600)]
+        seconds: u32,
+    },
     /// Configure local indexing; omit --port to disable. Read generation from embedding-status.
     EmbeddingConfigure {
         path: PathBuf,
@@ -143,6 +149,10 @@ async fn main() {
 
 async fn execute(operation: Operation) -> Result<(), Box<dyn std::error::Error>> {
     match operation {
+        Operation::ViewerSession { path, seconds } => print_reply(
+            hotr::owner::admin(&path, &hotr::owner::AdminRequest::ViewerSession { seconds })
+                .await?,
+        )?,
         Operation::EmbeddingConfigure {
             path,
             port,

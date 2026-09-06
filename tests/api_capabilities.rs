@@ -33,6 +33,9 @@ mod mcp_protocol;
 #[path = "support/backup.rs"]
 mod backup_recovery;
 
+#[path = "support/apps.rs"]
+mod installed_apps;
+
 fn local_client() -> reqwest::Client {
     reqwest::Client::builder()
         .no_proxy()
@@ -412,6 +415,9 @@ impl Drop for Server {
 }
 impl Server {
     fn start(run: &Path, label: &str) -> Self {
+        Self::start_at(run, label, 0)
+    }
+    fn start_at(run: &Path, label: &str, port: u16) -> Self {
         let stderr = fs::OpenOptions::new()
             .write(true)
             .create_new(true)
@@ -420,7 +426,7 @@ impl Server {
         let mut child = Command::new(env!("CARGO_BIN_EXE_hotr"))
             .arg("serve")
             .arg(run.join("vault"))
-            .args(["--port", "0"])
+            .args(["--port", &port.to_string()])
             .stdin(Stdio::null())
             .stdout(Stdio::piped())
             .stderr(stderr)

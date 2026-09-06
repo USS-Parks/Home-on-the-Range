@@ -1,0 +1,431 @@
+{
+  "accepted_current_revision": 3,
+  "actual_applications": 2,
+  "application_profiles": "new isolated profiles only",
+  "binary_sha256": "af39b4096fee4b3f7a831ac985e55ab42b5f07ac01acb5825c70dea45fa8f774",
+  "claude_executable_sha256": "af5bf1f1b2aadffc768eccd787084c6fdf9ba81624cbe96c1c6d9ac1a1550231",
+  "claude_version": "2.1.220 (Claude Code)",
+  "codex_executable_sha256": "a1cf6360ca71918d5466bc3a32d9f18b7044c9128756d1949e715d277b88c9b6",
+  "codex_version": "codex-cli 0.153.4",
+  "existing_codex_auth_unchanged": true,
+  "independent_credentials": 2,
+  "model_prompts": 8,
+  "refresh_token_copied": false,
+  "restart_revoke_restore_reenroll": true,
+  "result": "PASS",
+  "steps": [
+    {
+      "step": "01-codex-create",
+      "application": "codex",
+      "version": "codex-cli 0.153.4",
+      "model": "gpt-6-astra",
+      "exit_code": 0,
+      "elapsed_seconds": 20.015999999828637,
+      "actual_tool_results": [
+        {
+          "tool": "hotr_create",
+          "arguments": {
+            "expected_revision": null,
+            "idempotency_key": "apps-create",
+            "record": {
+              "body": "Synthetic test: the rover signal colour is blue.",
+              "id": "shared-colour",
+              "kind": "roadmap",
+              "namespace": "demo",
+              "sources": [
+                {
+                  "label": "opaque source",
+                  "reference": "https://unopened.invalid/synthetic-source"
+                }
+              ],
+              "state": "proposed",
+              "tags": [
+                "synthetic"
+              ]
+            }
+          },
+          "result": {
+            "content": [
+              {
+                "text": "{\"outcome\":\"committed\",\"receipt\":{\"audit_sequence\":1,\"committed_at_ms\":1788658512135,\"id\":\"shared-colour\",\"namespace\":\"demo\",\"revision\":1}}",
+                "type": "text"
+              }
+            ],
+            "structured_content": {
+              "outcome": "committed",
+              "receipt": {
+                "audit_sequence": 1,
+                "committed_at_ms": 1788658512135,
+                "id": "shared-colour",
+                "namespace": "demo",
+                "revision": 1
+              }
+            }
+          }
+        },
+        {
+          "tool": "hotr_get",
+          "arguments": {
+            "id": "shared-colour",
+            "namespace": "demo"
+          },
+          "result": {
+            "content": [
+              {
+                "text": "{\"body\":\"Synthetic test: the rover signal colour is blue.\",\"created_at_ms\":1788658512135,\"id\":\"shared-colour\",\"kind\":\"roadmap\",\"namespace\":\"demo\",\"revision\":1,\"sources\":[{\"label\":\"opaque source\",\"reference\":\"https://unopened.invalid/synthetic-source\"}],\"state\":\"proposed\",\"tags\":[\"synthetic\"]}",
+                "type": "text"
+              }
+            ],
+            "structured_content": {
+              "body": "Synthetic test: the rover signal colour is blue.",
+              "created_at_ms": 1788658512135,
+              "id": "shared-colour",
+              "kind": "roadmap",
+              "namespace": "demo",
+              "revision": 1,
+              "sources": [
+                {
+                  "label": "opaque source",
+                  "reference": "https://unopened.invalid/synthetic-source"
+                }
+              ],
+              "state": "proposed",
+              "tags": [
+                "synthetic"
+              ]
+            }
+          }
+        }
+      ],
+      "reported_usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 41856,
+        "input_tokens": 52884,
+        "output_tokens": 239,
+        "reasoning_output_tokens": 0
+      },
+      "reported_api_cost_usd": null
+    },
+    {
+      "step": "02-claude-recall",
+      "application": "claude",
+      "version": "2.1.220 (Claude Code)",
+      "model": "claude-opus-5[1m]",
+      "exit_code": 0,
+      "elapsed_seconds": 6.0149999998975545,
+      "actual_tool_results": [
+        {
+          "tool_result": "{\"body\":\"Synthetic test: the rover signal colour is blue.\",\"created_at_ms\":1788658512135,\"id\":\"shared-colour\",\"kind\":\"roadmap\",\"namespace\":\"demo\",\"revision\":1,\"sources\":[{\"label\":\"opaque source\",\"reference\":\"https://unopened.invalid/synthetic-source\"}],\"state\":\"proposed\",\"tags\":[\"synthetic\"]}"
+        }
+      ],
+      "reported_usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 3299
+        },
+        "cache_creation_input_tokens": 3299,
+        "cache_read_input_tokens": 3083,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "iterations": [],
+        "output_tokens": 200,
+        "server_tool_use": {
+          "web_fetch_requests": 0,
+          "web_search_requests": 0
+        },
+        "service_tier": "standard",
+        "speed": "standard"
+      },
+      "reported_api_cost_usd": 0.02786625
+    },
+    {
+      "step": "03-codex-correct",
+      "application": "codex",
+      "version": "codex-cli 0.153.4",
+      "model": "gpt-6-astra",
+      "exit_code": 0,
+      "elapsed_seconds": 22.436999999918044,
+      "actual_tool_results": [
+        {
+          "tool": "hotr_revise",
+          "arguments": {
+            "expected_revision": 1,
+            "idempotency_key": "apps-correct",
+            "record": {
+              "body": "Synthetic test: the rover signal colour is green.",
+              "id": "shared-colour",
+              "kind": "roadmap",
+              "namespace": "demo",
+              "sources": [
+                {
+                  "label": "opaque source",
+                  "reference": "https://unopened.invalid/synthetic-source"
+                }
+              ],
+              "state": "proposed",
+              "tags": [
+                "synthetic"
+              ]
+            }
+          },
+          "result": {
+            "content": [
+              {
+                "text": "{\"outcome\":\"committed\",\"receipt\":{\"audit_sequence\":2,\"committed_at_ms\":1788658538610,\"id\":\"shared-colour\",\"namespace\":\"demo\",\"revision\":2}}",
+                "type": "text"
+              }
+            ],
+            "structured_content": {
+              "outcome": "committed",
+              "receipt": {
+                "audit_sequence": 2,
+                "committed_at_ms": 1788658538610,
+                "id": "shared-colour",
+                "namespace": "demo",
+                "revision": 2
+              }
+            }
+          }
+        },
+        {
+          "tool": "hotr_get",
+          "arguments": {
+            "id": "shared-colour",
+            "namespace": "demo"
+          },
+          "result": {
+            "content": [
+              {
+                "text": "{\"body\":\"Synthetic test: the rover signal colour is green.\",\"created_at_ms\":1788658538610,\"id\":\"shared-colour\",\"kind\":\"roadmap\",\"namespace\":\"demo\",\"revision\":2,\"sources\":[{\"label\":\"opaque source\",\"reference\":\"https://unopened.invalid/synthetic-source\"}],\"state\":\"proposed\",\"tags\":[\"synthetic\"]}",
+                "type": "text"
+              }
+            ],
+            "structured_content": {
+              "body": "Synthetic test: the rover signal colour is green.",
+              "created_at_ms": 1788658538610,
+              "id": "shared-colour",
+              "kind": "roadmap",
+              "namespace": "demo",
+              "revision": 2,
+              "sources": [
+                {
+                  "label": "opaque source",
+                  "reference": "https://unopened.invalid/synthetic-source"
+                }
+              ],
+              "state": "proposed",
+              "tags": [
+                "synthetic"
+              ]
+            }
+          }
+        }
+      ],
+      "reported_usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 38784,
+        "input_tokens": 52869,
+        "output_tokens": 224,
+        "reasoning_output_tokens": 0
+      },
+      "reported_api_cost_usd": null
+    },
+    {
+      "step": "04-codex-accepted",
+      "application": "codex",
+      "version": "codex-cli 0.153.4",
+      "model": "gpt-6-astra",
+      "exit_code": 0,
+      "elapsed_seconds": 13.577999999979513,
+      "actual_tool_results": [
+        {
+          "tool": "hotr_get",
+          "arguments": {
+            "id": "shared-colour",
+            "namespace": "demo"
+          },
+          "result": {
+            "content": [
+              {
+                "text": "{\"body\":\"Synthetic test: the rover signal colour is green.\",\"created_at_ms\":1788658549499,\"id\":\"shared-colour\",\"kind\":\"roadmap\",\"namespace\":\"demo\",\"revision\":3,\"sources\":[{\"label\":\"opaque source\",\"reference\":\"https://unopened.invalid/synthetic-source\"}],\"state\":\"accepted\",\"tags\":[\"synthetic\"]}",
+                "type": "text"
+              }
+            ],
+            "structured_content": {
+              "body": "Synthetic test: the rover signal colour is green.",
+              "created_at_ms": 1788658549499,
+              "id": "shared-colour",
+              "kind": "roadmap",
+              "namespace": "demo",
+              "revision": 3,
+              "sources": [
+                {
+                  "label": "opaque source",
+                  "reference": "https://unopened.invalid/synthetic-source"
+                }
+              ],
+              "state": "accepted",
+              "tags": [
+                "synthetic"
+              ]
+            }
+          }
+        }
+      ],
+      "reported_usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 20608,
+        "input_tokens": 38422,
+        "output_tokens": 173,
+        "reasoning_output_tokens": 0
+      },
+      "reported_api_cost_usd": null
+    },
+    {
+      "step": "05-codex-revoked",
+      "application": "codex",
+      "version": "codex-cli 0.153.4",
+      "model": "gpt-6-astra",
+      "exit_code": 0,
+      "elapsed_seconds": 11.266000000061467,
+      "actual_tool_results": [
+        {
+          "tool": "hotr_get",
+          "arguments": {
+            "id": "shared-colour",
+            "namespace": "demo"
+          },
+          "result": {
+            "content": [
+              {
+                "text": "{\"http_status\":401,\"service\":{\"error\":{\"code\":\"unauthorized\"}}}",
+                "type": "text"
+              }
+            ],
+            "structured_content": {
+              "http_status": 401,
+              "service": {
+                "error": {
+                  "code": "unauthorized"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "reported_usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 23936,
+        "input_tokens": 25416,
+        "output_tokens": 164,
+        "reasoning_output_tokens": 0
+      },
+      "reported_api_cost_usd": null
+    },
+    {
+      "step": "06-claude-restart",
+      "application": "claude",
+      "version": "2.1.220 (Claude Code)",
+      "model": "claude-opus-5[1m]",
+      "exit_code": 0,
+      "elapsed_seconds": 5.359999999869615,
+      "actual_tool_results": [
+        {
+          "tool_result": "{\"body\":\"Synthetic test: the rover signal colour is green.\",\"created_at_ms\":1788658549499,\"id\":\"shared-colour\",\"kind\":\"roadmap\",\"namespace\":\"demo\",\"revision\":3,\"sources\":[{\"label\":\"opaque source\",\"reference\":\"https://unopened.invalid/synthetic-source\"}],\"state\":\"accepted\",\"tags\":[\"synthetic\"]}"
+        }
+      ],
+      "reported_usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 490
+        },
+        "cache_creation_input_tokens": 490,
+        "cache_read_input_tokens": 5879,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "iterations": [],
+        "output_tokens": 194,
+        "server_tool_use": {
+          "web_fetch_requests": 0,
+          "web_search_requests": 0
+        },
+        "service_tier": "standard",
+        "speed": "standard"
+      },
+      "reported_api_cost_usd": 0.011544
+    },
+    {
+      "step": "07-claude-restored-old-token",
+      "application": "claude",
+      "version": "2.1.220 (Claude Code)",
+      "model": "claude-opus-5[1m]",
+      "exit_code": 0,
+      "elapsed_seconds": 4.625,
+      "actual_tool_results": [
+        {
+          "tool_result": "{\"http_status\":401,\"service\":{\"error\":{\"code\":\"unauthorized\"}}}"
+        }
+      ],
+      "reported_usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 401
+        },
+        "cache_creation_input_tokens": 401,
+        "cache_read_input_tokens": 5880,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "iterations": [],
+        "output_tokens": 137,
+        "server_tool_use": {
+          "web_fetch_requests": 0,
+          "web_search_requests": 0
+        },
+        "service_tier": "standard",
+        "speed": "standard"
+      },
+      "reported_api_cost_usd": 0.00956225
+    },
+    {
+      "step": "08-claude-reenrolled",
+      "application": "claude",
+      "version": "2.1.220 (Claude Code)",
+      "model": "claude-opus-5[1m]",
+      "exit_code": 0,
+      "elapsed_seconds": 5.858999999938533,
+      "actual_tool_results": [
+        {
+          "tool_result": "{\"body\":\"Synthetic test: the rover signal colour is green.\",\"created_at_ms\":1788658549499,\"id\":\"shared-colour\",\"kind\":\"roadmap\",\"namespace\":\"demo\",\"revision\":3,\"sources\":[{\"label\":\"opaque source\",\"reference\":\"https://unopened.invalid/synthetic-source\"}],\"state\":\"accepted\",\"tags\":[\"synthetic\"]}"
+        }
+      ],
+      "reported_usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 225
+        },
+        "cache_creation_input_tokens": 225,
+        "cache_read_input_tokens": 6154,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "iterations": [],
+        "output_tokens": 228,
+        "server_tool_use": {
+          "web_fetch_requests": 0,
+          "web_search_requests": 0
+        },
+        "service_tier": "standard",
+        "speed": "standard"
+      },
+      "reported_api_cost_usd": 0.01088025
+    }
+  ],
+  "milestone_prompts_including_failed_attempts": 11,
+  "successful_run_prompts": 8,
+  "local_run": "work/hotr-tests/HOTR-07-80936-1788658498428104400",
+  "limits": [
+    "Cloud-backed application routes received only synthetic facts.",
+    "CLI proof does not establish desktop UI integration.",
+    "Third-party provider stores and transcripts are outside SQLCipher encryption.",
+    "No accepted-record owner correction workflow is claimed before HOTR-14."
+  ]
+}

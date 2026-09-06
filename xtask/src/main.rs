@@ -49,6 +49,7 @@ fn execute() -> io::Result<()> {
                     | "HOTR-09"
                     | "HOTR-10"
                     | "HOTR-11"
+                    | "HOTR-12"
                     | "HOTR-04-R2"
             ))
     {
@@ -230,6 +231,7 @@ fn execute() -> io::Result<()> {
                 | "HOTR-09"
                 | "HOTR-10"
                 | "HOTR-11"
+                | "HOTR-12"
                 | "HOTR-04-R2"
         ) {
             let boundary = run(
@@ -254,6 +256,30 @@ fn execute() -> io::Result<()> {
             outcomes.push(boundary);
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["owner-boundary"])?;
+        }
+        if prompt == "HOTR-12" {
+            let apps = run(
+                &guard,
+                &directory,
+                "installed-applications",
+                &cargo,
+                &[
+                    "test",
+                    "--release",
+                    "--locked",
+                    "--test",
+                    "api_capabilities",
+                    "actual_codex_and_claude_shared_memory",
+                    "--",
+                    "--ignored",
+                    "--nocapture",
+                ],
+                Duration::from_secs(1800),
+            )?;
+            let pass = apps.ensure_pass();
+            outcomes.push(apps);
+            pass?;
+            hotr_xtask::ensure_required(&outcomes, &["installed-applications"])?;
         }
         if prompt == "HOTR-09" {
             let load = run(

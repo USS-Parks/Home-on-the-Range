@@ -531,3 +531,87 @@ any provider request, to handle this prerequisite. Its source and complete
 available logs/interruption record are preserved. Continue its full gate after
 the repair's local publication and track clean hosted acceptance before M1
 closeout. No existing application settings or user vault was changed.
+
+### HOTR-11-R1 hosted closeout
+
+Repair commit `cf4fa8ed1373431733e01c9f3faa1229f4e5c9fa` is verified on
+origin/main. Exact Windows run 34003325869 passed, completed
+2026-09-06T01:31:01Z. The downloaded `HOTR-03-3304-1788657847770867100` manifest
+reports PASS, that exact SHA and `dirty=false`. Full log, run metadata and native
+artifact are retained under `work/hotr-evidence/HOTR-11-R1-hosted-34003325869/`.
+The fresh hosted fixture prerequisite is closed. Actual two-account evidence
+remains the separately recorded local proof; no second account is inferred from
+this hosted run. HOTR-12 continues in the same checkout.
+
+## HOTR-12 — actual Codex/Claude prototype demonstration — 2026-09-06 UTC
+
+Full local gate PASS: `work/hotr-evidence/HOTR-12-54916-1788658332732025800/`.
+The actual application fixture is `work/hotr-tests/HOTR-07-80936-1788658498428104400/`.
+Published records: `docs/evidence/HOTR-12-clients.json` and
+`docs/evidence/HOTR-12-applications.json`, including actual tool results rather
+than accepting final model prose. See `docs/M1-DEMO.md` and `docs/QUICKSTART.md`.
+
+Changes: new `tests/support/apps.rs` drives the real service, owner CLI, protected
+isolated profiles and two installed application binaries. `tests/api_capabilities.rs`
+adds this module and an explicit-port restart helper. New
+`integrations/clients/live_cli.py` runs the installed CLIs with bounded output,
+deadlines, a durable model-prompt budget and actual event inspection. The xtask
+registers HOTR-12 and refuses completion without installed-app and owner-boundary
+checks. Documentation covers configuration, recovery and the tested boundaries.
+No production storage/API/MCP implementation changed for this prompt.
+
+Successful sequence (96.81 seconds): Codex creates/gets blue proposed revision 1;
+Claude recalls that exact sourced record; Codex makes the owner-directed green
+proposal at revision 2; owner acceptance creates revision 3; Codex recalls that
+accepted revision. The owner snapshots, restarts on the same port and revokes
+Codex; its actual MCP result is HTTP 401 while Claude still recalls revision 3.
+After lock/restore into a fresh path, old Claude is denied with HTTP 401; a new
+reader credential recalls the same accepted sourced revision. Native API checks
+independently agree. The original Codex auth file's hash remained unchanged.
+
+Actual versions/hashes: Codex CLI 0.153.4,
+`a1cf6360ca71918d5466bc3a32d9f18b7044c9128756d1949e715d277b88c9b6`;
+Claude Code 2.1.220,
+`af5bf1f1b2aadffc768eccd787084c6fdf9ba81624cbe96c1c6d9ac1a1550231`.
+Codex kept the selected gpt-6-astra model; Claude used its default Opus 5 route
+with the existing Anthropic API credential. Only synthetic facts entered model
+context. Claude's own auxiliary-model usage is reported separately by its CLI.
+Eight successful-run user prompts and eleven total M1 prompts were recorded;
+one of the twelve authorized slots remains. No automatic model fallback occurred.
+
+Retained failures: `HOTR-12-78312-1788657202982975600` failed because npm Codex
+does not accept `--strict-config` on `mcp list` (zero prompts). Run
+`HOTR-12-79304-1788657568270048800` reached Codex 0.144.5, which rejected
+gpt-6-astra as needing a newer CLI (one prompt). Run
+`HOTR-12-72056-1788657912042237400` used the already-installed desktop CLI 0.153.4
+successfully; Claude then saw a pending MCP server and no tools (two prompts).
+The final driver disables Claude tool deferral, requests blocking startup and
+queries that same CLI's control protocol until exactly five HOTR tools are ready
+before reserving/sending its user prompt. Positive and missing-credential
+negative preflights were exercised with zero model prompts. The missing
+credential failed closed and left the budget unchanged. All traces remain in
+their original synthetic directories; no failure was overwritten or relabeled.
+
+Format, locked release build/tests, strict Clippy, harness tests, actual encrypted
+backup/restore, ConPTY, HTTP/MCP and separate-account checks passed. At
+2026-09-06T01:34:51.9752450Z a different authenticated Windows account was denied
+directory/database/marker/pipe access with error 5, could not decrypt copied
+DPAPI ciphertext, and received zero application bytes at its false endpoint.
+The owner stayed unlocked with unchanged vault state, then lock exited the key
+holder. The final independent scanner passed 2,883 files across 21 native runs.
+
+Product SHA-256: `af39b4096fee4b3f7a831ac985e55ab42b5f07ac01acb5825c70dea45fa8f774`.
+Runner SHA-256: `b8d77294a4f124aca935a5d22676af4f184c189b9bd402a4f8d23499ed4ba6f5`.
+All 44 normalized source hashes were checked against the final passing manifest;
+staged-source comparison is required before commit. The earlier HOTR-09 load
+measurement remains tied to its own executable; it was not rerun or relabeled.
+
+Preservation closeout: all eight original baseline copies still match their
+manifest hashes. One canonical main checkout, no linked worktrees or duplicate
+dependency trees. Approximately 3.846 GiB of project-generated files are retained
+for ongoing STS and failure evidence; free space was 317.951 GiB. No discretionary
+cleanup, existing-file deletion, user-vault install or active-profile change.
+Publish this passed prompt to public main, verify the exact remote SHA and track
+hosted CI, then continue HOTR-12-LAMPREY and the rest of full STS. The pending
+owner-selected personal-file question remains unanswered; no personal import is
+authorized by a timeout or preselected option.

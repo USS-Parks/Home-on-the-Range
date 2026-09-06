@@ -1,6 +1,7 @@
 # HOTR-11-R1 — create the fresh backup fixture root
 
-Status: local full gate PASS; exact clean hosted closeout pending publication.
+Status: local full gate PASS; exact clean hosted Windows run PASS at
+`cf4fa8ed1373431733e01c9f3faa1229f4e5c9fa`, run 34003325869.
 
 Exact HOTR-11 commit `91c12e2333ea4482cd3cd9a5c621b6f03f12464b` passed its local
 gate but failed hosted run 34002264699. The first library backup test tried to
@@ -27,3 +28,9 @@ interrupted at the separate-account stage before any model prompt. Evidence is
 retained under `work/hotr-evidence/HOTR-12-78964-1788656332064645300/`; this is not a
 passing HOTR-12 gate. Resume its complete gate after the repair's local checks,
 track the prerequisite's hosted result, and do not repeat or discard its work.
+
+Hosted closeout, 2026-09-06T01:31:01Z: the exact commit's clean runner completed
+the native gate successfully. Its manifest reports PASS, `source.dirty=false`,
+and the matching SHA above. Full logs and artifact are retained under
+`work/hotr-evidence/HOTR-11-R1-hosted-34003325869/`. This closes the fresh-fixture
+prerequisite; it does not replace HOTR-12's actual installed-client proof.

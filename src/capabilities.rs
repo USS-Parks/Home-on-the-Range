@@ -75,6 +75,17 @@ pub(crate) enum Command {
         hash: [u8; 32],
         query: crate::retrieval::Search,
     },
+    HybridPrepare {
+        hash: [u8; 32],
+        query: crate::retrieval::Search,
+    },
+    HybridSearch {
+        hash: [u8; 32],
+        query: crate::retrieval::Search,
+        ticket: crate::hybrid_runtime::Ticket,
+        vector: Option<zeroize::Zeroizing<Vec<f32>>>,
+        status: &'static str,
+    },
     List {
         hash: [u8; 32],
         query: crate::retrieval::Page,
@@ -190,6 +201,42 @@ pub(crate) fn execute(
             grant(db, &id, &query.page.namespace)?;
             crate::retrieval::search(db, query)
         }
+        Command::HybridPrepare { hash, query } => {
+            let ticket = hybrid_ticket(db, &hash, &query)?;
+            serde_json::to_value(ticket).map_err(|_| WriteError::PersistenceRejected)
+        }
+        Command::HybridSearch {
+            hash,
+            query,
+            ticket,
+            vector,
+            status,
+        } => {
+            let current = hybrid_ticket(db, &hash, &query)?;
+            if current.client_id != ticket.client_id
+                || current.grant_revision != ticket.grant_revision
+            {
+                return Err(WriteError::Forbidden);
+            }
+            let (vector, status) = if current == ticket {
+                (vector.as_ref().map(|v| v.as_slice()), status)
+            } else {
+                (None, "embedding_changed")
+            };
+            let namespace = query.page.namespace.clone();
+            let result = crate::hybrid::search(db, query, vector, status, deadline, stopped)?;
+            // All service policy mutations share this queue. Check once more at
+            // the return boundary, after ranking and budgeted packing.
+            let (id, _) = identity(db, &hash)?;
+            grant(db, &id, &namespace)?;
+            if stopped.load(std::sync::atomic::Ordering::Acquire) {
+                return Err(WriteError::Stopped);
+            }
+            if std::time::Instant::now() >= deadline {
+                return Err(WriteError::OutcomeUnknown);
+            }
+            Ok(result)
+        }
         Command::List { hash, query } => {
             let (id, _) = identity(db, &hash)?;
             grant(db, &id, &query.namespace)?;
@@ -276,6 +323,22 @@ pub(crate) fn execute(
             .map_err(|_| WriteError::PersistenceRejected)
         }
     }
+}
+
+fn hybrid_ticket(
+    db: &Connection,
+    hash: &[u8; 32],
+    query: &crate::retrieval::Search,
+) -> Result<crate::hybrid_runtime::Ticket, WriteError> {
+    let (id, _) = identity(db, hash)?;
+    grant(db, &id, &query.page.namespace)?;
+    query.page.validate()?;
+    crate::retrieval::literal_query(&query.query)?;
+    Ok(db.query_row(
+        "SELECT c.grant_revision,e.generation,e.port,e.model_digest FROM clients c CROSS JOIN embedding_config e WHERE c.id=?1 AND e.singleton=1",
+        [&id],
+        |row| Ok(crate::hybrid_runtime::Ticket { client_id: id.clone(), grant_revision: row.get(0)?, generation: row.get(1)?, port: row.get(2)?, digest: row.get(3)? }),
+    )?)
 }
 
 fn issue(db: &mut Connection, request: NewClient, port: u16) -> CommandResult {

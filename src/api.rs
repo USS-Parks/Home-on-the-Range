@@ -34,17 +34,23 @@ pub(crate) type SharedWriter = Arc<RwLock<Option<WriterHandle>>>;
 #[derive(Clone)]
 struct ApiState {
     writer: SharedWriter,
+    hybrid: Arc<crate::hybrid_runtime::Runtime>,
     host: String,
     requests: Arc<Semaphore>,
 }
 
-pub(crate) async fn run(listener: TcpListener, writer: SharedWriter) -> io::Result<()> {
+pub(crate) async fn run(
+    listener: TcpListener,
+    writer: SharedWriter,
+    hybrid: Arc<crate::hybrid_runtime::Runtime>,
+) -> io::Result<()> {
     let address = listener.local_addr()?;
     if address.ip() != std::net::IpAddr::V4(Ipv4Addr::LOCALHOST) {
         return Err(io::Error::other("only IPv4 loopback is permitted"));
     }
     let state = ApiState {
         writer,
+        hybrid,
         host: address.to_string(),
         requests: Arc::new(Semaphore::new(MAX_ACTIVE_REQUESTS)),
     };
@@ -210,6 +216,8 @@ async fn dispatch(state: ApiState, request: Request<Body>) -> Response {
             | ("POST", "/v1/records")
             | ("POST", "/v1/records/get")
             | ("POST", "/v1/search")
+            | ("POST", "/v1/search/hybrid")
+            | ("POST", "/v1/context")
             | ("POST", "/v1/records/list")
             | ("POST", "/v1/records/count")
             | ("POST", "/v1/records/history")
@@ -244,6 +252,10 @@ async fn dispatch(state: ApiState, request: Request<Body>) -> Response {
         Err(_) => return error(StatusCode::PAYLOAD_TOO_LARGE, "request_limit"),
     };
     let result = match path.as_str() {
+        "/v1/search/hybrid" | "/v1/context" => match decode(&body) {
+            Ok(query) => state.hybrid.search(&writer, hash, query).await,
+            Err(error) => Err(error),
+        },
         "/v1/search" => match decode(&body) {
             Ok(query) => writer.command(Command::Search { hash, query }).await,
             Err(error) => Err(error),

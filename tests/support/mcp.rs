@@ -184,6 +184,8 @@ async fn actual_mcp_separate_credentials_calls_reconnect_and_denial() {
         std::collections::BTreeSet::from([
             "hotr_health",
             "hotr_search",
+            "hotr_hybrid_search",
+            "hotr_context_pack",
             "hotr_get",
             "hotr_create",
             "hotr_revise"
@@ -324,7 +326,7 @@ async fn actual_mcp_separate_credentials_calls_reconnect_and_denial() {
             .is_none()
     );
     let modern_tools = modern.request("tools/list", json!({"_meta":meta})).await;
-    assert_eq!(modern_tools["result"]["tools"].as_array().unwrap().len(), 5);
+    assert_eq!(modern_tools["result"]["tools"].as_array().unwrap().len(), 7);
     assert!(
         modern
             .tool("hotr_health", json!({}))

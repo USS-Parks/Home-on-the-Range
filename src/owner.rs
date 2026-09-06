@@ -295,9 +295,11 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
     }?;
     listener.set_nonblocking(true)?;
     let shared: crate::api::SharedWriter = std::sync::Arc::new(std::sync::RwLock::new(None));
+    let hybrid = std::sync::Arc::new(crate::hybrid_runtime::Runtime::new());
     let mut http = tokio::spawn(crate::api::run(
         tokio::net::TcpListener::from_std(listener)?,
         shared.clone(),
+        hybrid.clone(),
     ));
     println!(
         "{}",
@@ -364,6 +366,7 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                             }
                         }
                         LOCK if body.len() == 1 => {
+                            hybrid.pause().map_err(io::Error::other)?;
                             *shared
                                 .write()
                                 .map_err(|_| io::Error::other("owner state failed"))? = None;
@@ -404,6 +407,9 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                             let handle = connection.as_ref().unwrap().handle();
                             let reconfigure =
                                 matches!(&command, Ok(AdminRequest::EmbeddingConfigure(_)));
+                            if reconfigure {
+                                hybrid.pause().map_err(io::Error::other)?;
+                            }
                             if reconfigure && let Some(worker) = embedding.take() {
                                 worker.stop().await;
                             }
@@ -412,6 +418,7 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                                 Err(error) => Err(error),
                             };
                             if reconfigure {
+                                hybrid.resume().map_err(io::Error::other)?;
                                 embedding = Some(crate::embedding::Worker::start(handle.clone()));
                             }
                             match result {

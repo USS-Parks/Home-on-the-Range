@@ -4,14 +4,14 @@ use std::io::Read;
 use std::net::{Ipv4Addr, TcpListener};
 use std::os::windows::process::CommandExt;
 
-async fn status(run: &Path) -> Value {
+pub(super) async fn status(run: &Path) -> Value {
     let reply = owner::admin(&run.join("vault"), &AdminRequest::EmbeddingStatus)
         .await
         .unwrap();
     assert!(reply.error.is_none());
     reply.data.unwrap()
 }
-fn configure_cli(run: &Path, port: Option<u16>, generation: u32) -> Value {
+pub(super) fn configure_cli(run: &Path, port: Option<u16>, generation: u32) -> Value {
     let mut command = Command::new(env!("CARGO_BIN_EXE_hotr"));
     command
         .arg("embedding-configure")
@@ -27,7 +27,7 @@ fn configure_cli(run: &Path, port: Option<u16>, generation: u32) -> Value {
     );
     serde_json::from_slice::<Value>(&output.stdout).unwrap()["data"].clone()
 }
-async fn wait_count(run: &Path, key: &str, count: u64, seconds: u64) -> Value {
+pub(super) async fn wait_count(run: &Path, key: &str, count: u64, seconds: u64) -> Value {
     let start = Instant::now();
     loop {
         let value = status(run).await;
@@ -118,9 +118,9 @@ async fn actual_owner_model_down_keeps_writes_and_lexical_available() {
     write_new(&run.join("HOTR-15-model-down.json"),&serde_json::to_vec_pretty(&json!({"result":"PASS","binary_sha256":format!("{:x}",Sha256::digest(fs::read(env!("CARGO_BIN_EXE_hotr")).unwrap())),"writes":2,"lexical_matches":2,"max_attempts_per_revision":3,"retry_exhaustion_persisted":true,"configuration_cas":true})).unwrap());
 }
 
-struct Ollama {
-    child: Child,
-    port: u16,
+pub(super) struct Ollama {
+    pub(super) child: Child,
+    pub(super) port: u16,
 }
 impl Drop for Ollama {
     fn drop(&mut self) {
@@ -131,7 +131,7 @@ impl Drop for Ollama {
     }
 }
 impl Ollama {
-    async fn start(run: &Path) -> Self {
+    pub(super) async fn start(run: &Path) -> Self {
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let models = owner_path(&root.join("work/hotr-models"));
         let manifest = models.join("manifests/registry.ollama.ai/library/nomic-embed-text/v1.5");

@@ -29,7 +29,7 @@ pub struct Page {
 }
 
 impl Page {
-    fn validate(&self) -> Result<(), WriteError> {
+    pub(crate) fn validate(&self) -> Result<(), WriteError> {
         if !schema::valid_identifier(&self.namespace, true)
             || !(1..=50).contains(&self.limit)
             || self.offset > 100_000
@@ -97,7 +97,7 @@ pub(crate) fn reindex(db: &Connection, record: &schema::RecordInput) -> Result<(
     Ok(())
 }
 
-fn literal_query(query: &str) -> Result<String, WriteError> {
+pub(crate) fn literal_query(query: &str) -> Result<String, WriteError> {
     if query.is_empty() || query.len() > 512 || query.contains('\0') {
         return Err(WriteError::InvalidRequest);
     }

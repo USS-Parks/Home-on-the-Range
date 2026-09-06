@@ -12,6 +12,8 @@ The vault service must already be running and unlocked.
 |---|---|---|
 | `hotr_health` | Empty object | Credential-scoped status |
 | `hotr_search` | `Search`: page and literal query | Current authorized FTS |
+| `hotr_hybrid_search` | `Search`: page and query | Current scoped hybrid snippets |
+| `hotr_context_pack` | `Search`: page and query | Same ranking and budgeted context pack |
 | `hotr_get` | Namespace, ID, optional historical revision | Exact current/history read |
 | `hotr_create` | `WriteRequest`, expected revision null | Propose a new record |
 | `hotr_revise` | `WriteRequest`, positive expected revision | Revise permitted proposed state |
@@ -24,7 +26,9 @@ sources is part of the documented writing workflow. Search uses its existing
 complete-response byte and conservative token budgets.
 
 Successful calls return the same JSON as structured content and a JSON text block
-for older clients. Service refusals are MCP tool errors with stable HTTP status
+for older clients. Retrieval budgets cover the service context object; the SDK
+wrapper and compatibility text duplicate add transport bytes outside that budget.
+Applications must account for their own model/tool framing. Service refusals are MCP tool errors with stable HTTP status
 and service error data. Malformed tool arguments and unknown tool names are
 protocol errors. A canceled connection or missing reply does not prove a write
 rolled back: retry the exact original arguments/idempotency key to reconcile.
@@ -108,3 +112,5 @@ Primary references checked for this prompt:
 The reviewed upstream advisories concern HTTP/OAuth/redirect features omitted
 from this stdio bridge. This scoped review does not replace the full locked-tree
 dependency gate.
+
+HOTR-16 adds read-only `hotr_hybrid_search` and `hotr_context_pack`, both accepting the existing search/page shape. They return current source-bearing snippets with full response budgets and explicit model/index status. See [hybrid retrieval](HYBRID-RETRIEVAL.md). The current bridge catalog contains seven tools.

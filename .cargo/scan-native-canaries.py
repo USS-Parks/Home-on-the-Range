@@ -47,8 +47,14 @@ for run in capability_runs:
     assert (run / "SYNTHETIC-ONLY").read_text().startswith("HOTR-07;"), "unowned capability run"
 for canary in ["HOTR-07-synthetic-key-866bc4ad", "HOTR07canary", "HOTR11BackupKey-8bcd49c1-different"]:
     patterns.extend([canary.encode(), canary.encode("utf-16-le")])
+hybrid_runs = sorted((root / "work/hotr-tests").glob("HOTR-16-*"))
+for run in hybrid_runs:
+    assert run.resolve().is_relative_to(root.resolve()), "hybrid test path escaped project"
+    assert (run / "SYNTHETIC-ONLY").read_text().startswith("HOTR-16;"), "unowned hybrid run"
+for canary in ["HOTR-16-synthetic-key-718634", "HOTR16canary"]:
+    patterns.extend([canary.encode(), canary.encode("utf-16-le")])
 overlap = max(map(len, patterns)) - 1
-for directory in [*runs, *owner_runs, *schema_runs, *writer_runs, *capability_runs, root / "work/hotr-build/tmp", root / "work/hotr-evidence"]:
+for directory in [*hybrid_runs, *runs, *owner_runs, *schema_runs, *writer_runs, *capability_runs, root / "work/hotr-build/tmp", root / "work/hotr-evidence"]:
     for path in directory.rglob("*"):
         assert not path.is_symlink(), "refusing symlink in test scan"
         assert path.resolve().is_relative_to(root.resolve()), "scan path escaped project"

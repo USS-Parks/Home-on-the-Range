@@ -1,9 +1,9 @@
 {
-  "prompt": "HOTR-15",
-  "result": "PASS locally, fresh review ship, main published and exact hosted Windows PASS",
-  "gate": "HOTR-15-73280-1788715935249086000",
+  "prompt": "HOTR-16",
+  "result": "PASS locally and fresh independent review ship; publication pending",
+  "gate": "HOTR-16-19596-1788718053792654100",
   "source": {
-    "commit": "d1903b7dbf708d7c9caf919350e0cf2769f1ec8b",
+    "commit": "e2efb97ab86e17967800991459d904ede79d8ab2",
     "dirty": true,
     "native_sha256": {
       "libcrypto.lib": "a732e953ad89e07f8acfd1f656a598105724b3bfb739a4c89984cac10f136199",
@@ -19,8 +19,8 @@
       ".cargo/owner-principal-probe.ps1": "a9ec2c5a2c9837d8ee5192b4fcf28d1751ce315e2f34086fbac49cd51eef3b2f",
       ".cargo/prepare-embedding.ps1": "b751aa98c2e39e9952d15e526a64b7e4071decc39c3edfeacf078535c08a483c",
       ".cargo/prepare-native.ps1": "ab3de675afb46fc59d577d514ce4195d1bbbe45a44f9e91d23cf90887a9bde5a",
-      ".cargo/scan-native-canaries.py": "8dff07cba84fd25ec32fd432a35857ca473e5500dbf2b55ce1d32d35b15722f8",
-      ".cargo/verify-installed-clients.ps1": "d547c702ce8c3774a24d9317ee325dc81342b95dd9b7a6526464f15b34053d06",
+      ".cargo/scan-native-canaries.py": "238edac71c5da29567b8ee76ccbd93d0ba26f02bbe9d028373089b8c929bc696",
+      ".cargo/verify-installed-clients.ps1": "cb3a8bebc46b436dd274cc85d5594dd8d6c76ddfee3357d74fa71416c0a24f2a",
       ".github/workflows/windows-native.yml": "ab05c4953039226d06914e96a66c4a5b8301750df700602cb18154ff70a610d6",
       "Cargo.lock": "2909ba4442f8a7e322eceabef486f8a29c553f6a20691f5843fa9ee3fb351ae4",
       "Cargo.toml": "4a36c39faf40606286008fbb62cf6f7d63beb48015c58269162e114d22f78abf",
@@ -34,20 +34,22 @@
       "integrations/clients/live_cli.py": "8971f6e57f4516b4beba0c124b0cfb498275c7a31bd6c1234e4be0bff1f2157d",
       "integrations/clients/prompt_budget.cjs": "498a8e05b892c1c0a557ffc698dcbc7f43d353cef37cb4a91ef8cda0d6840ea6",
       "integrations/clients/prompt_budget.test.cjs": "248e7ca43097be2e25aa417a9c126b75c4f43bf1f07281845100f62115703b8f",
-      "src/api.rs": "c6ba7da0451269a04e38574ebeb1e24fe61e581d6c21b9a44ba3300c6e83a7ae",
+      "src/api.rs": "981215cb507e7b24d11256438980a98fd562bb3ce2d2ac8b26ad0cc67bce7971",
       "src/backup.rs": "4b281e24c0049acd18ccec94d83038a2e57277c68246b21860df592b4137bae7",
-      "src/capabilities.rs": "2a003ed42e824c57be088fab2159b79dcbda3b5ff04be327da7bf56df137f264",
+      "src/capabilities.rs": "ec17722fba915831e7598a4188bf5d11991c820b2239cc347e5c577d84c3ef20",
       "src/credentials.rs": "ace05a2480c5de41a3b8ff5ce4afec26014c06fe4579bca08490dfc932a57b4d",
       "src/embedding.rs": "4183b23bcce742c0d78a51e9443a9911fe92d2732e80fe18032c858f64bdc90f",
       "src/embedding_tests.rs": "819c5684b7e1cf1f0647d6ac0f554e516848d4836910840019941cfbd013e18f",
       "src/embedding_transport.rs": "112287e47601aa21bd4904751e0305c3eecd2b697cd374fced12c4181536efd9",
+      "src/hybrid.rs": "410bdcfd7157bb02fb9ada858c9f72a2e01f4b2df3202d369dc484e26eead72f",
+      "src/hybrid_runtime.rs": "58a29382ac27bd34b1d29123e73e333dd41af619a78674e49c53e762daa50ae1",
       "src/imports.rs": "c701b00559044f3fb8a4ecaed5357c089ca1c46620052870f13f8a67f7bdea7c",
-      "src/lib.rs": "8ca82596c59c51f2d3a662a8cfabacc200bc4a9d199246ee201106cbad4714ed",
+      "src/lib.rs": "d7fdec521f112c0935b05d03e7a41a1fd1dcb1f847f8b29216d9aa76690d2ce1",
       "src/lifecycle.rs": "280fdc99d92509c4aadc77ef4008c5d74a6aa78548853e4b5f40dcaa41ff87b4",
       "src/main.rs": "37fda35c7b4a90917cc9c8c9430ca55dee1bb3044494d28067e1a41ddc98e6f0",
-      "src/mcp.rs": "04a454be7d12321ec7baa61d94c17ede1b7ddbfd2eb12a73f18f9ad0ab3e559b",
-      "src/owner.rs": "b0a9d928fbdabbfcbd0c7892c05c50cdc95c049430e7f1fbd5b0fb0569e410bc",
-      "src/retrieval.rs": "afd385fb35f72ade2c3b93c82a2970f67f2536ed184554814ae54d8ad028735f",
+      "src/mcp.rs": "2d1393dce6694c666ff124a93ffac1e34310cb16422cb5c6e56f17c93bc7b289",
+      "src/owner.rs": "64bb6aea14da3e50c2c9f9be5e7a62345bcde1ac7f418e1fef62697ea938b517",
+      "src/retrieval.rs": "fac183beded91f52566b38f54868da0491c493bab781713fa54a3de876c4c0bc",
       "src/schema.rs": "57c4dcaf67c78de066dce6ab65829703950cb0a8f5aed7bafc8225a06f3064db",
       "src/schema_v1.sql": "62c7da764a66eb81be3324eb741c660a7c56598f80d4b59de011f7eac5ab431e",
       "src/schema_v2.sql": "41550b33bb043a9a4016de80af6d25c99fb390ab955a7b677c5467dc1b14bc6c",
@@ -60,45 +62,48 @@
       "src/windows_security.rs": "e54b657ac4d027383a9c054cc2cdde3a54e83e5cab7b4b1eb0786d544d961b7d",
       "src/writer.rs": "a18de4f3e902d88091a698938eaaedad237f6bc823f252827dadad74394f93b2",
       "src/writer_tests.rs": "3110c258116bbee7247b659dec2afb977ccaaca3e1be0d3374749ed59c450137",
-      "tests/api_capabilities.rs": "22cd182c05d0635754d2042eac685eff7834ae0dd591c306fa57de315478c62c",
+      "tests/api_capabilities.rs": "0bb066c9218c78673fafdc8fb242c5daa55ca65b4f5a05d74780a77673a1ec17",
       "tests/encryption.rs": "d98035a8ecde9fadd18d02c5cbe99e779ab755aa2eb73359616b93f3eef70fc8",
       "tests/owner_lifecycle.rs": "8f845175c183a0775d98b5fdecf5a77b6e32d331bc9a6359fb99a33ca4e7a6c8",
       "tests/schema.rs": "4dc8e6c217560def4faf0d73f2a79e05c686743c2cbffa82bc5cc30ec248ec0b",
       "tests/support/apps.rs": "b69bd096e1685c0c548b8f8b400c07fa37346f1372e9762ac51ff7938f8c0bb3",
       "tests/support/backup.rs": "d269fedf8e69fc6d5b517b8aa0cfb4153b1ade692b15baa7c72f70b78125ec59",
-      "tests/support/embedding.rs": "bc5d224133214ccd2649f7cca2688369254396173c0b899ad7acb9bbfde124a3",
+      "tests/support/embedding.rs": "59a8cde32a012c1c896a89f89dd685c91c3e755643750a6a1d848bfebb74112d",
       "tests/support/hermes.rs": "19bd4fbdc6f16ea9922a21e3b703dcf63fd1492574eb12800c7fbb5bf338e705",
+      "tests/support/hybrid.rs": "3418eae9850fb08f0ceec1d58039157e4c5797c0ff930ecf2cb562db333fb007",
+      "tests/support/hybrid_boundary.rs": "ab30dd1414c4828f640c3113624dcd9292d064388de3277f13044afa1a54df07",
+      "tests/support/hybrid_model.rs": "0aafd635f0cf22b723e04594a53afec3870af02754c489b61fcab4d59c31245c",
       "tests/support/imports.rs": "f806147c26cbf06804b4f3ea2bc7aeefbeff55580d190f73bc7316eaa2c1096e",
       "tests/support/lamprey.rs": "8198498e5a9571c4eb1d35712bd01d528f29efc04817b7d1bed753cd7722f912",
       "tests/support/lifecycle.rs": "5333ff68595cf29c7c741d1dffc2362bfb3132113fd3a2dd817a670fe22825c2",
-      "tests/support/mcp.rs": "02836788b7d85563dec0dfa18d2215cce7afa3b10c9940699c182331127a8ea9",
+      "tests/support/mcp.rs": "14fe3270043170ea29e9c8cb6ecd06851842047a79af8b169f9de229efe7ac1f",
       "xtask/Cargo.lock": "fbd9aa7678363510fe593cb108cabdad3d12f078de7302a8a4023d78d928e928",
       "xtask/Cargo.toml": "3c56553b6e2443c28c659f1f1b18df36eb583475202ebebe0b5706fc49f9f357",
       "xtask/native-builder/Cargo.lock": "11e14128caf3dec373927ad5bcb771867856a89d5a6a6752514e22abf4c97bda",
       "xtask/native-builder/Cargo.toml": "aa88450cffdc47d430df5037dbd76f8e6b996ac2bdb57deb3c2910e95181d526",
       "xtask/native-builder/build.rs": "c6796b1671edf06c696968ed256dbe85c9f5e6c18fc0cae9d698bfb10919c9fd",
       "xtask/native-builder/src/main.rs": "da1d383a162e3a5a00c73b6e9f26bca9cecc4a9f00051fe0c2d4f72cddd5c6ee",
-      "xtask/src/lib.rs": "0b863e602feab57e3ccea71730530e6ac49b6b9d131df149f02199afa22456e9",
+      "xtask/src/lib.rs": "a53c5ae589f1d2156d5a95645a42bfc7e32bac22e0c8397a8f1dcc58ea82bb03",
       "xtask/src/limits.rs": "05e13bcd50b103ac0daf28982aa4633395f9296aa7abe582ceb1e14f66458eb8",
-      "xtask/src/main.rs": "118ce42918d26c5808024171ab0f029083488de88c80d3f3dd6e5f2ccd4a2ae6",
+      "xtask/src/main.rs": "2904b0f94b9d672d4014d8925cf4f434103fe4287174d7c55292f3014081c047",
       "xtask/tests/contracts.rs": "abe81a6e82e90477165df2b16c2aef22fc378311fe05667b6121311791157fa4"
     }
   },
-  "product_sha256": "d231621e5657b14f3cd2aa207a9bc6286a81db314a293d0e15756eff15c6bcd8",
-  "runner_sha256": "437916df872c6147182b3da45fcf5a11f91e99f90435a718e6a1c3e4d63f0847",
+  "product_sha256": "c5de23315bbf1b0afe3091d9c15c2599b52663272bd21d19c24b34745228c8b0",
+  "runner_sha256": "b2d1bf1a1a51691e7d16d23a70214049ef6c11a917234090750d6b93d5000d44",
   "commands": [
     {
       "arguments": [
         "fmt",
         "--check"
       ],
-      "elapsed_ms": 755,
+      "elapsed_ms": 693,
       "executable": "cargo.exe",
       "exit_code": 0,
       "failure": null,
       "label": "format",
       "log_bytes": 0,
-      "pid": 85964,
+      "pid": 86852,
       "stored_log_bytes": 18
     },
     {
@@ -107,13 +112,13 @@
         "--release",
         "--locked"
       ],
-      "elapsed_ms": 42843,
+      "elapsed_ms": 25024,
       "executable": "cargo.exe",
       "exit_code": 0,
       "failure": null,
       "label": "build",
       "log_bytes": 152,
-      "pid": 86044,
+      "pid": 90376,
       "stored_log_bytes": 169
     },
     {
@@ -126,13 +131,13 @@
         "-D",
         "warnings"
       ],
-      "elapsed_ms": 630,
+      "elapsed_ms": 669,
       "executable": "cargo.exe",
       "exit_code": 0,
       "failure": null,
       "label": "clippy",
       "log_bytes": 62,
-      "pid": 88072,
+      "pid": 90968,
       "stored_log_bytes": 79
     },
     {
@@ -143,14 +148,14 @@
         "--",
         "--test-threads=1"
       ],
-      "elapsed_ms": 202354,
+      "elapsed_ms": 141643,
       "executable": "cargo.exe",
       "exit_code": 0,
       "failure": null,
       "label": "tests",
-      "log_bytes": 6233,
-      "pid": 87840,
-      "stored_log_bytes": 6249
+      "log_bytes": 6812,
+      "pid": 68128,
+      "stored_log_bytes": 6828
     },
     {
       "arguments": [
@@ -159,13 +164,13 @@
         "xtask/Cargo.toml",
         "--check"
       ],
-      "elapsed_ms": 180,
+      "elapsed_ms": 223,
       "executable": "cargo.exe",
       "exit_code": 0,
       "failure": null,
       "label": "harness-format",
       "log_bytes": 0,
-      "pid": 79268,
+      "pid": 92012,
       "stored_log_bytes": 18
     },
     {
@@ -180,13 +185,13 @@
         "-D",
         "warnings"
       ],
-      "elapsed_ms": 780,
+      "elapsed_ms": 759,
       "executable": "cargo.exe",
       "exit_code": 0,
       "failure": null,
       "label": "harness-clippy",
       "log_bytes": 150,
-      "pid": 79324,
+      "pid": 86364,
       "stored_log_bytes": 167
     },
     {
@@ -200,13 +205,13 @@
         "--",
         "--test-threads=1"
       ],
-      "elapsed_ms": 1162,
+      "elapsed_ms": 1184,
       "executable": "cargo.exe",
       "exit_code": 0,
       "failure": null,
       "label": "harness-tests",
       "log_bytes": 814,
-      "pid": 83176,
+      "pid": 62532,
       "stored_log_bytes": 830
     },
     {
@@ -221,14 +226,35 @@
         "--ignored",
         "--test-threads=1"
       ],
-      "elapsed_ms": 19095,
+      "elapsed_ms": 10380,
       "executable": "cargo.exe",
       "exit_code": 0,
       "failure": null,
       "label": "local-embedding",
-      "log_bytes": 354,
-      "pid": 83288,
-      "stored_log_bytes": 370
+      "log_bytes": 353,
+      "pid": 80008,
+      "stored_log_bytes": 369
+    },
+    {
+      "arguments": [
+        "test",
+        "--release",
+        "--locked",
+        "--test",
+        "api_capabilities",
+        "hotr16_actual_pinned_ollama_hybrid",
+        "--",
+        "--ignored",
+        "--test-threads=1"
+      ],
+      "elapsed_ms": 7772,
+      "executable": "cargo.exe",
+      "exit_code": 0,
+      "failure": null,
+      "label": "local-hybrid",
+      "log_bytes": 351,
+      "pid": 91932,
+      "stored_log_bytes": 367
     },
     {
       "arguments": [
@@ -236,150 +262,160 @@
         "-B",
         ".cargo/scan-native-canaries.py"
       ],
-      "elapsed_ms": 33048,
+      "elapsed_ms": 34544,
       "executable": "python",
       "exit_code": 0,
       "failure": null,
       "label": "canary-scan",
       "log_bytes": 122,
-      "pid": 65864,
+      "pid": 86468,
       "stored_log_bytes": 138
     }
   ],
-  "ordinary_product_tests_passed": 41,
+  "ordinary_product_tests_passed": 46,
   "runner_tests_passed": 6,
-  "actual_local_model_tests_passed": 1,
-  "canary_scan_files": 6250,
+  "actual_local_model_tests_passed": 2,
+  "canary_scan_files": 7093,
   "proofs": [
     {
-      "fixture": "HOTR-07-69784-1788716189508803100/HOTR-15-local-embedding.json",
-      "binary_sha256": "d231621e5657b14f3cd2aa207a9bc6286a81db314a293d0e15756eff15c6bcd8",
+      "fixture": "HOTR-07-65048-1788718161359671000/HOTR-16-hybrid.json",
+      "binary_sha256": "c5de23315bbf1b0afe3091d9c15c2599b52663272bd21d19c24b34745228c8b0",
+      "current_correction_revision": 2,
+      "disabled_lexical_mode": true,
+      "http_and_mcp_contract": true,
+      "live_revocation": true,
+      "prompt": "HOTR-16",
+      "real_mcp_processes": 2,
+      "real_service": true,
+      "response_budgeted": true,
+      "result": "PASS",
+      "superseded_excluded": true,
+      "unicode_and_source_preserved": true
+    },
+    {
+      "fixture": "HOTR-07-65048-1788718162555628100/HOTR-16-query-boundary.json",
+      "actual_model_claimed": false,
+      "binary_sha256": "c5de23315bbf1b0afe3091d9c15c2599b52663272bd21d19c24b34745228c8b0",
+      "busy_degraded_reason": "embedding_busy",
+      "cache_first_query_requests": 4,
+      "cache_restored_new_grant_revision_requests": 4,
+      "cache_same_client_repeat_requests": 0,
+      "cache_scope_withdrawal_requests": 0,
+      "cache_second_client_requests": 4,
+      "dimensions": 768,
+      "owner_disable_closed_inflight_socket": true,
+      "owner_disable_degraded_reason": "embedding_changed",
+      "pinned_model_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+      "prompt": "HOTR-16",
+      "query_runtime_budget_ms": 1500,
+      "raw_queries_or_tokens_recorded": false,
+      "real_service_processes": 5,
+      "result": "PASS",
+      "revocation_inflight_final_unauthorized": true,
+      "synthetic_loopback_adapter": true,
+      "timeout_degraded_reason": "embedding_timeout",
+      "unauthorized_adapter_requests": 0
+    },
+    {
+      "fixture": "HOTR-07-62520-1788718240373901100/HOTR-16-local-hybrid.json",
+      "actual_mcp_processes": 2,
+      "authorized_namespace_records": 2,
+      "binary_sha256": "c5de23315bbf1b0afe3091d9c15c2599b52663272bd21d19c24b34745228c8b0",
+      "corrected_revision_both_clients": true,
+      "cross_namespace_denied": true,
+      "dimensions": 768,
+      "disabled_explicitly_lexical": true,
+      "http_hybrid": true,
+      "indexed_records": 3,
+      "mcp_context_pack": true,
+      "mcp_hybrid": true,
+      "model_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+      "observed_peer": "127.0.0.1:57454",
+      "ollama_version": "0.32.6",
+      "owned_ollama_pid": 90716,
+      "quality_gate": "HOTR-17 remains separate",
+      "result": "PASS",
+      "source_preserved": true
+    },
+    {
+      "fixture": "HOTR-07-71264-1788718229464383200/HOTR-15-local-embedding.json",
+      "binary_sha256": "c5de23315bbf1b0afe3091d9c15c2599b52663272bd21d19c24b34745228c8b0",
       "dimensions": 768,
       "indexed_records": 2,
       "model": "nomic-embed-text:v1.5",
       "model_blobs_verified": true,
       "model_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
-      "observed_peer": "127.0.0.1:60449",
+      "observed_peer": "127.0.0.1:62017",
       "ollama_version": "0.32.6",
-      "owned_ollama_pid": 85504,
+      "owned_ollama_pid": 65740,
       "project_model_cache": true,
       "restart_did_not_reindex": true,
       "restored_indexing_disabled": true,
       "result": "PASS",
       "revision_replaced": true
-    },
-    {
-      "fixture": "HOTR-07-77232-1788716128713823900/HOTR-15-model-down.json",
-      "binary_sha256": "d231621e5657b14f3cd2aa207a9bc6286a81db314a293d0e15756eff15c6bcd8",
-      "configuration_cas": true,
-      "lexical_matches": 2,
-      "max_attempts_per_revision": 3,
-      "result": "PASS",
-      "retry_exhaustion_persisted": true,
-      "writes": 2
-    },
-    {
-      "fixture": "HOTR-07-77232-1788716127480158800/HOTR-15-cancel.json",
-      "result": "PASS",
-      "actual_owner_disable": true,
-      "inflight_connection_closed": true,
-      "no_post_disable_request": true
     }
   ],
-  "model": {
-    "schema": 1,
-    "model": "nomic-embed-text:v1.5",
-    "registry": "https://registry.ollama.ai/v2/library/nomic-embed-text/manifests/v1.5",
-    "manifest_sha256": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
-    "expected_model_blob": {
-      "digest": "sha256:970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6",
-      "sha256": "970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6",
-      "bytes": 274290656
-    },
-    "dimensions": 768,
-    "license": "Apache-2.0",
-    "max_model_bytes": 1073741824,
-    "provenance": {
-      "model_page": "https://ollama.com/library/nomic-embed-text:v1.5",
-      "upstream_model": "https://huggingface.co/nomic-ai/nomic-embed-text-v1.5",
-      "embedding_api": "https://docs.ollama.com/api/embed",
-      "observed_ollama_version": "0.32.6",
-      "prepared_at": "2026-09-06"
-    },
-    "installer": {
-      "script": ".cargo/prepare-embedding.ps1",
-      "requires_explicit_install_switch": true,
-      "project_cache": "work/hotr-models",
-      "ollama_layout": {
-        "manifest": "manifests/registry.ollama.ai/library/nomic-embed-text/v1.5",
-        "blobs": "blobs/sha256-<digest>"
-      },
-      "never_mutates": [
-        "user Ollama profiles",
-        "existing Ollama caches",
-        "global Ollama configuration"
-      ]
-    }
-  },
+  "post_inference_model_hashes": "PASS: pinned manifest and all four blobs unchanged",
   "failed_runs_retained": [
     {
-      "gate": "HOTR-15-89960-1788715685189808700",
-      "result": "FAIL",
-      "failure": "gate command failed: clippy"
+      "gate": "preflight before manifest",
+      "failure": "unregistered prompt refused; added HOTR-16 resource guard registration"
     },
     {
-      "gate": "HOTR-15-67376-1788715812219533300",
-      "result": "FAIL",
-      "failure": "gate command failed: clippy"
+      "gate": "HOTR-16-68880-1788717552873702400",
+      "failure": "stale five-tool count and positional schema assertion"
+    },
+    {
+      "gate": "HOTR-16-82292-1788717755802758100",
+      "failure": "independent verifier crate formatting; all 46 product tests passed"
     }
   ],
   "orchestration": {
     "parent": {
-      "requested_model": null,
       "observed_model": null,
       "observed_effort": null,
-      "reason": "Exact parent execution settings are not exposed"
+      "reason": "Exact parent settings not exposed"
     },
     "tasks": [
       {
-        "name": "/root/hotr15_model_setup",
-        "requested_model": "gpt-5.6-terra",
-        "requested_effort": "high",
-        "scope": "Pinned model installer and provenance",
-        "status": "completed",
-        "observed_model": null,
-        "observed_effort": null,
-        "observation_source": "Native collaboration identity/status events; execution settings and token telemetry not exposed"
-      },
-      {
-        "name": "/root/hotr15_transport",
+        "name": "/root/hotr16_ranking",
         "requested_model": "gpt-5.6-sol",
         "requested_effort": "high",
-        "scope": "Bounded numeric-loopback adapter and response validation",
-        "status": "completed",
         "observed_model": null,
         "observed_effort": null,
-        "observation_source": "Native collaboration identity/status events; execution settings and token telemetry not exposed"
+        "status": "completed",
+        "scope": "Scoped ranking and packing",
+        "observation_source": "Native identity/status only; requested execution settings are not runtime confirmation"
       },
       {
-        "name": "/root/hotr15_index_tests",
+        "name": "/root/hotr16_live_tests",
         "requested_model": "gpt-5.6-terra",
         "requested_effort": "high",
-        "scope": "Encrypted index races and durable retry tests",
-        "status": "completed",
         "observed_model": null,
         "observed_effort": null,
-        "observation_source": "Native collaboration identity/status events; execution settings and token telemetry not exposed"
+        "status": "completed",
+        "scope": "Actual service and two-bridge contract",
+        "observation_source": "Native identity/status only; requested execution settings are not runtime confirmation"
       },
       {
-        "name": "/root/hotr15_review",
+        "name": "/root/hotr16_query_boundary",
         "requested_model": "gpt-5.6-sol",
         "requested_effort": "high",
+        "observed_model": null,
+        "observed_effort": null,
+        "status": "completed",
+        "scope": "Actual service cache and cancellation boundaries",
+        "observation_source": "Native identity/status only; requested execution settings are not runtime confirmation"
+      },
+      {
+        "name": "/root/hotr16_review",
+        "requested_model": "gpt-5.6-sol",
+        "requested_effort": "high",
+        "observed_model": null,
+        "observed_effort": null,
+        "status": "completed",
         "scope": "Fresh read-only final review after parent verification",
-        "status": "completed",
-        "observed_model": null,
-        "observed_effort": null,
-        "observation_source": "Native collaboration identity/status events; execution settings and token telemetry not exposed"
+        "observation_source": "Native identity/status and final ship receipt; execution settings and tokens unobservable"
       }
     ],
     "cost_receipt": {
@@ -387,71 +423,33 @@
       "status": "unavailable",
       "total_usd": null,
       "savings_usd": null,
-      "reason": "No per-call parent or subagent input, cached-input, or output token telemetry is exposed. No cost or savings estimate is supported."
+      "reason": "No per-call parent or native subagent token telemetry is exposed; no cost or savings estimate is supported"
     }
   },
   "preservation": {
     "baseline_copies": 8,
-    "source_files_verified": 71,
+    "source_files_verified": 76,
     "worktrees": 1,
     "linked_worktrees": 0,
-    "generated_bytes": 5580787832,
-    "free_bytes": 297781182464,
-    "retention": "Native cache reuse, pinned project model, and synthetic verification evidence; no deletion authorized"
+    "generated_bytes": 5874656347,
+    "free_bytes": 288635424768,
+    "retention": "Native build cache, pinned project model and synthetic evidence; no deletion authorized"
   },
   "remaining": [
-    "HOTR-16 hybrid retrieval and later quality, stress, soak and packaging gates",
-    "Owner-deferred compatibility/Lamprey scope remains separate"
+    "Main publication and exact published-head hosted verification",
+    "Exact published-head hosted CI",
+    "HOTR-17 held-out retrieval evaluation; later viewer, security, stress, soak and packaging gates",
+    "Owner-deferred compatibility and Lamprey scope"
   ],
-  "post_inference_cache_check": {
-    "result": "PASS",
-    "post_inference_model_files": 5,
-    "expected_files_only": true,
-    "manifest_and_blob_hashes_unchanged": true,
-    "blobs": [
-      {
-        "digest": "sha256:31df23ea7daa448f9ccdbbcecce6c14689c8552222b80defd3830707c0139d4f",
-        "bytes": 420
-      },
-      {
-        "digest": "sha256:970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6",
-        "bytes": 274290656
-      },
-      {
-        "digest": "sha256:c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
-        "bytes": 11357
-      },
-      {
-        "digest": "sha256:ce4a164fc04605703b485251fe9f1a181688ba0eb6badb80cc6335c0de17ca0d",
-        "bytes": 17
-      }
-    ]
-  },
   "review": {
     "verdict": "ship",
-    "reviewer": "/root/hotr15_review",
-    "source_files_independently_matched": 71,
+    "reviewer": "/root/hotr16_review",
+    "source_files_independently_matched": 76,
     "blocking_findings": [],
-    "nonblocking_findings": [
-      {
-        "severity": "P3",
-        "issue": "Stale HOTR-13/HOTR-15 pending documentation statements",
-        "resolution": "Corrected status text and distinguished model task prefixes from MCP tools; documentation only"
-      }
+    "read_only": "Read-only commands performed; enforced isolation unobservable",
+    "clarifications": [
+      "Budgets cover service context object; MCP framing and compatibility-text duplication are additional transport overhead"
     ],
-    "read_only": "Instructed and reported read-only; enforced reviewer isolation not observable",
-    "residuals": [
-      "Exact published-head hosted CI pending",
-      "Hybrid retrieval and held-out quality belong to HOTR-16/17",
-      "Same-Windows-user local-server impersonation boundary"
-    ]
-  },
-  "publication": {
-    "implementation_commit": "3f6b232af870244c27bb798d05852895cbd5d4d7",
-    "branch": "main",
-    "hosted_verification": "PASS",
-    "published_head": "e2efb97ab86e17967800991459d904ede79d8ab2",
-    "hosted_run": 34049617780,
-    "hosted_url": "https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34049617780"
+    "verification_note": "Initial reviewer hash discrepancy was a double-escaped normalization expression; corrected actual-CRLF normalization matched all 76 source hashes. No source drift occurred."
   }
 }

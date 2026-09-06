@@ -68,6 +68,7 @@ fn execute() -> io::Result<()> {
                     | "HOTR-13"
                     | "HOTR-14"
                     | "HOTR-15"
+                    | "HOTR-16"
                     | "HOTR-04-R2"
             ))
     {
@@ -323,7 +324,7 @@ fn execute() -> io::Result<()> {
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["prototype-load"])?;
         }
-        if prompt == "HOTR-15" {
+        if matches!(prompt, "HOTR-15" | "HOTR-16") {
             let inference = run(
                 &guard,
                 &directory,
@@ -346,6 +347,30 @@ fn execute() -> io::Result<()> {
             outcomes.push(inference);
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["local-embedding"])?;
+        }
+        if prompt == "HOTR-16" {
+            let hybrid = run(
+                &guard,
+                &directory,
+                "local-hybrid",
+                &cargo,
+                &[
+                    "test",
+                    "--release",
+                    "--locked",
+                    "--test",
+                    "api_capabilities",
+                    "hotr16_actual_pinned_ollama_hybrid",
+                    "--",
+                    "--ignored",
+                    "--test-threads=1",
+                ],
+                Duration::from_secs(360),
+            )?;
+            let pass = hybrid.ensure_pass();
+            outcomes.push(hybrid);
+            pass?;
+            hotr_xtask::ensure_required(&outcomes, &["local-hybrid"])?;
         }
         let scan = run(
             &guard,

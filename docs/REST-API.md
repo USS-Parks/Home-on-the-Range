@@ -90,3 +90,5 @@ HOTR-09 adds search/list/count/history with context budgets; see RETRIEVAL.md.
 MCP, backups, named app integrations, semantic retrieval, packaging, and
 non-Windows support are later PSPR gates. This API does not automatically attach
 itself to existing applications or authorize private-context provider calls.
+
+HOTR-16 adds `POST /v1/search/hybrid` and `POST /v1/context`, using the existing search request and per-client authorization. Both produce the same budgeted snippet contract; see [hybrid retrieval](HYBRID-RETRIEVAL.md).

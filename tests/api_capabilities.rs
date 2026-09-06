@@ -48,6 +48,12 @@ mod owner_imports;
 #[path = "support/lifecycle.rs"]
 mod owner_lifecycle;
 
+#[path = "support/hybrid.rs"]
+mod hybrid;
+#[path = "support/hybrid_boundary.rs"]
+mod hybrid_boundary;
+#[path = "support/hybrid_model.rs"]
+mod hybrid_model;
 #[path = "support/embedding.rs"]
 mod local_embedding;
 

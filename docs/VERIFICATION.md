@@ -1,6 +1,6 @@
 # Verification ledger
 
-Current execution: HOTR-14 passed its full local gate, independent review, main publication and exact hosted Windows run `34048039160` at `d1903b7dbf708d7c9caf919350e0cf2769f1ec8b`. HOTR-15 local semantic indexing is in progress. Remaining HOTR-12 compatibility and further Lamprey/plugin work stay deferred by the owner.
+Current execution: HOTR-14 passed its full local gate, independent review, main publication and exact hosted Windows run `34048039160` at `d1903b7dbf708d7c9caf919350e0cf2769f1ec8b`. HOTR-15 local semantic indexing passed its local gate and independent review and is published at `e2efb97ab86e17967800991459d904ede79d8ab2`; exact hosted [Windows run `34049617780`](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34049617780) passed. HOTR-16 passed its full local gate; fresh independent review returned ship; publication is pending. Remaining HOTR-12 compatibility and further Lamprey/plugin work stay deferred by the owner.
 
 HOTR-01–12 local gates have passed, including the actual Codex CLI and Claude Code shared-memory workflow. Installed Lamprey acceptance is published with exact Windows CI PASS. HOTR-12A's final Hermes and common gates passed, including the HOTR-12A-R1 monitor repair. These results accept the tested isolated-profile workflows; everyday installation, the remaining compatibility roster, semantic retrieval and later STS gates remain open. Hosted evidence is tracked separately.
 
@@ -25,8 +25,8 @@ HOTR-01–12 local gates have passed, including the actual Codex CLI and Claude 
 | M1 / HOTR-01–12 | Actual encrypted Windows service, scoped access, keyword retrieval, two real clients, restored encrypted backup | Local prototype gates PASS; [demonstration and scope limits](M1-DEMO.md); exact main publication closeout follows |
 | HOTR-12-LAMPREY | Actual Lamprey memory flow, model switch, cancellation/recovery, restart and denial | PASS locally and on exact Windows run 34017610460 at `344b7a0a1ae37efe18ca19ca8b768d85e0b2788b` |
 | HOTR-12A / HOTR-12A-R1 | Actual Hermes native MCP flow and nonblocking resource-monitor repair | Final local common/app gates PASS; [source-bound evidence](evidence/HOTR-12A-clients.json), [actual tool results](evidence/HOTR-12A-application.json); exact publication/hosted closeout follows |
-| HOTR-12B–12K | Remaining individual applications, provider/runtime routes and cross-client consistency | Next approved work; not established by the four completed app proofs |
-| M2 / HOTR-13–18 | Selected imports, correction consistency, local embeddings, hybrid retrieval evaluation, management UI | Not started |
+| HOTR-12B–12K | Remaining individual applications, provider/runtime routes and cross-client consistency | Deferred by the owner; not established by the four completed app proofs |
+| M2 / HOTR-13–18 | Selected imports, correction consistency, local embeddings, hybrid retrieval evaluation, management UI | HOTR-13–15 local gates passed; HOTR-16 local gate passed; publication and HOTR-17–18 pending |
 | M3 / HOTR-19–22 | Auditing, key rotation, Windows lifecycle, controlled daily-use comparison | Not started |
 | M4 / HOTR-23–32 | Security, malformed inputs, races, crashes, storage faults, model faults, scale, soak, dependency review, repairs | Not started |
 | M5 / HOTR-33–36 | Packaging, clean installation, hosted builds, deployability decision | Not started |
@@ -140,3 +140,6 @@ Fresh independent HOTR-15 review `/root/hotr15_review` returned `ship`, matching
 
 
 HOTR-15 implementation commit `3f6b232af870244c27bb798d05852895cbd5d4d7` records the source verified by `HOTR-15-73280-1788715935249086000` and accepted by the fresh `ship` review. This documentation-only closeout records that SHA; runtime sources are unchanged. Authorized non-force publication to main and exact hosted verification are tracked separately. HOTR-16 is the next approved prompt.
+
+
+HOTR-16 final local gate `HOTR-16-19596-1788718053792654100` PASS: 46 product tests, six verifier tests, two actual installed-Ollama fixtures and a 7,093-file plaintext canary scan. All 76 source hashes match; product SHA-256 `c5de23315bbf1b0afe3091d9c15c2599b52663272bd21d19c24b34745228c8b0`, runner SHA-256 `b2d1bf1a1a51691e7d16d23a70214049ef6c11a917234090750d6b93d5000d44`. [Source-bound hybrid evidence](evidence/HOTR-16.json) separates real HTTP/MCP/model proof from controlled adapter race fixtures. Fresh independent review, main publication, exact hosted verification and HOTR-17 quality remain pending.

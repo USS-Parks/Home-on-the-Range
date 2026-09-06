@@ -6,6 +6,8 @@ pub mod capabilities;
 pub mod credentials;
 pub mod embedding;
 pub mod embedding_transport;
+mod hybrid;
+mod hybrid_runtime;
 pub mod imports;
 pub mod lifecycle;
 pub mod mcp;

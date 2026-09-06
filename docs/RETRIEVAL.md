@@ -131,3 +131,5 @@ show occasional longer stalls. These measurements establish this prototype
 workload only, not the later 100k-record or four-hour soak requirements.
 See the [complete numerical result](evidence/HOTR-09-prototype-load.json) and
 [source/binary gate manifest](evidence/HOTR-09-retrieval.json).
+
+For local semantic ranking, source-bearing snippets, and context packs, see [HOTR-16 hybrid retrieval](HYBRID-RETRIEVAL.md). The original keyword endpoint retains the behavior above.

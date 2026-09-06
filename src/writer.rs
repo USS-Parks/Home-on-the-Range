@@ -23,7 +23,7 @@ const COMMITTING: u8 = 1;
 const RESOLVED: u8 = 2;
 const CANCELED: u8 = 3;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, schemars::JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct WriteRequest {
     pub record: RecordInput,

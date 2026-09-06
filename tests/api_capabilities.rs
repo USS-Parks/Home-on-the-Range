@@ -27,6 +27,9 @@ use zeroize::Zeroizing;
 const KEY: &[u8] = b"HOTR-07-synthetic-key-866bc4ad";
 const BODY: &str = "HOTR07canary shared sourced roadmap 東京";
 
+#[path = "support/mcp.rs"]
+mod mcp_protocol;
+
 fn local_client() -> reqwest::Client {
     reqwest::Client::builder()
         .no_proxy()

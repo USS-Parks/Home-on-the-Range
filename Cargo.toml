@@ -24,6 +24,10 @@ axum = { version = "=0.8.9", default-features = false, features = ["http1", "jso
 hyper = { version = "=1.11.1", default-features = false, features = ["client", "server", "http1"] }
 hyper-util = { version = "=0.1.20", default-features = false, features = ["tokio", "service"] }
 tokio = { version = "=1.53.1", features = ["rt", "macros", "net", "io-util", "time", "sync"] }
+rmcp = { version = "=3.2.0", default-features = false, features = ["server", "transport-io"] }
+schemars = "1"
+futures-util = { version = "0.3", features = ["sink"] }
+tokio-util = { version = "0.7", features = ["codec"] }
 windows-sys = { version = "=0.61.2", features = ["Win32_Foundation", "Win32_NetworkManagement_IpHelper", "Win32_Security", "Win32_Security_Authorization", "Win32_Security_Cryptography", "Win32_Storage_FileSystem", "Win32_System_Pipes", "Win32_System_Threading"] }
 
 [dev-dependencies]

@@ -47,6 +47,7 @@ fn execute() -> io::Result<()> {
                     | "HOTR-07"
                     | "HOTR-08"
                     | "HOTR-09"
+                    | "HOTR-10"
                     | "HOTR-04-R2"
             ))
     {
@@ -220,7 +221,14 @@ fn execute() -> io::Result<()> {
         }
         if matches!(
             prompt,
-            "HOTR-04" | "HOTR-05" | "HOTR-06" | "HOTR-07" | "HOTR-08" | "HOTR-09" | "HOTR-04-R2"
+            "HOTR-04"
+                | "HOTR-05"
+                | "HOTR-06"
+                | "HOTR-07"
+                | "HOTR-08"
+                | "HOTR-09"
+                | "HOTR-10"
+                | "HOTR-04-R2"
         ) {
             let boundary = run(
                 &guard,

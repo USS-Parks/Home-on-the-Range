@@ -3,6 +3,7 @@
 pub mod api;
 pub mod capabilities;
 pub mod credentials;
+pub mod mcp;
 pub mod owner;
 pub mod retrieval;
 pub mod schema;

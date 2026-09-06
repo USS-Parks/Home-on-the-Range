@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "home-on-the-range": {
+      "command": "C:/replace/with/hotr.exe",
+      "args": ["mcp", "--credential", "C:/replace/with/client.credential"]
+    }
+  }
+}

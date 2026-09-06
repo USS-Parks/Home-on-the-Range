@@ -335,3 +335,89 @@ approved verification; no existing user file, application profile or OS setting
 was changed or deleted. Public visibility was reverified per the user's choice.
 Next: publish this focused checkpoint, track its exact hosted run separately, and
 continue HOTR-10 under full STS.
+
+### HOTR-09 publication and hosted closeout
+
+Focused commit `006428c3525fdb011e69a7e2bb948afd96451ea4` was pushed to PUBLIC
+main; local and remote SHAs matched and the checkout was clean. All 38 staged
+normalized source hashes, product hash, evidence schema, diff check and hooks
+passed. Exact hosted Windows run
+[34000552038](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34000552038),
+job 101398521272, completed PASS at 2026-09-06T00:22:45Z. The downloaded manifest
+confirms PASS on that same commit. Complete output and artifact remain under
+`work/hotr-evidence/HOTR-09-hosted-34000552038/`.
+
+Hosted verification runs the native/HTTP/retrieval/schema/owner/ConPTY/harness
+suite and canary scan. The 15-minute load and genuinely separate authenticated
+Windows principal remain local evidence; this closeout does not claim they ran
+on the hosted worker. HOTR-10 proceeds under the existing full STS approval.
+
+## 2026-09-05 local / 2026-09-06 UTC — HOTR-10 — Official-SDK MCP bridge
+
+Full local gate PASS: `work/hotr-evidence/HOTR-10-25060-1788654017109858200/`.
+Sanitized manifest `docs/evidence/HOTR-10-mcp.json`; actual exported schemas
+`docs/evidence/HOTR-10-tools.json`. Product SHA-256
+`dc317f36d05ed7a64e24e8c49cd0887601fdc4ecd7ce7e2ec79da6433e073cf5`;
+runner SHA-256 `62d0732b2a7203d81262c3f8c52d61a772f9dac6ab5adf1f634bd91913ed9637`.
+
+The pinned official rmcp 3.2.0 SDK supplies protocol handling. `hotr mcp` forwards
+five fixed tools through its own DPAPI credential and the existing server-identity-
+checking HTTP client. Rust/Serde contracts generate schemas for health, search,
+get, create and permitted revision. No vault path/passphrase, owner operation,
+arbitrary URL, shell or SQL argument is available through those tools. Requests
+are authorized at the service, not by model output. Context and source fields
+return verbatim; no cache or automatic write retry is introduced.
+
+The SDK codec is bounded to 256 KiB frames; admission to 16 active requests and
+128-byte displayed IDs. Request-extension guards release admission after handler
+completion/cancellation. Output has a 1 MiB serialization check, 16-send cap and
+five-second deadline; initialization/discovery has a fifteen-second deadline.
+Stdout contains protocol traffic; generic stderr avoids request/credential traces.
+Explicit process exit prevents an uninterruptible Windows stdin read from keeping
+an otherwise-ended bridge alive. Transport loss leaves write outcomes uncertain
+and callers reconcile with the original idempotency key/arguments.
+
+Actual final fixture `work/hotr-tests/HOTR-07-68788-1788654207969556100/` starts
+four real bridges against one real encrypted service, using two credentials.
+Save/recall/current revision/source/replay, reader denial, accepted-state protection,
+forbidden namespace, unknown owner tools, revoke while another client remains
+authorized, and reconnect passed. Legacy protocols 2024-11-05/2025-03-26/2025-11-25
+and current 2026-07-28 discovery/metadata/calls passed. Five live-exported schemas
+also passed independent Draft 2020-12 validation. The new template's normalized
+SHA-256 is `e459a0603174b9127b043ed39a23b8dfdb1f63421eeabe94cc47945e0e2e335e`.
+
+A real bridge connected to a separate same-owner delayed HTTP listener so native
+cancellation could be observed: cancel closed the forwarded socket, then ping
+worked. Malformed/oversized frames, 17th active request, duplicate active IDs and
+startup timeout with stdin kept open were rejected. This delayed peer is explicitly
+a fault fixture, not authorization or named-app proof. Every stdout line is checked
+as protocol; synthetic plaintext responses stay in test-process memory, while
+managed fixture storage/logs are scanned for body/key/token leakage.
+
+The initial focused compile log `HOTR-10-focused-1788653657978.txt` records a test
+attempt to call a crate-private credential helper. The fixture now uses actual
+owner CLI enrollment and a new synthetic profile for its delayed peer, preserving
+the helper's visibility. The corrected focused run and current-protocol expansion
+passed before the final full gate; all original diagnostics remain retained.
+
+Full release format/build, warnings-denied all-target Clippy, native/HTTP/schema/
+transaction/crash/owner/ConPTY tests and harness contracts passed. At
+2026-09-06T00:24:37.4695623Z the actual distinct authenticated Windows account was
+denied directory/database/marker/pipe access with error 5, could not decrypt copied
+DPAPI ciphertext, and received zero application bytes at its fake TCP endpoint.
+Owner state/vault hash stayed unchanged and lock ended the key holder. The final
+scan passed on 1,251 files across 14 passing native runs. All 40 normalized source
+hashes and the final executable must match the staged candidate before publication.
+
+SDK crate checksum, exact upstream source revision and unmodified license text
+are recorded in `docs/MCP.md`; the package's Apache metadata and upstream Apache/MIT
+transition are distinguished. Only stdio/server features are enabled; reviewed
+upstream HTTP/OAuth/redirect advisories do not describe this enabled transport.
+The complete locked dependency/license review remains a later gate.
+
+One canonical checkout, no linked worktree. Approximately 3.763 GiB of project
+build/cache, synthetic fixtures and retained evidence remains, with 321.48 GiB
+free. No existing user file or other application profile was deleted or replaced.
+No real app was configured and no user vault or startup service was installed.
+Publish the passed MCP checkpoint, track its exact hosted run, then continue
+HOTR-11 encrypted backup/restore under full STS.

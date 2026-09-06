@@ -70,6 +70,11 @@ enum Operation {
         #[arg(long, default_value = "/v1/status")]
         endpoint: String,
     },
+    /// Serve memory tools over MCP stdio using one existing scoped credential.
+    Mcp {
+        #[arg(long)]
+        credential: PathBuf,
+    },
 }
 
 fn password(prompt: &str) -> io::Result<Zeroizing<String>> {
@@ -90,6 +95,15 @@ async fn main() {
 
 async fn execute(operation: Operation) -> Result<(), Box<dyn std::error::Error>> {
     match operation {
+        Operation::Mcp { credential } => {
+            let result = hotr::mcp::run(&credential).await;
+            if result.is_err() {
+                eprintln!("MCP bridge stopped: credential, protocol or transport rejected");
+            }
+            // Tokio's blocking stdin read cannot be interrupted on Windows.
+            // All bridge futures have ended; exit without waiting on that read.
+            std::process::exit(if result.is_ok() { 0 } else { 1 });
+        }
         Operation::NativeInfo => println!(
             "{}",
             serde_json::to_string_pretty(&hotr::linked_native_versions()?)?

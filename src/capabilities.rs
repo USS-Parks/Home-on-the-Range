@@ -27,7 +27,7 @@ pub struct NewClient {
     pub namespaces: Vec<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, schemars::JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct Lookup {
     pub namespace: String,

@@ -1,6 +1,6 @@
 # Verification ledger
 
-HOTR-01–12 local gates have passed. The exact clean hosted HOTR-11-R1 repair also passed. HOTR-12 demonstrates the complete synthetic workflow in actual Codex CLI 0.153.4 and Claude Code 2.1.220. This accepts the tested local prototype workflow, not installation or deployment. Lamprey, expanded compatibility, semantic retrieval and the remaining full STS gates are still open; hosted evidence is tracked separately.
+HOTR-01–12 local gates have passed, including the actual Codex CLI and Claude Code shared-memory workflow. Installed Lamprey acceptance is published with exact Windows CI PASS. HOTR-12A's final Hermes and common gates passed, including the HOTR-12A-R1 monitor repair. These results accept the tested isolated-profile workflows; everyday installation, the remaining compatibility roster, semantic retrieval and later STS gates remain open. Hosted evidence is tracked separately.
 
 | Gate | Required evidence | Status |
 |---|---|---|
@@ -21,7 +21,9 @@ HOTR-01–12 local gates have passed. The exact clean hosted HOTR-11-R1 repair a
 | HOTR-11-R1 | Validate/create the backup fixture parent, native multi-step copy and full rebuilt native/two-account gate, exact clean hosted run | PASS locally and on exact clean [hosted run 34003325869](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34003325869) at `cf4fa8ed1373431733e01c9f3faa1229f4e5c9fa` — [local repair evidence](evidence/HOTR-11-R1-fixture.json) identifies preserved HOTR-12 helpers; hosted manifest independently confirms the clean commit |
 | HOTR-12 | Actual independent Codex/Claude clients, current sourced correction/acceptance, restart, revoke, restore/reenroll, two-account check and final scanner | PASS locally — [source-bound gate](evidence/HOTR-12-clients.json), [actual application tool results](evidence/HOTR-12-applications.json); 8 successful-run prompts, 11 total including failures; publication/hosted closeout tracked below |
 | M1 / HOTR-01–12 | Actual encrypted Windows service, scoped access, keyword retrieval, two real clients, restored encrypted backup | Local prototype gates PASS; [demonstration and scope limits](M1-DEMO.md); exact main publication closeout follows |
-| HOTR-12-LAMPREY; HOTR-12A–12K | Actual additional applications, provider/runtime routes, consistent sourced context and denials | Next approved work; not verified by the two CLI results |
+| HOTR-12-LAMPREY | Actual Lamprey memory flow, model switch, cancellation/recovery, restart and denial | PASS locally and on exact Windows run 34017610460 at `344b7a0a1ae37efe18ca19ca8b768d85e0b2788b` |
+| HOTR-12A / HOTR-12A-R1 | Actual Hermes native MCP flow and nonblocking resource-monitor repair | Final local common/app gates PASS; [source-bound evidence](evidence/HOTR-12A-clients.json), [actual tool results](evidence/HOTR-12A-application.json); exact publication/hosted closeout follows |
+| HOTR-12B–12K | Remaining individual applications, provider/runtime routes and cross-client consistency | Next approved work; not established by the four completed app proofs |
 | M2 / HOTR-13–18 | Selected imports, correction consistency, local embeddings, hybrid retrieval evaluation, management UI | Not started |
 | M3 / HOTR-19–22 | Auditing, key rotation, Windows lifecycle, controlled daily-use comparison | Not started |
 | M4 / HOTR-23–32 | Security, malformed inputs, races, crashes, storage faults, model faults, scale, soak, dependency review, repairs | Not started |
@@ -73,3 +75,18 @@ records those maps and the distinct executable hashes; current files match.
 The original timing failure remains retained and its cause is not established;
 the unchanged deadline test passed at approximately 15.04 seconds in the rerun.
 Hosted verification and active-profile enrollment remain separate gates.
+
+Hermes final local closeout, 2026-09-06 UTC: common gate
+`HOTR-03-88344-1788679798730446900` and actual application gate
+`HOTR-12A-79932-1788680065291303200` PASS on identical source/native inputs and
+product SHA-256 `7536254f1471e810982da5d8288db4578bdf3213f2b069ed0e4b363144384aea`.
+Twenty-four product tests, six runner tests, both format/Clippy gates, negative
+controls and a 4,083-file canary scan passed. The final installed-app flow used
+three prompts; Hermes consumed seven including earlier attempts and verification
+after the monitor repair. The shared compatibility total is 19 of 72.
+Actual tool results confirm sourced revisions 1/2/3, restart search/current
+recall, 403 outside scope and 401 after revocation; an independent reader still
+received revision 3. The earlier owner timeout remains retained with cause
+unestablished. The subsequent scanner timeout is addressed by HOTR-12A-R1;
+neither failed manifest was relabeled. Publication and exact hosted verification
+follow this local acceptance. Everyday-profile enrollment remains pending.

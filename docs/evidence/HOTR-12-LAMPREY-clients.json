@@ -33,5 +33,7 @@
   "independent_reader_current_revision": 3,
   "prompt_budget_contract_tests": "PASS",
   "active_profile_enrolled": false,
-  "hosted_ci": "NOT RUN"
+  "hosted_ci": "PASS",
+  "published_commit": "344b7a0a1ae37efe18ca19ca8b768d85e0b2788b",
+  "hosted_run": "https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34017610460"
 }

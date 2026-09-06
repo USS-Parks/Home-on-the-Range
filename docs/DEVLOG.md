@@ -753,3 +753,147 @@ Both gates have identical normalized source and native-library hash maps;
 the separate executable hashes are retained in the sanitized source evidence.
 Current source files match that evidence. Commit and exact hosted verification
 follow; active-profile enrollment and remaining app prompts are still open.
+
+Publication: `344b7a0a1ae37efe18ca19ca8b768d85e0b2788b` was committed directly
+to main and pushed. GitHub's main commit matched exactly; the working tree was
+clean immediately afterward. Existing staged/full-tree repository hooks passed.
+Exact Windows CI run `34017610460` is in progress, not yet a hosted PASS.
+
+## HOTR-12A — installed Hermes — implementation in progress
+
+The installed Hermes 0.21.0 Python runtime and native MCP configuration were
+inspected. The new driver uses its real CLI, restricted `mcp-hotr` toolset,
+per-profile `HERMES_HOME`, an independent scoped credential, and the existing
+Anthropic account. Title generation, background review, fallback providers and
+unrelated memory features are disabled only in the synthetic profile. Each
+model response is capped at 1,024 tokens, each turn at eight tool iterations,
+and each application process at a bounded deadline under the Windows job.
+
+The acceptance gate reads native Hermes session-database tool results. Model
+prose and requested arguments do not qualify as evidence. Planned live sequence:
+save/recall/correct/forbidden namespace, owner acceptance and service restart,
+current sourced get/search in a fresh CLI session, revocation, independent
+reader. Native discovery and driver/budget validation run before inference.
+The owner’s existing Hermes configuration, credentials and history remain
+outside the test profile. No Hermes acceptance or active enrollment is claimed
+until the actual gate passes.
+
+Hermes discovery PASS: `HOTR-12A-PREFLIGHT-30100-1788678037645678100`, fixture
+`HOTR-07-29872-1788678195986607200`. Installed version 0.21.0, native MCP connected
+in 5,594 ms and discovered exactly five tools; zero model prompts. The earlier
+probe `HOTR-12A-PREFLIGHT-54872-1788677824165908800` failed in the new driver's
+verbatim Windows-path ancestor walk before launching Hermes. The repaired guard
+normalizes the drive-prefix spelling while checking every ancestor for links.
+
+First model acceptance `HOTR-12A-66368-1788678264753739900` FAILED the verifier:
+the actual Hermes turn successfully completed all five HOTR operations, but
+Hermes exposes them through native `tool_search`/`tool_describe`/`tool_call`
+routing and wraps returned context in an untrusted-data envelope. The original
+verifier expected direct MCP function names and bare JSON. Its complete actual
+trace remains at `HOTR-07-30004-1788678284120312800`; one prompt was charged.
+No shell/file tools were in its five-entry discovered catalog. The installed
+Hermes MCP implementation also emitted an unawaited-coroutine warning; its source
+was not modified and the warning remains visible in the retained trace.
+
+The repaired verifier checks the discovery catalog, pairs native call/result
+IDs, validates the resolved HOTR tool name, and decodes only native tool-result
+rows. It retains raw events alongside normalized evidence. Regression checks
+reject foreign dispatch/catalog entries, mismatched or duplicate IDs and broken
+wrappers. Replay of the retained real trace resolved five HOTR operations and
+two metadata calls, including both sourced revisions and the actual 403 denial.
+A fresh three-prompt acceptance is running.
+
+The launcher now gives Cargo the same verbatim cache path as the bounded runner.
+The following client gate reused its already compiled native test executable
+(`cargo test` preparation 0.57 seconds in the first full attempt), replacing the
+previous two-minute registry-dependency rebuilds. Existing native libraries and
+cache contents were retained. A metadata inventory found 3.72 GiB readable
+generated data; 390 restricted entries were not readable through that inventory
+surface, so this is a lower bound. No linked worktrees were registered. No
+permissions were changed for the inventory and no files were deleted.
+
+Exact Lamprey Windows CI run `34017610460` completed successfully for
+`344b7a0a1ae37efe18ca19ca8b768d85e0b2788b`. This closes its hosted gate; active
+profile enrollment remains part of the broader installation work.
+
+Hermes actual acceptance PASS: `HOTR-12A-77928-1788678502682238600`, fixture
+`HOTR-07-78464-1788678526765346300`, installed main SHA-256
+`cfcc631b3bb13b38e408d9e26c7a8ff981dabbb2393dfa1987427c5347b015da`.
+Three successful Anthropic `claude-sonnet-5` prompts; five/two/one native HOTR
+operations plus separately retained metadata discovery. All CLI processes exited
+normally. The actual search result was also explicitly checked: total 1, one
+accepted record at revision 3 with its original source, 785 estimated tokens
+within a 1,024-token budget. Revocation returned 401; an independent reader
+still read revision 3. The verifier's earlier failed attempt remains charged:
+Hermes has used four of its eight allowed prompts, shared total 16 of 72.
+
+Accepted app-gate executable SHA-256:
+`11c715a88d8cce1ad4e85512acd08fd27ad326912fa6f67bb06bc26e3de36606`.
+The native-result regression, driver syntax and prompt-budget checks all passed.
+The required common gate is now running against the frozen source before the
+focused HOTR-12A commit. No active Hermes profile change is claimed.
+
+Common gate `HOTR-03-46516-1788678642414242100` FAILED in
+`actual_owner_lifecycle_and_preservation`: the valid unlock following 4,096
+successful status reconnects exceeded the existing five-second owner request
+deadline. Build, strict product Clippy, eleven library tests, six ordinary API
+tests, encryption and the separate console test passed. Full output is retained.
+No owner implementation or timeout was changed. One complete unchanged rerun,
+`HOTR-03-88712-1788679260865882200`, is checking reproducibility before closeout.
+The actual Hermes acceptance remains a separate passed result; no model prompts
+are being repeated for this native rerun.
+
+## HOTR-12A-R1 — verification monitor repair
+
+The unchanged rerun passed all 24 product tests, all five runner contracts,
+both format/Clippy checks and the release build. Its scanner printed PASS for
+3,891 files and exited zero, but the runner recorded `failure=timeout` at
+69,596 ms. The complete gate therefore remains FAIL. `run` performed recursive
+disk accounting on its deadline/pipe-draining thread; retained cache files were
+reopened for metadata every five seconds. A process exit during that scan could
+not be observed promptly. The earlier owner unlock timeout is not attributed
+to this issue without further evidence.
+
+The focused repair uses non-following Windows directory-entry metadata and
+one background disk audit at a time. Child deadline polling and output draining
+continue during audits; an outstanding audit is joined and any failure retained
+before command completion. Resource thresholds, deadlines, path/reparse checks,
+log ceilings and process ownership remain unchanged. A native accounting test
+covers nested files and subsequent growth. The full gate and installed Hermes
+acceptance will be repeated with the repaired runner and frozen source. This
+small repair is bundled with HOTR-12A because it blocks that prompt's gate;
+no unrelated product feature is included.
+
+API behavior checked against Rust's primary reference:
+https://doc.rust-lang.org/std/fs/struct.DirEntry.html#method.metadata.
+
+Repaired common gate PASS: `HOTR-03-88344-1788679798730446900`.
+All 24 product tests and six runner tests passed, including live owner unlock
+after 4,096 reconnects and the new file-growth accounting regression. Both
+format/strict-Clippy gates and all negative controls passed. The scanner passed
+4,083 files in 25,815 ms; the command has no timeout failure. Frozen source and
+native-library hashes matched. Product SHA-256:
+`7536254f1471e810982da5d8288db4578bdf3213f2b069ed0e4b363144384aea`;
+runner SHA-256:
+`fb3c5a1abdcc362b62583103cb7847bf0b6731b39da7d0d925a460ccad579a0a`.
+The final installed Hermes acceptance now verifies the same repaired source
+before staged-source comparison and publication.
+
+Final Hermes acceptance PASS: `HOTR-12A-79932-1788680065291303200`, fixture
+`HOTR-07-50908-1788680074702627400`. Its product and runner hashes equal the
+passing common gate above. All 59 normalized source hashes and native-library
+hashes match across both gates. Actual get/search returned the accepted sourced
+revision 3 within the 1,024-token context budget; forbidden scope returned 403,
+revocation returned 401 and the independent reader retained revision 3. Three
+normal CLI exits, seven total Hermes prompts and 19 of 72 shared prompts used.
+
+The read-only closeout validator matched all 59 staged and working source files
+against both manifests, checked local document links and staged credential
+patterns, and verified all eight preserved originals. One canonical main
+checkout, no linked worktrees or unpublished commits before this publication.
+Retained generated state: 4,255,176,471 bytes (about 3.96 GiB), for build reuse
+and complete synthetic failure/success evidence; free space 296,945,201,152 bytes
+(about 276.55 GiB). No files were deleted. This focused 19-file commit includes
+Hermes integration, its necessary monitor repair, evidence/workflow documents,
+the current compatibility matrix, and Lamprey's exact hosted closeout. Publish
+to main, record the resulting SHA/hosted run, and continue HOTR-12B.

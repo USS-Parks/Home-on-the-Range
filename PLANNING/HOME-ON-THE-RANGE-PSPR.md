@@ -4,8 +4,10 @@ Current execution instruction: the owner resumed all pertinent application
 integrations and pre-approved the permissions necessary to complete the project.
 The earlier Lamprey deferral below is superseded by
 [the recorded resumption](HOTR-COMPATIBILITY-RESUMPTION-APPROVED-2026-09-06.md).
-HOTR-12-LAMPREY's final six-turn installed-app acceptance and common checks
-have passed; publication is in progress before HOTR-12A. This is not an all-apps or
+HOTR-12-LAMPREY is published at `344b7a0` with final local acceptance and exact
+hosted Windows CI PASS. HOTR-12A and its monitor repair HOTR-12A-R1 passed the
+final common and installed-Hermes gates; publication is in progress. Next is
+HOTR-12B, Qwen Desktop, Qwen Code and the local Qwen model. This is not an all-apps or
 active-profile installation completion claim.
 
 Version: 1.0, 2026-09-05

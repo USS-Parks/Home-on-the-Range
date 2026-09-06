@@ -1,0 +1,247 @@
+{
+  "prompt": "HOTR-12A",
+  "application": "Hermes Agent",
+  "version": "0.21.0",
+  "fixture": "HOTR-07-50908-1788680074702627400",
+  "synthetic_only": true,
+  "evidence_source": "Native session database role=tool messages",
+  "steps": [
+    {
+      "label": "save-recall-correct",
+      "result": "PASS",
+      "exit_code": 0,
+      "model": "claude-sonnet-5",
+      "discovery_calls": [
+        {
+          "id": "toolu_01PdjP3tmC6BqSmh6i1KA1Wg",
+          "name": "tool_search"
+        },
+        {
+          "id": "toolu_01TTumQTCzLqdhs94HFC3AAy",
+          "name": "tool_describe"
+        }
+      ],
+      "tool_results": [
+        {
+          "id": "toolu_01SaaaH646AUHTn4Q339oBoT",
+          "name": "mcp__hotr__hotr_create",
+          "result": {
+            "result": "{\"outcome\":\"committed\",\"receipt\":{\"audit_sequence\":1,\"committed_at_ms\":1788680113085,\"id\":\"hermes-colour\",\"namespace\":\"demo\",\"revision\":1}}",
+            "structuredContent": {
+              "outcome": "committed",
+              "receipt": {
+                "audit_sequence": 1,
+                "committed_at_ms": 1788680113085,
+                "id": "hermes-colour",
+                "namespace": "demo",
+                "revision": 1
+              }
+            }
+          }
+        },
+        {
+          "id": "toolu_01Y3nQyQpxBaLHi1FPjUKJEN",
+          "name": "mcp__hotr__hotr_get",
+          "result": {
+            "result": "{\"body\":\"Synthetic rover signal: blue.\",\"created_at_ms\":1788680113085,\"id\":\"hermes-colour\",\"kind\":\"roadmap\",\"namespace\":\"demo\",\"revision\":1,\"sources\":[{\"label\":\"opaque source\",\"reference\":\"https://unopened.invalid/synthetic-source\"}],\"state\":\"proposed\",\"tags\":[\"東京\"]}",
+            "structuredContent": {
+              "body": "Synthetic rover signal: blue.",
+              "created_at_ms": 1788680113085,
+              "id": "hermes-colour",
+              "kind": "roadmap",
+              "namespace": "demo",
+              "revision": 1,
+              "sources": [
+                {
+                  "label": "opaque source",
+                  "reference": "https://unopened.invalid/synthetic-source"
+                }
+              ],
+              "state": "proposed",
+              "tags": [
+                "東京"
+              ]
+            }
+          }
+        },
+        {
+          "id": "toolu_01Nkh1XqvbSh3U5fKHRcrNYF",
+          "name": "mcp__hotr__hotr_revise",
+          "result": {
+            "result": "{\"outcome\":\"committed\",\"receipt\":{\"audit_sequence\":2,\"committed_at_ms\":1788680117400,\"id\":\"hermes-colour\",\"namespace\":\"demo\",\"revision\":2}}",
+            "structuredContent": {
+              "outcome": "committed",
+              "receipt": {
+                "audit_sequence": 2,
+                "committed_at_ms": 1788680117400,
+                "id": "hermes-colour",
+                "namespace": "demo",
+                "revision": 2
+              }
+            }
+          }
+        },
+        {
+          "id": "toolu_013ttHumPvybVbTR6A4LwVq8",
+          "name": "mcp__hotr__hotr_get",
+          "result": {
+            "result": "{\"body\":\"Synthetic rover signal: green.\",\"created_at_ms\":1788680117400,\"id\":\"hermes-colour\",\"kind\":\"roadmap\",\"namespace\":\"demo\",\"revision\":2,\"sources\":[{\"label\":\"opaque source\",\"reference\":\"https://unopened.invalid/synthetic-source\"}],\"state\":\"proposed\",\"tags\":[\"東京\"]}",
+            "structuredContent": {
+              "body": "Synthetic rover signal: green.",
+              "created_at_ms": 1788680117400,
+              "id": "hermes-colour",
+              "kind": "roadmap",
+              "namespace": "demo",
+              "revision": 2,
+              "sources": [
+                {
+                  "label": "opaque source",
+                  "reference": "https://unopened.invalid/synthetic-source"
+                }
+              ],
+              "state": "proposed",
+              "tags": [
+                "東京"
+              ]
+            }
+          }
+        },
+        {
+          "id": "toolu_01KjnRo3LW42ZaiMm8Jdz6Hu",
+          "name": "mcp__hotr__hotr_get",
+          "result": {
+            "error": "{\"http_status\":403,\"service\":{\"error\":{\"code\":\"forbidden\"}}}"
+          }
+        }
+      ],
+      "usage": [
+        {
+          "api_call_count": 8,
+          "billing_provider": "anthropic",
+          "input_tokens": 16,
+          "model": "claude-sonnet-5",
+          "output_tokens": 1259
+        }
+      ]
+    },
+    {
+      "label": "restart-recall-search",
+      "result": "PASS",
+      "exit_code": 0,
+      "model": "claude-sonnet-5",
+      "discovery_calls": [
+        {
+          "id": "toolu_01VW566wsij7B7QzzXcmhDUr",
+          "name": "tool_search"
+        },
+        {
+          "id": "toolu_017p5SdtXMWnYSrreTpb8MCx",
+          "name": "tool_describe"
+        }
+      ],
+      "tool_results": [
+        {
+          "id": "toolu_01KGeCpcHxifS8MmZtu3UThY",
+          "name": "mcp__hotr__hotr_get",
+          "result": {
+            "result": "{\"body\":\"Synthetic rover signal: green.\",\"created_at_ms\":1788680124839,\"id\":\"hermes-colour\",\"kind\":\"roadmap\",\"namespace\":\"demo\",\"revision\":3,\"sources\":[{\"label\":\"opaque source\",\"reference\":\"https://unopened.invalid/synthetic-source\"}],\"state\":\"accepted\",\"tags\":[\"東京\"]}",
+            "structuredContent": {
+              "body": "Synthetic rover signal: green.",
+              "created_at_ms": 1788680124839,
+              "id": "hermes-colour",
+              "kind": "roadmap",
+              "namespace": "demo",
+              "revision": 3,
+              "sources": [
+                {
+                  "label": "opaque source",
+                  "reference": "https://unopened.invalid/synthetic-source"
+                }
+              ],
+              "state": "accepted",
+              "tags": [
+                "東京"
+              ]
+            }
+          }
+        },
+        {
+          "id": "toolu_01ERuGVSuSBFn9Sq5GzhKaGv",
+          "name": "mcp__hotr__hotr_search",
+          "result": {
+            "result": "{\"byte_budget\":4096,\"estimated_tokens\":785,\"next_offset\":null,\"omitted_for_budget\":0,\"pagination\":\"offset over current authorized results; concurrent writes may change pages\",\"records\":[{\"body\":\"Synthetic rover signal: green.\",\"created_at_ms\":1788680124839,\"id\":\"hermes-colour\",\"kind\":\"roadmap\",\"namespace\":\"demo\",\"revision\":3,\"sources\":[{\"label\":\"opaque source\",\"reference\":\"https://unopened.invalid/synthetic-source\"}],\"state\":\"accepted\",\"tags\":[\"東京\"]}],\"token_budget\":1024,\"token_estimate\":\"one per serialized UTF-8 byte including envelope reserve; not provider accounting\",\"total\":1}",
+            "structuredContent": {
+              "byte_budget": 4096,
+              "estimated_tokens": 785,
+              "next_offset": null,
+              "omitted_for_budget": 0,
+              "pagination": "offset over current authorized results; concurrent writes may change pages",
+              "records": [
+                {
+                  "body": "Synthetic rover signal: green.",
+                  "created_at_ms": 1788680124839,
+                  "id": "hermes-colour",
+                  "kind": "roadmap",
+                  "namespace": "demo",
+                  "revision": 3,
+                  "sources": [
+                    {
+                      "label": "opaque source",
+                      "reference": "https://unopened.invalid/synthetic-source"
+                    }
+                  ],
+                  "state": "accepted",
+                  "tags": [
+                    "東京"
+                  ]
+                }
+              ],
+              "token_budget": 1024,
+              "token_estimate": "one per serialized UTF-8 byte including envelope reserve; not provider accounting",
+              "total": 1
+            }
+          }
+        }
+      ],
+      "usage": [
+        {
+          "api_call_count": 4,
+          "billing_provider": "anthropic",
+          "input_tokens": 8,
+          "model": "claude-sonnet-5",
+          "output_tokens": 508
+        }
+      ]
+    },
+    {
+      "label": "revoked",
+      "result": "PASS",
+      "exit_code": 0,
+      "model": "claude-sonnet-5",
+      "discovery_calls": [
+        {
+          "id": "toolu_01L4X6Lg6ybU7uYApCLa9CUC",
+          "name": "tool_search"
+        }
+      ],
+      "tool_results": [
+        {
+          "id": "toolu_01G3uZMLm85DwuGA7CMrxqKR",
+          "name": "mcp__hotr__hotr_get",
+          "result": {
+            "error": "{\"http_status\":401,\"service\":{\"error\":{\"code\":\"unauthorized\"}}}"
+          }
+        }
+      ],
+      "usage": [
+        {
+          "api_call_count": 3,
+          "billing_provider": "anthropic",
+          "input_tokens": 6,
+          "model": "claude-sonnet-5",
+          "output_tokens": 246
+        }
+      ]
+    }
+  ]
+}

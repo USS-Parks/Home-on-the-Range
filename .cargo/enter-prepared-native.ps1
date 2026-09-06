@@ -20,7 +20,10 @@ foreach ($item in @($native, (Join-Path $repository 'work/hotr-tool-cache/cargo'
         if ((Get-Item -LiteralPath $ancestor).Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Native path contains a reparse point' }
     }
 }
-$env:CARGO_HOME = Join-Path $repository 'work/hotr-tool-cache/cargo'
+# Match Guard::checked's canonical spelling. Cargo fingerprints registry source
+# paths, so alternating ordinary and verbatim paths rebuilds the same crates.
+$cache = Join-Path $repository 'work/hotr-tool-cache/cargo'
+$env:CARGO_HOME = if ($cache.StartsWith('\\?\')) { $cache } else { '\\?\' + $cache }
 $env:TEMP = Join-Path $repository 'work/hotr-build/tmp'
 $env:TMP = $env:TEMP
 $env:LC_ALL = 'C'

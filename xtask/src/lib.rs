@@ -83,6 +83,8 @@ impl Guard {
                 | "HOTR-12-LAMPREY"
                 | "HOTR-12-LAMPREY-SMOKE"
                 | "HOTR-12-LAMPREY-PREFLIGHT"
+                | "HOTR-12A"
+                | "HOTR-12A-PREFLIGHT"
                 | "HOTR-04-R2"
                 | "HOTR-03-fault"
         ) {
@@ -124,6 +126,10 @@ fn size(path: &Path) -> io::Result<u64> {
         Err(error) if error.kind() == io::ErrorKind::NotFound => return Ok(0),
         Err(error) => return Err(error),
     };
+    size_with_metadata(path, metadata)
+}
+
+fn size_with_metadata(path: &Path, metadata: fs::Metadata) -> io::Result<u64> {
     if metadata.file_attributes() & 0x400 != 0 {
         return Err(io::Error::other("reparse point refused"));
     }
@@ -132,8 +138,16 @@ fn size(path: &Path) -> io::Result<u64> {
     }
     let mut sum = 0u64;
     for item in fs::read_dir(path)? {
+        let item = item?;
+        // Windows directory enumeration already supplies non-following metadata.
+        // Reopening every retained cache file made monitoring dominate the gate.
+        let bytes = match item.metadata() {
+            Ok(metadata) => size_with_metadata(&item.path(), metadata)?,
+            Err(error) if error.kind() == io::ErrorKind::NotFound => 0,
+            Err(error) => return Err(error),
+        };
         sum = sum
-            .checked_add(size(&item?.path())?)
+            .checked_add(bytes)
             .ok_or_else(|| io::Error::other("size overflow"))?;
     }
     Ok(sum)
@@ -378,6 +392,7 @@ pub fn run(
     let mut failure = None;
     let mut status = None;
     let mut last_budget = Instant::now();
+    let mut audit: Option<thread::JoinHandle<io::Result<(u64, u64)>>> = None;
     loop {
         match receive.recv_timeout(Duration::from_millis(10)) {
             Ok((index, data)) => {
@@ -397,11 +412,17 @@ pub fn run(
         if start.elapsed() > timeout {
             failure = Some("timeout".to_owned());
         }
-        if last_budget.elapsed() > Duration::from_secs(5) {
-            if guard.budget().is_err() {
+        if audit.as_ref().is_some_and(|task| task.is_finished()) {
+            if !matches!(audit.take().unwrap().join(), Ok(Ok(_))) {
                 failure = Some("resource budget".to_owned());
             }
             last_budget = Instant::now();
+        }
+        if status.is_none() && audit.is_none() && last_budget.elapsed() > Duration::from_secs(5) {
+            // Keep deadline polling and pipe draining independent of filesystem
+            // latency. There is at most one outstanding audit per command.
+            let owned = guard.clone();
+            audit = Some(thread::spawn(move || owned.budget()));
         }
         if failure.is_some() {
             if status.is_none() {
@@ -409,6 +430,13 @@ pub fn run(
             }
             break;
         }
+    }
+    // Never discard an in-flight resource failure. The child has already exited
+    // or been terminated, so joining cannot prevent its deadline enforcement.
+    if let Some(audit) = audit
+        && !matches!(audit.join(), Ok(Ok(_)))
+    {
+        failure = Some("resource budget".to_owned());
     }
     let mut logs = format!(
         "stdout:\n{}\nstderr:\n{}\n",
@@ -439,4 +467,33 @@ pub fn run(
         log_bytes: total,
         stored_log_bytes: logs.len(),
     })
+}
+
+#[cfg(test)]
+mod budget_tests {
+    use super::*;
+
+    #[test]
+    fn native_directory_accounting_includes_nested_and_growing_files() {
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .to_owned();
+        let guard = Guard::new(&root).unwrap();
+        let run = guard.new_run("HOTR-03").unwrap();
+        let tree = run.join("accounting");
+        fs::create_dir(&tree).unwrap();
+        fs::create_dir(tree.join("nested")).unwrap();
+        write_new(&tree.join("first"), b"12345").unwrap();
+        write_new(&tree.join("nested/second"), b"1234567").unwrap();
+        assert_eq!(size(&tree).unwrap(), 12);
+        let mut file = fs::OpenOptions::new()
+            .append(true)
+            .open(tree.join("first"))
+            .unwrap();
+        file.write_all(b"6789").unwrap();
+        file.sync_all().unwrap();
+        assert_eq!(size(&tree).unwrap(), 16);
+        assert_eq!(size(&tree.join("absent")).unwrap(), 0);
+    }
 }

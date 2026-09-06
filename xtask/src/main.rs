@@ -15,6 +15,12 @@ fn main() {
 
 fn execute() -> io::Result<()> {
     let args: Vec<String> = std::env::args().skip(1).collect();
+    if args.as_slice() == ["hermes-preflight"] {
+        return hermes_check(false);
+    }
+    if args.as_slice() == ["hermes-acceptance"] {
+        return hermes_check(true);
+    }
     if args.as_slice() == ["lamprey-smoke"] {
         return lamprey_check("smoke");
     }
@@ -434,5 +440,91 @@ fn lamprey_check(mode: &str) -> io::Result<()> {
         }))?,
     )?;
     println!("Lamprey smoke evidence: {}", directory.display());
+    result
+}
+
+fn hermes_check(full: bool) -> io::Result<()> {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .unwrap()
+        .to_owned();
+    let guard = Guard::new(&root)?;
+    let cpu_rate = limits::install_job_limits()?;
+    let prompt = if full {
+        "HOTR-12A"
+    } else {
+        "HOTR-12A-PREFLIGHT"
+    };
+    let directory = guard.new_run(prompt)?;
+    let source = hotr_xtask::snapshot(&guard)?;
+    let mut outcomes = Vec::new();
+    let result = (|| -> io::Result<()> {
+        for (label, arguments) in [
+            (
+                "native-result-contract",
+                vec!["--test", "integrations/clients/hermes_results.test.cjs"],
+            ),
+            (
+                "driver-syntax",
+                vec!["--check", "integrations/clients/hermes_cli.cjs"],
+            ),
+            (
+                "prompt-budget",
+                vec!["--test", "integrations/clients/prompt_budget.test.cjs"],
+            ),
+        ] {
+            let outcome = run(
+                &guard,
+                &directory,
+                label,
+                Path::new("node"),
+                &arguments,
+                Duration::from_secs(30),
+            )?;
+            let pass = outcome.ensure_pass();
+            outcomes.push(outcome);
+            pass?;
+        }
+        let test = if full {
+            "actual_hermes_acceptance"
+        } else {
+            "installed_hermes_preflight"
+        };
+        let outcome = run(
+            &guard,
+            &directory,
+            "installed-hermes",
+            Path::new("cargo"),
+            &[
+                "test",
+                "--release",
+                "--locked",
+                "--test",
+                "api_capabilities",
+                test,
+                "--",
+                "--ignored",
+                "--nocapture",
+            ],
+            Duration::from_secs(if full { 900 } else { 360 }),
+        )?;
+        let pass = outcome.ensure_pass();
+        outcomes.push(outcome);
+        pass?;
+        if hotr_xtask::snapshot(&guard)? != source {
+            return Err(io::Error::other("source changed during Hermes gate"));
+        }
+        Ok(())
+    })();
+    write_new(
+        &directory.join("manifest.json"),
+        &serde_json::to_vec_pretty(&serde_json::json!({
+            "prompt":prompt,"result":if result.is_ok(){"PASS"}else{"FAIL"},"failure":result.as_ref().err().map(ToString::to_string),
+            "source":source,"commands":outcomes,"cpu_rate_per_10000":cpu_rate,"memory_limit_bytes":limits::MEMORY_BYTES,
+            "product_sha256":hash(&root.join("work/hotr-build/target/release/hotr.exe"))?,"runner_sha256":hash(&std::env::current_exe()?)?,
+            "scope":if full {"Actual installed Hermes save/recall/correction, forbidden namespace, owner acceptance, restart/search, revocation and independent reader"} else {"Installed Hermes native MCP discovery; zero model prompts"}
+        }))?,
+    )?;
+    println!("Hermes evidence: {}", directory.display());
     result
 }

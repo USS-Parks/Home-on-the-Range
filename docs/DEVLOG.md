@@ -1067,3 +1067,6 @@ All model pins and eight original baselines match. One canonical checkout, no li
 Fresh independent ASTRA REVIEW /root/hotr17_implementation_review returned ship with no actionable findings. It matched all79 current/staged source hashes, both binaries, the model manifest/four blobs, five raw proof reports and all288 search plus24 direct-get measurements. Gate logs confirm all11 commands passed. Requested reviewer Sol/high; actual settings and token telemetry unobservable. Parent accepts HOTR-17 for authorized main publication. Exact hosted verification remains separately tracked; HOTR-18 owner viewer follows publication.
 
 API-EQUIVALENT COST RECEIPT: unavailable. No observed parent/delegate token telemetry is exposed; no cost or savings claim is supported.
+
+
+HOTR-17 implementation commit `5524505c9128b4d794b151de764929e3084d7fa5` contains the source accepted by full gate `HOTR-17-86548-1788720435627956200` and fresh independent `ship` review. This documentation-only closeout records its SHA; all 79 runtime/source/input hashes remain unchanged. Non-force main publication and exact hosted verification follow. The single canonical checkout retains approximately 5.49 GiB of shared cache/model/synthetic evidence and 298,479 bytes of rejected corpus drafts; no cleanup or new worktree. HOTR-18 is next.

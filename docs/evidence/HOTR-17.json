@@ -14654,7 +14654,9 @@
   },
   "publication": {
     "branch": "main",
-    "status": "PENDING"
+    "implementation_commit": "5524505c9128b4d794b151de764929e3084d7fa5",
+    "status": "LOCAL_COMMIT_ACCEPTED_PUBLICATION_PENDING",
+    "hosted_status": "PENDING"
   },
   "pre_freeze_reviews": [
     {

@@ -69,6 +69,7 @@ fn execute() -> io::Result<()> {
                     | "HOTR-14"
                     | "HOTR-15"
                     | "HOTR-16"
+                    | "HOTR-17"
                     | "HOTR-04-R2"
             ))
     {
@@ -324,7 +325,7 @@ fn execute() -> io::Result<()> {
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["prototype-load"])?;
         }
-        if matches!(prompt, "HOTR-15" | "HOTR-16") {
+        if matches!(prompt, "HOTR-15" | "HOTR-16" | "HOTR-17") {
             let inference = run(
                 &guard,
                 &directory,
@@ -348,7 +349,7 @@ fn execute() -> io::Result<()> {
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["local-embedding"])?;
         }
-        if prompt == "HOTR-16" {
+        if matches!(prompt, "HOTR-16" | "HOTR-17") {
             let hybrid = run(
                 &guard,
                 &directory,
@@ -371,6 +372,30 @@ fn execute() -> io::Result<()> {
             outcomes.push(hybrid);
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["local-hybrid"])?;
+        }
+        if prompt == "HOTR-17" {
+            let evaluation = run(
+                &guard,
+                &directory,
+                "retrieval-evaluation",
+                &cargo,
+                &[
+                    "test",
+                    "--release",
+                    "--locked",
+                    "--test",
+                    "api_capabilities",
+                    "hotr17_pinned_model_retrieval_evaluation",
+                    "--",
+                    "--ignored",
+                    "--test-threads=1",
+                ],
+                Duration::from_secs(900),
+            )?;
+            let pass = evaluation.ensure_pass();
+            outcomes.push(evaluation);
+            pass?;
+            hotr_xtask::ensure_required(&outcomes, &["retrieval-evaluation"])?;
         }
         let scan = run(
             &guard,

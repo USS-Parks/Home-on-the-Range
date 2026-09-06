@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "corpus_sha256": "6b1d878b950d11fe15fa8af58faaa1106a58f14f3aaa5d9010a96ab0975aa74f",
+  "review_status": "approved",
+  "reviewer": "/root/hotr17_labels_final",
+  "frozen_before_evaluation": true,
+  "frozen_at_utc": "2026-09-06T18:47:09.285Z",
+  "seed": 47821,
+  "record_count": 100,
+  "development_queries": 96,
+  "held_out_queries": 48,
+  "positive_record_ids_disjoint": true,
+  "provenance": "LLM authored and independently LLM reviewed; no human-rating claim",
+  "thresholds": {
+    "exact_and_current_revision_correctness": 1,
+    "paraphrase_recall_at_5": 0.9,
+    "minimum_hybrid_gain_percentage_points": 10,
+    "lexical_nonregression_exception_at": 0.9,
+    "prohibited_ids_or_text": 0,
+    "no_answer_abstention_feature": false
+  },
+  "review_history": [
+    {
+      "reviewer": "/root/hotr17_labels_review",
+      "verdict": "rethink",
+      "corpus_sha256": "a35ceec0f08129d46be032a1bfcd4be0bc622a6416fa1bfc5b89b412e306c80f"
+    },
+    {
+      "reviewer": "/root/hotr17_labels_review_repaired",
+      "verdict": "fix-first",
+      "corpus_sha256": "c0cd59d154c265e1c007da5dac191b0a30d64187771743adb7ffa7ba996420e6"
+    },
+    {
+      "reviewer": "/root/hotr17_labels_final",
+      "verdict": "ship",
+      "corpus_sha256": "6b1d878b950d11fe15fa8af58faaa1106a58f14f3aaa5d9010a96ab0975aa74f"
+    }
+  ]
+}

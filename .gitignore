@@ -23,3 +23,6 @@
 *.hotr-backup
 *.credential
 *.secret
+
+# Retained unfrozen HOTR-17 drafts; final benchmark is under tests/fixtures/hotr17.
+/eval/

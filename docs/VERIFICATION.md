@@ -146,3 +146,16 @@ HOTR-16 final local gate `HOTR-16-19596-1788718053792654100` PASS: 46 product te
 
 
 HOTR-16 implementation `4640559ef66a00a73d914420b3439b32a6e60077`: full local gate and fresh independent review PASS. Main publication and exact hosted verification remain separately tracked. No runtime source changed for this SHA closeout; HOTR-17 held-out evaluation is next.
+
+
+HOTR-16 exact published main head cb89ac9a6362c1805b93a813883fbf8662123f8c passed hosted Windows run [34051365651](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34051365651). Installed-model proof remains separately recorded by the local gate. HOTR-17 corpus/metric development continues; no retrieval-quality result has yet been measured.
+
+
+## HOTR-17 — retrieval quality local PASS
+
+`HOTR-17-86548-1788720435627956200` passed all 50 product tests, six runner tests, three installed-model fixtures and 7,531-file canary scan on 79 matching source/input hashes. [Results](RETRIEVAL-RESULTS.md) and [sanitized source-bound evidence](evidence/HOTR-17.json) record the independently frozen 144-query corpus. Held-out paraphrase Recall@5 is 24/24 for hybrid versus 0/24 for literal keyword retrieval; exact/current/conflict cases pass with zero prohibited results or wrong revisions. Held-out hybrid p95 is 150.649 ms. No-answer inputs still return candidates without an answer/abstention claim. Fresh implementation review and main publication remain pending.
+
+
+Fresh independent ASTRA REVIEW /root/hotr17_implementation_review returned ship with no actionable findings. It matched all79 current/staged source hashes, both binaries, the model manifest/four blobs, five raw proof reports and all288 search plus24 direct-get measurements. Gate logs confirm all11 commands passed. Requested reviewer Sol/high; actual settings and token telemetry unobservable. Parent accepts HOTR-17 for authorized main publication. Exact hosted verification remains separately tracked; HOTR-18 owner viewer follows publication.
+
+API-EQUIVALENT COST RECEIPT: unavailable. No observed parent/delegate token telemetry is exposed; no cost or savings claim is supported.

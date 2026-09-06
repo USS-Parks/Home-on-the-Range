@@ -268,11 +268,12 @@ fn settled_response(
     Err(WriteError::PersistenceRejected)
 }
 
-fn snippet(revision: &schema::Revision, body_end: usize) -> Value {
+fn snippet(revision: &schema::Revision, body_end: usize, rrf_score: f64) -> Value {
     json!({
         "namespace": revision.record.namespace,
         "id": revision.record.id,
         "revision": revision.revision,
+        "rrf_score": rrf_score,
         "state": revision.record.state,
         "sources": revision.record.sources,
         "tags": revision.record.tags,
@@ -294,6 +295,7 @@ fn snippet_boundaries(body: &str) -> Vec<usize> {
 
 fn fit_snippet(
     revision: &schema::Revision,
+    rrf_score: f64,
     packed: &[Value],
     meta: ResponseMeta<'_>,
     worst_omitted: u32,
@@ -301,7 +303,7 @@ fn fit_snippet(
 ) -> Result<Option<Value>, WriteError> {
     let boundaries = snippet_boundaries(&revision.record.body);
     let fits = |body_end: usize| -> Result<(bool, Value), WriteError> {
-        let value = snippet(revision, body_end);
+        let value = snippet(revision, body_end, rrf_score);
         let mut proposed = Vec::with_capacity(packed.len() + 1);
         proposed.extend_from_slice(packed);
         proposed.push(value.clone());
@@ -328,12 +330,12 @@ fn fit_snippet(
             high = middle - 1;
         }
     }
-    Ok(Some(snippet(revision, boundaries[low])))
+    Ok(Some(snippet(revision, boundaries[low], rrf_score)))
 }
 
 fn pack(
     db: &Connection,
-    page_rows: &[(String, u32)],
+    page_rows: &[(String, u32, f64)],
     meta: ResponseMeta<'_>,
     deadline: Instant,
     stopped: &AtomicBool,
@@ -343,7 +345,7 @@ fn pack(
     let mut packed = Vec::<(String, u32, Value)>::new();
     let mut omitted = 0u32;
 
-    for (id, revision) in page_rows {
+    for (id, revision, score) in page_rows {
         check(deadline, stopped)?;
         if !still_current(db, &meta.page.namespace, id, *revision)? {
             continue;
@@ -357,7 +359,7 @@ fn pack(
             .iter()
             .map(|(_, _, value)| value.clone())
             .collect::<Vec<_>>();
-        if let Some(value) = fit_snippet(&record, &values, meta, worst_omitted, bound)? {
+        if let Some(value) = fit_snippet(&record, *score, &values, meta, worst_omitted, bound)? {
             packed.push((id.clone(), *revision, value));
         } else {
             omitted = omitted.saturating_add(1);
@@ -460,7 +462,7 @@ pub(crate) fn search(
         .iter()
         .skip(start)
         .take(query.page.limit as usize)
-        .map(|candidate| (candidate.id.clone(), candidate.revision))
+        .map(|candidate| (candidate.id.clone(), candidate.revision, candidate.score))
         .collect::<Vec<_>>();
     let consumed = u32::try_from(page_rows.len()).map_err(|_| WriteError::InvalidRequest)?;
     let next = query.page.offset.saturating_add(consumed);
@@ -709,6 +711,11 @@ mod tests {
         assert!(!ids.contains(&"stale"));
         assert!(!ids.contains(&"secret"));
         assert_eq!(result["retrieval_mode"], "hybrid");
+        assert!(result["records"].as_array().unwrap().iter().all(|r| {
+            r["rrf_score"]
+                .as_f64()
+                .is_some_and(|s| s.is_finite() && s > 0.0)
+        }));
         assert!(result["degraded_reason"].is_null());
         assert_eq!(result["freshness"], json!({"visible": 6, "indexed": 5}));
         assert_eq!(result["candidates"]["semantic"], 5);

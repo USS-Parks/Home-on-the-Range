@@ -455,6 +455,12 @@
   "publication": {
     "implementation_commit": "4640559ef66a00a73d914420b3439b32a6e60077",
     "branch": "main",
-    "hosted_verification": "PENDING exact published-head run"
+    "hosted_verification": {
+      "result": "PASS",
+      "run_id": 34051365651,
+      "head": "cb89ac9a6362c1805b93a813883fbf8662123f8c",
+      "url": "https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34051365651"
+    },
+    "published_commit": "cb89ac9a6362c1805b93a813883fbf8662123f8c"
   }
 }

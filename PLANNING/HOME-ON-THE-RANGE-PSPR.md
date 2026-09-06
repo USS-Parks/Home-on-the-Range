@@ -1,6 +1,6 @@
 # Home on the Range — Canonical Plan / Sequential Prompt Roster
 
-Execution checkpoint (2026-09-06): HOTR-15 is published at `e2efb97ab86e17967800991459d904ede79d8ab2` with exact hosted Windows PASS. HOTR-16 hybrid retrieval passed the full native gate, including two installed-Ollama fixtures; fresh independent review returned ship and implementation `4640559ef66a00a73d914420b3439b32a6e60077` is committed for main publication. After acceptance, continue the approved roster with HOTR-17 held-out retrieval evaluation. Earlier next-prompt/standby text below is preserved history; remaining HOTR-12/Lamprey scope stays deferred.
+Execution checkpoint (2026-09-06): HOTR-16 is published at `cb89ac9a6362c1805b93a813883fbf8662123f8c`, with full local gate, fresh independent ship review and exact hosted Windows run 34051365651 PASS. HOTR-17 passed the full local frozen-corpus quality gate on 79 source/input hashes; fresh implementation review returned ship and main publication is in progress. HOTR-18 owner viewer is next after acceptance. Remaining HOTR-12/Lamprey scope stays deferred. Earlier checkpoints below are history.
 
 Current resumption (2026-09-06): the owner resumed the same trajectory after the app restart and explicitly invoked `astra-advisor:orchestration`. Finish HOTR-14 parent verification, fresh read-only review and main publication, then continue the approved roster from HOTR-15. The requested skill authorizes bounded native subagent routing/review. Earlier standby instructions below are historical; HOTR-12/Lamprey deferrals remain in force.
 

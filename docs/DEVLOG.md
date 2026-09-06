@@ -1031,3 +1031,39 @@ Fresh ASTRA REVIEW `/root/hotr16_review`: `ship`, no actionable findings. Indepe
 
 
 HOTR-16 implementation commit `4640559ef66a00a73d914420b3439b32a6e60077` contains the source accepted by full gate `HOTR-16-19596-1788718053792654100` and the fresh independent `ship` review. This documentation-only closeout records the implementation SHA; all 76 runtime/source hashes remain unchanged. Non-force main publication and exact hosted verification follow. One canonical checkout and approximately 5.47 GiB of cache/model/synthetic evidence are retained, with no deletion or new worktree. Continue HOTR-17 after publication.
+
+
+## HOTR-17 — independent retrieval evaluation in progress
+
+HOTR-16 implementation `4640559ef66a00a73d914420b3439b32a6e60077` and documentation closeout `cb89ac9a6362c1805b93a813883fbf8662123f8c` are published on main; local/GitHub SHA equality and clean status were verified. Its exact hosted result remains separately tracked. HOTR-17 separates synthetic corpus authoring, independent relevance review, immutable label freezing and actual installed-model evaluation. Requested native author Terra/high and evaluator Sol/high; actual model/effort/token telemetry is unobservable. No model evaluation or label freeze has occurred yet.
+
+The response now exposes the existing RRF component as `rrf_score`, preserving ranking order and avoiding answer-confidence claims. The verifier will hash evaluation JSON inputs alongside source, while keeping generated evidence outside that hash set. A complete local gate, source/evidence review and focused main publication remain required.
+
+
+HOTR-17 pre-freeze parent review rejected the initial corpus wording as overly templated: question topics largely repeated exact source labels, while record bodies carried repeated evaluation disclaimers. No retrieval evaluation had run. The author is revising substantive bodies, natural paraphrases, concrete prior facts, true contradictions and label-specific rationales before independent review. Counts, categories and fixed acceptance thresholds remain unchanged.
+
+
+Independent corpus review /root/hotr17_labels_review returned rethink for draft a35ceec0f08129d46be032a1bfcd4be0bc622a6416fa1bfc5b89b412e306c80f: weak bodies, incorrect labels, duplicate conflicts, generic historical facts and split overlap. Parent reauthored the 72 substantive current records, natural questions, concrete former values, explicit incompatible memos and related private/suppressed distractors. All 144 question strings and positive record groups are now disjoint across partitions. No retrieval measurements had run. Original drafts remain retained.
+
+Automatic approval review initially rejected a batch edit against the earlier no-overwrite instruction. Parent verified the explicit bounded-write approval and exact tests/** source scope, then placed final benchmark inputs under tests/fixtures/hotr17 while preserving eval/ drafts. Approved test-source repairs succeeded. The compile-only check found two rusqlite u64 conversions and a borrowed-label move error; parent corrected them. A preliminary debug-profile ranking check passed three tests and emitted missing-native-PDB linker warnings; its additional generated cache is retained. Subsequent checks use the existing release profile. No corpus freeze or quality acceptance is implied.
+
+
+HOTR-16 exact published main head cb89ac9a6362c1805b93a813883fbf8662123f8c passed hosted Windows run [34051365651](https://github.com/USS-Parks/Home-on-the-Range/actions/runs/34051365651). Installed-model proof remains separately recorded by the local gate. HOTR-17 corpus/metric development continues; no retrieval-quality result has yet been measured.
+
+
+HOTR-17 four pure corpus/metric/denial negative-control tests PASS. Pre-gate strict Clippy identified one nested conditional and two optional-response unwraps; the parent replaced them with guarded bindings. No quality evaluation ran during these checks.
+
+
+HOTR-17 final corpus review /root/hotr17_labels_final returned ship for normalized SHA-256 6b1d878b950d11fe15fa8af58faaa1106a58f14f3aaa5d9010a96ab0975aa74f. Parent froze it before any evaluation, with 100 records, 96 development queries and 48 held-out queries, all 144 distinct and positive IDs partition-disjoint. Requested final reviewer Terra/high; actual settings and token usage unobservable. Parent complete diff/corpus inspection, four pure tests and strict release Clippy pass. The source-bound native/model/evaluation/canary gate follows; no retrieval quality is yet claimed.
+
+
+## HOTR-17 — full local gate passed
+
+Gate `HOTR-17-86548-1788720435627956200` PASS: 50 ordinary product tests, six runner tests, three installed-model fixtures and 7,531-file canary scan. All 79 normalized source/input hashes match. Product `72e04907bdaa086e843d83cef9055776299850d0f9f4fb21b4ae02e35125a0ea`; runner `ac4842b835e85b7eeffa68da1c1704c9c1a428f7b5153f444c0e1f84da86f274`. The first frozen evaluation passed both partitions: held-out paraphrase Recall@5 24/24 versus 0/24 keyword, all exact/current/conflict cases correct, zero forbidden results or wrong revisions. Held-out hybrid p95 150.649 ms; index 92 rows in 13,026 ms, 282,624 vector bytes, 876,544-byte encrypted vault with integrity ok. No-answer candidates were returned for every negative; no abstention claim is made. Parent independently recomputed 288 search results and 24 direct lookups.
+
+All model pins and eight original baselines match. One canonical checkout, no linked worktrees; 5,894,914,476 generated bytes and 288,267,653,120 bytes free. The owned model process exited and pre-existing Ollama remained running. A read-only closeout-script invocation was initially refused as uninspected; inspecting its exact contents established no write/delete/publish operations and the identical invocation then passed. No files were deleted. Fresh independent implementation review precedes publication. API-equivalent cost remains unavailable because runtime token telemetry is absent.
+
+
+Fresh independent ASTRA REVIEW /root/hotr17_implementation_review returned ship with no actionable findings. It matched all79 current/staged source hashes, both binaries, the model manifest/four blobs, five raw proof reports and all288 search plus24 direct-get measurements. Gate logs confirm all11 commands passed. Requested reviewer Sol/high; actual settings and token telemetry unobservable. Parent accepts HOTR-17 for authorized main publication. Exact hosted verification remains separately tracked; HOTR-18 owner viewer follows publication.
+
+API-EQUIVALENT COST RECEIPT: unavailable. No observed parent/delegate token telemetry is exposed; no cost or savings claim is supported.

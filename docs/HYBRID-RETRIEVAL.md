@@ -1,6 +1,6 @@
 # Hybrid retrieval and context packs
 
-HOTR-16 adds `POST /v1/search/hybrid` and `POST /v1/context`. The corresponding MCP tools are `hotr_hybrid_search` and `hotr_context_pack`. Both return the same budgeted, source-bearing candidate format. They do not generate an answer or assign factual confidence. Existing `hotr_search` and `/v1/search` retain their keyword contract.
+HOTR-16 adds `POST /v1/search/hybrid` and `POST /v1/context`. The corresponding MCP tools are `hotr_hybrid_search` and `hotr_context_pack`. Both return the same budgeted, source-bearing candidate format. They do not generate an answer or assign factual confidence. HOTR-17 exposes each candidate's `rrf_score`, the reciprocal-rank component used after exact ID/source priority; it is not an answer probability or confidence score. Existing `hotr_search` and `/v1/search` retain their keyword contract.
 
 Applications with explicit tool allowlists need the two new names added to their chosen configuration. Existing credentials retain their grants. Everyday application enrollment remains in the owner-deferred compatibility work.
 

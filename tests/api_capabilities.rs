@@ -57,6 +57,9 @@ mod hybrid_model;
 #[path = "support/embedding.rs"]
 mod local_embedding;
 
+#[path = "support/retrieval_eval.rs"]
+mod retrieval_eval;
+
 fn local_client() -> reqwest::Client {
     reqwest::Client::builder()
         .no_proxy()

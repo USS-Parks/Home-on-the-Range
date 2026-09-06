@@ -16,6 +16,7 @@ const SECRET: &str = "HOTR-synthetic-owner-secret-649a5bd8";
 
 fn run_dir() -> PathBuf {
     let base = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("work/hotr-tests");
+    fs::create_dir_all(&base).unwrap();
     let stamp = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .unwrap()

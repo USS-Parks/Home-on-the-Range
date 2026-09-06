@@ -19,7 +19,9 @@ const BODY: &str = "HOTR05canary 東京 café e\u{301} 👩🏽‍💻 roadmap .
 
 fn run_dir() -> PathBuf {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let base = root.join("work/hotr-tests").canonicalize().unwrap();
+    let parent = root.join("work/hotr-tests");
+    fs::create_dir_all(&parent).unwrap();
+    let base = parent.canonicalize().unwrap();
     assert!(base.starts_with(root.canonicalize().unwrap()));
     let stamp = SystemTime::now()
         .duration_since(UNIX_EPOCH)

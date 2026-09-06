@@ -2,9 +2,9 @@ use super::*;
 use hotr::windows_security as security;
 
 fn profile(run: &Path) -> PathBuf {
-    let base = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("work/hotr-client-profiles")
-        .join(run.file_name().unwrap());
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("work/hotr-client-profiles");
+    fs::create_dir_all(&root).unwrap();
+    let base = root.join(run.file_name().unwrap());
     security::create_directory(&base).unwrap();
     let profile = base.join("hermes");
     security::create_directory(&profile).unwrap();

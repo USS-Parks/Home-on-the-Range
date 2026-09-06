@@ -4,6 +4,8 @@ pub mod api;
 pub mod backup;
 pub mod capabilities;
 pub mod credentials;
+pub mod embedding;
+pub mod embedding_transport;
 pub mod imports;
 pub mod lifecycle;
 pub mod mcp;

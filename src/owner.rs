@@ -33,6 +33,8 @@ pub const BACKUP: u8 = 5;
     rename_all = "snake_case"
 )]
 pub enum AdminRequest {
+    EmbeddingConfigure(crate::embedding::Configure),
+    EmbeddingStatus,
     Lifecycle(crate::lifecycle::Request),
     Inspect(crate::lifecycle::Inspect),
     Import(crate::imports::Request),
@@ -304,6 +306,7 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
     io::stdout().flush()?;
     let owner_sid = security::current_sid()?;
     let mut connection: Option<crate::writer::Writer> = None;
+    let mut embedding: Option<crate::embedding::Worker> = None;
     loop {
         tokio::select! {
             result=available.connect()=>result?,
@@ -349,6 +352,8 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                                         .write()
                                         .map_err(|_| io::Error::other("owner state failed"))? =
                                         Some(worker.handle());
+                                    embedding =
+                                        Some(crate::embedding::Worker::start(worker.handle()));
                                     connection = Some(worker);
                                     state(true, false, None)
                                 }
@@ -362,6 +367,9 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                             *shared
                                 .write()
                                 .map_err(|_| io::Error::other("owner state failed"))? = None;
+                            if let Some(worker) = embedding.take() {
+                                worker.stop().await;
+                            }
                             if let Some(writer) = connection.take() {
                                 writer.shutdown().await?;
                             }
@@ -394,10 +402,18 @@ pub async fn serve(path: &Path, port: u16) -> io::Result<()> {
                         ADMIN if connection.is_some() => {
                             let command = crate::api::decode::<AdminRequest>(&body[1..]);
                             let handle = connection.as_ref().unwrap().handle();
+                            let reconfigure =
+                                matches!(&command, Ok(AdminRequest::EmbeddingConfigure(_)));
+                            if reconfigure && let Some(worker) = embedding.take() {
+                                worker.stop().await;
+                            }
                             let result = match command {
                                 Ok(command) => admin_dispatch(&handle, command, port).await,
                                 Err(error) => Err(error),
                             };
+                            if reconfigure {
+                                embedding = Some(crate::embedding::Worker::start(handle.clone()));
+                            }
                             match result {
                                 Ok(data) => {
                                     let mut reply = state(true, false, None);
@@ -445,6 +461,10 @@ async fn admin_dispatch(
 ) -> crate::capabilities::CommandResult {
     use crate::capabilities::Command;
     match request {
+        AdminRequest::EmbeddingConfigure(request) => {
+            handle.command(Command::EmbeddingConfigure(request)).await
+        }
+        AdminRequest::EmbeddingStatus => handle.command(Command::EmbeddingStatus).await,
         AdminRequest::Lifecycle(request) => handle.command(Command::Lifecycle(request)).await,
         AdminRequest::Inspect(request) => handle.command(Command::Inspect(request)).await,
         AdminRequest::Import(request) => handle.command(Command::Import(request)).await,

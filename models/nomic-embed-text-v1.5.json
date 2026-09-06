@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "model": "nomic-embed-text:v1.5",
+  "registry": "https://registry.ollama.ai/v2/library/nomic-embed-text/manifests/v1.5",
+  "manifest_sha256": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+  "expected_model_blob": {
+    "digest": "sha256:970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6",
+    "sha256": "970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6",
+    "bytes": 274290656
+  },
+  "dimensions": 768,
+  "license": "Apache-2.0",
+  "max_model_bytes": 1073741824,
+  "provenance": {
+    "model_page": "https://ollama.com/library/nomic-embed-text:v1.5",
+    "upstream_model": "https://huggingface.co/nomic-ai/nomic-embed-text-v1.5",
+    "embedding_api": "https://docs.ollama.com/api/embed",
+    "observed_ollama_version": "0.32.6",
+    "prepared_at": "2026-09-06"
+  },
+  "installer": {
+    "script": ".cargo/prepare-embedding.ps1",
+    "requires_explicit_install_switch": true,
+    "project_cache": "work/hotr-models",
+    "ollama_layout": {
+      "manifest": "manifests/registry.ollama.ai/library/nomic-embed-text/v1.5",
+      "blobs": "blobs/sha256-<digest>"
+    },
+    "never_mutates": [
+      "user Ollama profiles",
+      "existing Ollama caches",
+      "global Ollama configuration"
+    ]
+  }
+}

@@ -14,6 +14,18 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Operation {
+    /// Configure local indexing; omit --port to disable. Read generation from embedding-status.
+    EmbeddingConfigure {
+        path: PathBuf,
+        #[arg(long)]
+        port: Option<u16>,
+        #[arg(long)]
+        expected_generation: u32,
+    },
+    /// Show bounded indexing counts and safe last-error metadata.
+    EmbeddingStatus {
+        path: PathBuf,
+    },
     /// Apply one bounded owner lifecycle JSON request from stdin.
     Lifecycle {
         path: PathBuf,
@@ -131,6 +143,23 @@ async fn main() {
 
 async fn execute(operation: Operation) -> Result<(), Box<dyn std::error::Error>> {
     match operation {
+        Operation::EmbeddingConfigure {
+            path,
+            port,
+            expected_generation,
+        } => print_reply(
+            hotr::owner::admin(
+                &path,
+                &hotr::owner::AdminRequest::EmbeddingConfigure(hotr::embedding::Configure {
+                    port,
+                    expected_generation,
+                }),
+            )
+            .await?,
+        )?,
+        Operation::EmbeddingStatus { path } => print_reply(
+            hotr::owner::admin(&path, &hotr::owner::AdminRequest::EmbeddingStatus).await?,
+        )?,
         Operation::Lifecycle { path } => {
             let mut input = Zeroizing::new(Vec::new());
             io::stdin()

@@ -970,3 +970,31 @@ Fresh ASTRA REVIEW `/root/hotr14_final_review`: `ship`, no findings. The reviewe
 
 
 HOTR-14 publication closeout: implementation commit `5ed982f2ecf35ca8ffac937038d9972375d7406e` passed the final local gate `HOTR-14-84644-1788714278331656100` and fresh independent review (`ship`). All 65 normalized source hashes match the passed gate. This documentation-only closeout records the implementation SHA; it does not change runtime sources. Non-force main publication and the exact hosted result are tracked separately. One canonical checkout is retained, with no linked worktrees; approximately 4.18 GiB of generated cache/evidence is retained. No cleanup or personal import occurred. Continue the approved roster at HOTR-15.
+
+
+## HOTR-15 — local semantic indexing in progress
+
+HOTR-14 implementation `5ed982f2ecf35ca8ffac937038d9972375d7406e` and documentation closeout `d1903b7dbf708d7c9caf919350e0cf2769f1ec8b` are published on main; local/remote SHA agreement was verified. Exact hosted run `34048039160` is in progress.
+
+HOTR-15 extends the existing single writer with encrypted vector/retry state, revision and configuration-generation checks, owner-only explicit numeric loopback setup, and an independently canceled inference worker. The selected model is the pinned Apache-2.0 nomic-embed-text v1.5 (768 dimensions, approximately 274 MB). Download and actual inference acceptance remain pending. Bounded native subagents own model setup, transport, and adversarial storage tests; parent owns integration, live process proof and final acceptance. Requested routing uses Sol/high and Terra/high; runtime model/effort and token usage are not observable. No parent or delegate costs are estimated.
+
+
+HOTR-15 preparation: the parent repaired reviewed installer path/timeout issues and reused cached Windows directory-entry metadata for generated-state inventory. The first installer was stopped during its slow pre-download budget scan, before a manifest or model blob was written. The repaired explicit install passed, preserving all existing files and verifying the pinned manifest and every blob in `work/hotr-models`. Compile/type warnings were repaired. The transport delegate passed six focused tests, including actual same-owner loopback HTTP rejection fixtures; those are distinct from the pending actual installed-model gate. Full source is now frozen for the bounded native HOTR-15 run.
+
+
+HOTR-15 first full gate `HOTR-15-89960-1788715685189808700` FAIL at strict Clippy (constant chunks_exact in the new fixture). Release build/format passed; no runtime acceptance is implied. Complete failure output is retained. The fixture now uses as_chunks; parent review also tightened configuration cancellation before mutation and added actual in-flight disable and restored-vault-disabled tests. A new complete gate follows.
+
+
+Second HOTR-15 gate `HOTR-15-67376-1788715812219533300` also stopped at strict Clippy, requiring the newly added nested cancellation guard to use a let-chain. Format/release build passed; tests had not run. The diagnostic is retained and the equivalent guard is corrected.
+
+
+## HOTR-15 — local gate passed
+
+The complete gate `HOTR-15-73280-1788715935249086000` PASS: 41 ordinary product tests, six verifier tests, one actual installed-Ollama test, format/release build/strict Clippy, and the 6,250-file canary scan. Product SHA-256 `d231621e5657b14f3cd2aa207a9bc6286a81db314a293d0e15756eff15c6bcd8`; runner SHA-256 `437916df872c6147182b3da45fcf5a11f91e99f90435a718e6a1c3e4d63f0847`. All 71 current normalized source hashes match. Real Ollama 0.32.6 supplied 768-dimensional vectors from the pinned project-only model; observed TCP peer was numeric loopback. Actual service tests proved outage-safe writes/keyword search, three-attempt exhaustion across restart, owner configuration conflicts, in-flight cancellation, revision replacement, no duplicate reindex on restart, and restored-vault indexing disabled. Native encrypted tests additionally rejected stale revision/generation/visibility completions; actual loopback HTTP fixtures rejected model changes, wrong dimensions, malformed vectors, redirects and oversized/truncated responses.
+
+The two failed Clippy gates and slow pre-download installer attempt remain recorded. [Sanitized source-bound evidence](evidence/HOTR-15.json) separates this local PASS from fresh review, publication, hosted verification, and later search/quality/stress gates. Preservation: eight baseline copies match, one canonical main checkout with no linked worktrees, 5,580,787,832 bytes generated and 297,781,182,464 bytes free at closeout. Cache/model/evidence are retained; no files were deleted or personal context imported.
+
+API-EQUIVALENT COST RECEIPT: unavailable. Parent and native subagent per-call token usage is not exposed, so no cost or savings estimate is supported. Requested Sol/high and Terra/high routes, native task identities/status, and unobservable runtime settings are recorded in the evidence.
+
+
+Fresh independent HOTR-15 review `/root/hotr15_review` returned `ship`, matching all 71 source hashes, product/runner hashes, raw gate logs and all three fixture reports. The sole P3 documentation finding was repaired: README and model docs now reflect the passed gate, and model task prefixes are distinguished from MCP tool names. No runtime source changed after verification. A separate read-only post-inference check found exactly the five pinned model files with unchanged manifest/blob hashes. Requested reviewer route Sol/high; actual model/effort/token telemetry remains unobservable. The authorized focused main commit and exact publication checks follow.

@@ -67,6 +67,7 @@ fn execute() -> io::Result<()> {
                     | "HOTR-12"
                     | "HOTR-13"
                     | "HOTR-14"
+                    | "HOTR-15"
                     | "HOTR-04-R2"
             ))
     {
@@ -321,6 +322,30 @@ fn execute() -> io::Result<()> {
             outcomes.push(load);
             pass?;
             hotr_xtask::ensure_required(&outcomes, &["prototype-load"])?;
+        }
+        if prompt == "HOTR-15" {
+            let inference = run(
+                &guard,
+                &directory,
+                "local-embedding",
+                &cargo,
+                &[
+                    "test",
+                    "--release",
+                    "--locked",
+                    "--test",
+                    "api_capabilities",
+                    "actual_pinned_ollama_index_resume",
+                    "--",
+                    "--ignored",
+                    "--test-threads=1",
+                ],
+                Duration::from_secs(360),
+            )?;
+            let pass = inference.ensure_pass();
+            outcomes.push(inference);
+            pass?;
+            hotr_xtask::ensure_required(&outcomes, &["local-embedding"])?;
         }
         let scan = run(
             &guard,

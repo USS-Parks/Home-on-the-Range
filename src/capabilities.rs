@@ -46,6 +46,10 @@ pub struct Accept {
 }
 
 pub(crate) enum Command {
+    EmbeddingConfigure(crate::embedding::Configure),
+    EmbeddingStatus,
+    EmbeddingNext,
+    EmbeddingComplete(crate::embedding::Completion),
     Lifecycle(crate::lifecycle::Request),
     Inspect(crate::lifecycle::Inspect),
     Import(crate::imports::Request),
@@ -161,6 +165,14 @@ pub(crate) fn execute(
     stopped: &std::sync::atomic::AtomicBool,
 ) -> CommandResult {
     match command {
+        Command::EmbeddingConfigure(request) => {
+            crate::embedding::configure(db, request, deadline, stopped)
+        }
+        Command::EmbeddingStatus => crate::embedding::status(db),
+        Command::EmbeddingNext => crate::embedding::next(db, deadline, stopped),
+        Command::EmbeddingComplete(result) => {
+            crate::embedding::complete(db, result, deadline, stopped)
+        }
         Command::Lifecycle(request) => crate::lifecycle::execute(db, request, deadline, stopped),
         Command::Inspect(request) => crate::lifecycle::inspect(db, request),
         Command::Import(request) => crate::imports::execute(db, request, deadline, stopped),

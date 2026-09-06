@@ -367,6 +367,13 @@ pub fn restore(backup: &Path, destination: &Path, key: &[u8]) -> io::Result<serd
         .progress_handler(0, None::<fn() -> bool>)
         .map_err(|_| rejected())?;
     migrated?;
+    // A restored vault must not automatically send content to a reused local port.
+    target
+        .execute(
+            "UPDATE embedding_config SET port=NULL,generation=generation+1 WHERE port IS NOT NULL",
+            [],
+        )
+        .map_err(|_| rejected())?;
     let mut expected = manifest.watermark.clone();
     expected.schema_version = schema::VERSION;
     if watermark(&target)? != expected {

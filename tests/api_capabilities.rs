@@ -48,6 +48,9 @@ mod owner_imports;
 #[path = "support/lifecycle.rs"]
 mod owner_lifecycle;
 
+#[path = "support/embedding.rs"]
+mod local_embedding;
+
 fn local_client() -> reqwest::Client {
     reqwest::Client::builder()
         .no_proxy()

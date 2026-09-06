@@ -2,7 +2,7 @@
 
 A Windows-first encrypted context vault being built for shared access by local AI applications through one service, HTTP, and MCP.
 
-**Status: full PSPR execution has reached HOTR-13, owner-selected imports, with its full local gate passed. Exact publication/hosted results are tracked in VERIFICATION. The owner deferred remaining HOTR-12 app integrations and further Lamprey/plugin work. Codex CLI, Claude Code, Lamprey and Hermes retain their actual isolated-profile proof. Everyday enrollment is deferred; semantic retrieval, larger stress/soak campaigns and packaging remain open. The product is not yet installed or deployment-approved.**
+**Status: full PSPR execution has reached HOTR-15, local encrypted semantic indexing, with its full local gate and independent review passed. Exact publication/hosted results are tracked in VERIFICATION. The owner deferred remaining HOTR-12 app integrations and further Lamprey/plugin work. Codex CLI, Claude Code, Lamprey and Hermes retain their actual isolated-profile proof. Everyday enrollment is deferred; semantic retrieval, larger stress/soak campaigns and packaging remain open. The product is not yet installed or deployment-approved.**
 
 The earlier 10,000-record, 18,000-request prototype workload measured search/write p95 of 33/38 ms with no observed errors or lost acknowledged revisions. See the verification ledger for the tested versions and workload; this is not the later scale or soak campaign.
 
@@ -51,3 +51,5 @@ tested interfaces from detected installations and everyday-profile enrollment.
 Repository: https://github.com/USS-Parks/Home-on-the-Range
 
 This project does not claim universal application compatibility, protection from a compromised Windows account, or that local storage prevents an authorized cloud client from sending retrieved text to its provider. Deployment claims will be limited to tested configurations.
+
+Local semantic indexing setup and behavior: [Local indexing](docs/LOCAL-INDEXING.md). HOTR-15 passed its local gate and fresh review; publication is tracked in the verification ledger.

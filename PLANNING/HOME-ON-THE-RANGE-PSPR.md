@@ -4,6 +4,14 @@ Version: 1.0, 2026-09-05
 
 Status: **APPROVED FOR FULL STS — EXECUTION ACTIVE**
 
+Current publication instruction (2026-09-06 UTC): close HOTR-12 on public main;
+the owner explicitly deferred Lamprey with "Worry about Lamprey later."
+HOTR-12 implementation `ce1f8f7a8a72780aaf69f6bbf7a2d324f563518f` is already on
+main and passed its exact hosted Windows run. The historical next-prompt text
+below is superseded for Lamprey by the
+[authorized closeout and deferral](HOTR-12-CLOSEOUT-AND-LAMPREY-DEFERRAL-2026-09-06.md).
+Preserve unfinished Lamprey work; it does not block this publication cut.
+
 Execution checkpoint: HOTR-01–12 passed their local gates. HOTR-09's encrypted 10,000-record, 15-minute workload passed all 18,000 requests and its exact hosted run. HOTR-10 passed the official-SDK MCP gate and exact hosted run. HOTR-11's snapshot/recovery and fresh-fixture repair passed locally; repair commit `cf4fa8ed1373431733e01c9f3faa1229f4e5c9fa` passed clean hosted run 34003325869. HOTR-12's full local gate demonstrated actual Codex CLI 0.153.4 and Claude Code 2.1.220 sharing current sourced context through correction/acceptance, restart, revocation, restore and reenrollment. Next: HOTR-12-LAMPREY, then HOTR-12A–12K and the remaining approved roster. All earlier failures remain retained. See DEVLOG and VERIFICATION for exact evidence and remaining gates; full STS is not complete.
 
 Current amendments: [bounded write approval](HOTR-BOUNDED-WRITES-APPROVED-2026-09-05.md), [compatibility expansion](HOTR-STS-APPROVAL-AND-COMPATIBILITY-2026-09-05.md), and [Lamprey Harness integration](HOTR-LAMPREY-HARNESS-INTEGRATION-2026-09-05.md). Original proposal/approval wording below is retained as plan history; these dated user approvals govern execution. Consult DEVLOG and VERIFICATION for actual prompt status.

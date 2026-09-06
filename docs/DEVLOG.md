@@ -615,3 +615,83 @@ Publish this passed prompt to public main, verify the exact remote SHA and track
 hosted CI, then continue HOTR-12-LAMPREY and the rest of full STS. The pending
 owner-selected personal-file question remains unanswered; no personal import is
 authorized by a timeout or preselected option.
+
+## HOTR-12 hosted closeout; HOTR-12-LAMPREY in progress — 2026-09-06 UTC
+
+Published main and origin/main remain
+`ce1f8f7a8a72780aaf69f6bbf7a2d324f563518f`. The user explicitly confirmed PUBLIC
+visibility. Exact Windows run 34004546514 passed; its downloaded native manifest
+reports that SHA and `dirty=false`. Full logs/artifact are retained under
+`work/hotr-evidence/HOTR-12-hosted-34004546514/`.
+
+Lamprey is not complete. See `docs/LAMPREY-INTEGRATION-PROGRESS.md` for exact
+application/source hashes, all preserved failures, the local repair, remaining
+live gates and the approval-review block. New files: three installed-app CJS
+drivers, `tests/support/lamprey.rs`, the detailed checkpoint, and the proposed
+additional compatibility prompt budget. Modified source: `src/mcp.rs` inlines
+generated request schemas; `tests/api_capabilities.rs` registers the Lamprey
+tests; `xtask/src/lib.rs` includes CJS/JS in source evidence and registers the
+bounded probes; `xtask/src/main.rs` runs those explicitly limited checks.
+
+Actual installed Lamprey 0.32.0 connected from a protected isolated profile,
+using its existing renderer IPC, native pre-tool hook and permission path.
+The one live claude-opus-5 turn reached HOTR and proved a real forbidden-scope
+403. Its write/correction smoke FAILED: Lamprey's provider normalizer dropped
+search/create/revise because their schemas contained `$ref`. The failed run
+`HOTR-12-LAMPREY-SMOKE-70820-1788660115289174000` and application events in
+`HOTR-07-76676-1788660131670882700` remain retained.
+
+The HOTR-side inline-schema repair passed its constraints regression, both
+actual MCP integration tests, strict Clippy for both crates, and the 3,050-file
+canary scan. Final frozen-source zero-model installed-app preflight PASS:
+`HOTR-12-LAMPREY-PREFLIGHT-5440-1788660457263273700`; actual fixture
+`HOTR-07-80868-1788660461091052000`. Product hash:
+`4a827f3853ea9afe95477dfed4135da217676c2c0e40ea7edd8d576fc2843f24`.
+The preceding preflight's source-change guard correctly failed its manifest;
+the final run is the accepted preflight. No model-driven repair acceptance is
+claimed. These source changes are uncommitted, with no prompt-completion claim.
+
+Twelve of twelve original M1 user prompts are now used. The requested shared
+72-prompt compatibility amendment is pending an actual reply. Automatic
+approval review also rejected broad and then narrowly scoped formatting under
+the no-overwrite instruction, despite the documented bounded-write approval.
+No rejected formatting was applied. A corrected review-only diff exists at
+`work/hotr-evidence/Lamprey-format-review-v2-1788660647805525800.patch`; all source
+hashes remained unchanged while generating it. Final formatting scope includes
+the two initially requested files and src/mcp.rs from the subsequent repair.
+The first review-patch draft included rustfmt's filename header and is retained
+as an invalid draft, not a patch to apply.
+
+All eight immutable baseline copies still match. One canonical checkout, no
+linked worktrees, no unpublished commits. Approximately 3.87 GiB generated
+state retained; 317.58 GiB free at inventory. No discretionary cleanup, existing
+user-file deletion, real vault installation, active-profile edit or personal
+import. Continue the exact Lamprey live gate after required inputs, then the
+remaining full STS roster in dependency order; do not stop at M1 or describe the
+project as deployed.
+
+## HOTR-12 publication complete; Lamprey deferred by owner — 2026-09-06 UTC
+
+The user instructed: "No, commit HOTR 12 and merge with main. Worry about
+Lamprey later." HOTR-12 implementation is already on local and remote main at
+`ce1f8f7a8a72780aaf69f6bbf7a2d324f563518f`. Exact Windows CI run 34004546514 PASS
+was verified again. No separate branch or merge remains. Publish this focused
+documentation closeout directly to main with the implementation unchanged.
+
+Changed documents: this log, VERIFICATION, the PSPR's current-status addendum,
+the retained Lamprey checkpoint, and the new dated closeout/deferral record.
+Check the recorded HOTR-12 source hashes against committed main, the staged
+documentation-only scope, whitespace, repository hooks and exact remote SHA.
+No model retest or source formatting is necessary for this documentation cut.
+
+HOTR-12-LAMPREY is DEFERRED, not passed. Its four tracked source changes, three
+new CJS drivers, new Rust test, unapproved budget proposal and raw evidence stay
+in place and outside this commit's implementation scope. The earlier open
+approval requests do not block HOTR-12. No files are deleted or reset, no new
+worktree is created, and no whole-roster or deployability claim is made.
+
+One canonical main checkout remains. Deferred work intentionally makes it
+dirty; there were no unpublished commits before this closeout. Approximately
+3.87 GiB of generated state is retained for evidence and later continuation.
+The immutable original baselines remain preserved. Final closeout verifies
+the new documentation commit on remote main and the deferred source hashes.

@@ -34,3 +34,20 @@ Use `PASS`, `FAIL`, `BLOCKED`, or `NOT RUN`. Do not convert skipped checks into 
 Artifacts are planned under `docs/evidence/` for sanitized summaries and `work/evidence/` for local raw synthetic logs. Runtime private data is excluded from Git regardless of repository visibility.
 
 Historical HOTR-00 checkpoint: verified 36 unique sequential prompts, all required fields, dependency ordering, relative links, approval boundary, staged governance files, credential-pattern scan, whitespace, and repository hooks. At that planning-only checkpoint no implementation gate had run. Current implementation results are listed above.
+
+2026-09-06 closeout update: HOTR-12 is published at
+`ce1f8f7a8a72780aaf69f6bbf7a2d324f563518f`; exact clean hosted Windows run
+34004546514 PASS. HOTR-12-LAMPREY is IN PROGRESS: real installed-app connection
+and scoped denial proved, write/correction smoke FAILED on provider schema
+compatibility. The local inline-schema repair passed focused/native tests and
+the final zero-model app preflight, but actual model-driven repair acceptance,
+remaining Lamprey gates, formatting, commit and push are still open. Full
+evidence and pending input boundaries: [Lamprey checkpoint](LAMPREY-INTEGRATION-PROGRESS.md).
+
+Owner-directed publication update, 2026-09-06 UTC: HOTR-12 is complete and on
+public main at implementation commit `ce1f8f7a8a72780aaf69f6bbf7a2d324f563518f`,
+with exact hosted Windows CI PASS. HOTR-12-LAMPREY is now **DEFERRED by the
+owner**, superseding its earlier in-progress priority. Its unfinished code is
+preserved locally and excluded from the HOTR-12 documentation closeout. No
+Lamprey completion or full STS acceptance is implied. See the
+[authorized deferral](../PLANNING/HOTR-12-CLOSEOUT-AND-LAMPREY-DEFERRAL-2026-09-06.md).
